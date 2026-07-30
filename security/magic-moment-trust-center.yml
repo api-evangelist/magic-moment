@@ -1,0 +1,19 @@
+generated: '2026-07-20'
+method: searched
+probe: true
+source: https://www.magicmoment.jp/company/security-policy
+url: https://www.magicmoment.jp/company/security-policy
+certifications:
+- ISO/IEC 27001:2022
+practices:
+- Information security management system (ISMS) with documented security policies
+- Regular risk assessment across confidentiality, integrity, and availability
+- Internal audit procedures and corrective actions
+- Incident response procedures to minimize damage
+- Continuous review and improvement of the security management system
+evidence:
+- source: https://www.magicmoment.jp/company/security-policy
+  keywords:
+  - iso/iec 27001:2022
+  - information security
+  - security policy

@@ -1,0 +1,8 @@
+generated: '2026-07-20'
+method: searched
+source: https://www.magicmoment.jp/company/security-policy
+standards:
+- id: iso-27001
+  conforms: true
+  evidence: ISO/IEC 27001:2022 certification named on the company security policy page
+  source: https://www.magicmoment.jp/company/security-policy

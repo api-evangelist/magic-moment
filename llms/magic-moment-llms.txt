@@ -1,0 +1,28 @@
+# Magic Moment
+
+> Magic Moment is a Japanese AI sales-automation platform (Tokyo) that captures real business facts from deals, emails, and calls and turns them into actionable insight for sales forecasting and execution. Its products layer AI over existing CRM systems (Salesforce, HubSpot) with no-code bidirectional sync. Magic Moment does not currently publish a public developer API, developer portal, or OpenAPI specification.
+
+## Products
+- [Magic Moment Playbook](https://www.magicmoment.jp/playbook): AI engine that records and structures sales interactions
+- [Playbook Capture](https://www.magicmoment.jp/playbook-capture): automatic call transcription, email linking, business-card capture
+- [MM Claw](https://www.magicmoment.jp/mm-claw): product surface within the platform
+- [Salesforce integration](https://www.magicmoment.jp/playbook/salesforce): no-code bidirectional sync
+- [HubSpot integration](https://www.magicmoment.jp/playbook/hubspot): no-code bidirectional sync
+
+## Company
+- [Homepage](https://www.magicmoment.jp/)
+- [About](https://www.magicmoment.jp/about)
+- [News / Announcements](https://www.magicmoment.jp/announcements)
+- [Blog](https://www.magicmoment.jp/blog)
+- [Case Studies](https://www.magicmoment.jp/case-studies)
+- [Careers](https://www.magicmoment.jp/careers)
+- [Partners](https://www.magicmoment.jp/partners)
+- [Contact](https://www.magicmoment.jp/company/contact)
+
+## Policies & Security
+- [Privacy Policy](https://www.magicmoment.jp/company/privacy-policy)
+- [Security Policy (ISO/IEC 27001:2022)](https://www.magicmoment.jp/company/security-policy)
+
+## Notes
+- No public API, developer portal, or OpenAPI specification found as of 2026-07-20.
+- Integration with CRMs is delivered as no-code bidirectional sync rather than a documented developer API.
