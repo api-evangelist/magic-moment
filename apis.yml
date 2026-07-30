@@ -1,8 +1,25 @@
 aid: magic-moment
 name: Magic Moment
-description: 'Magic Moment is a company surfaced as a portfolio company of dcm-ventures and added to the
-  API Evangelist network as a stub for enrichment. Sector: enterprise. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: 'Magic Moment is a Tokyo-based AI sales-automation company whose platform
+  captures real business facts from deals, emails, and calls and turns them into actionable
+  insight for sales forecasting and execution. Its flagship products — Magic Moment
+  Playbook and Playbook Capture — layer AI over existing CRM systems (Salesforce, HubSpot)
+  through no-code bidirectional sync, plus a Revenue Platform performance model and
+  the Magic Moment X managed service. The company is ISO/IEC 27001:2022 certified. It
+  does not currently publish a public developer API, developer portal, or OpenAPI
+  specification; CRM integration is delivered as no-code sync rather than a documented API.'
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://www.magicmoment.jp/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/magic-moment/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -12,10 +29,16 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
 - Enterprise
+- Sales
+- Artificial Intelligence
+- CRM
+- Sales Automation
+- SaaS
+- Japan
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -25,3 +48,24 @@ maintainers:
 common:
 - type: Website
   url: https://www.magicmoment.jp/
+- type: Blog
+  url: https://www.magicmoment.jp/blog
+- type: Support
+  url: https://www.magicmoment.jp/company/contact
+- type: PrivacyPolicy
+  url: https://www.magicmoment.jp/company/privacy-policy
+- type: Compliance
+  url: https://www.magicmoment.jp/company/security-policy
+- type: TrustCenter
+  url: security/magic-moment-trust-center.yml
+- type: Conformance
+  url: conformance/magic-moment-conformance.yml
+- type: DomainSecurity
+  url: security/magic-moment-domain-security.yml
+- type: LLMsTxt
+  url: llms/magic-moment-llms.txt
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 4
+  pass: local-v1
