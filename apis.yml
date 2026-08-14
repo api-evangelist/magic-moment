@@ -1,35 +1,44 @@
 aid: magic-moment
 name: Magic Moment
-description: 'Magic Moment is a Tokyo-based AI sales-automation company whose platform
-  captures real business facts from deals, emails, and calls and turns them into actionable
-  insight for sales forecasting and execution. Its flagship products — Magic Moment
-  Playbook and Playbook Capture — layer AI over existing CRM systems (Salesforce, HubSpot)
-  through no-code bidirectional sync, plus a Revenue Platform performance model and
-  the Magic Moment X managed service. The company is ISO/IEC 27001:2022 certified. It
-  does not currently publish a public developer API, developer portal, or OpenAPI
-  specification; CRM integration is delivered as no-code sync rather than a documented API.'
+description: Magic Moment is a Tokyo-based AI sales-automation company whose Magic Moment Playbook platform
+  captures real business facts from deals, calls, email, and meetings and writes them back into Salesforce,
+  HubSpot, and other CRMs as structured sales data. Products include Magic Moment Playbook (AI auto-recording
+  SFA/CRM), Playbook Capture, MM Claw, the Revenue Platform performance-based demand service, and the
+  Magic Moment X managed AI department. The company publishes a Playbook API for developers and partners
+  (announced 2024-04-03, documented at developer.magicmoment.co.jp behind the product login) and serves
+  five anonymous Swagger 2.0 contracts for its Playbook integration services on its production hosts —
+  Salesforce, HubSpot, Office suite (Google Workspace / Microsoft 365), call integration (MiiTel, Zoom
+  Phone), and the reporting/aggregation service. The company is ISO/IEC 27001:2022 certified and publishes
+  an llms.txt.
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: paid
+  onboarding: sales-led
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Paid · Sales-led onboarding
+  confidence: high
+  source:
+  - https://magicmoment.jp/playbook/faq
+  - https://magicmoment.jp/company/contact
+  - https://magicmoment.jp/announcements/xip33i39nknwve03om0ym3vw
+  generated: '2026-08-13'
+  method: searched
+  note: One list price is published (Playbook Capture, JPY 5,000 per user per month); the platform is
+    quoted on request and starts with a PoC. https://magicmoment.co.jp/login is a login for existing customers,
+    not a self-serve signup — no anonymous registration path exists, and Playbook API access is requested
+    by email at playbook-api@magicmoment.jp.
 image: https://www.magicmoment.jp/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/magic-moment/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - dcm-ventures
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: five anonymously served Swagger 2.0 contracts harvested from the Playbook production hosts
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-08-13'
 tags:
 - Company
 - Enterprise
@@ -39,13 +48,141 @@ tags:
 - Sales Automation
 - SaaS
 - Japan
-apis: []
+- Salesforce
+- HubSpot
+- Sales Enablement
+- API
+apis:
+- name: Magic Moment Playbook Salesforce Integration API
+  description: 'Swagger 2.0 contract for the Playbook Salesforce integration service: OAuth 2.0 connection
+    to Salesforce, sync settings, field and ID mappings, engagement sync settings, Salesforce lead statuses
+    / opportunity stages / users lookups, Marketo credential settings, and read-sync triggering. Authenticated
+    with an x-access-token (tenant/user) or x-api-key header.'
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - sales
+  - crm
+  - sales-automation
+  - integration
+  - japan
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-salesforce-integration-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Overlay
+    url: overlays/magic-moment-salesforce-integration-overlay.yaml
+  x-source: https://sfdc.magicmoment.co.jp/swagger.json
+  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
+    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
+    and its CRM integrations.
+- name: Magic Moment Playbook HubSpot Integration API
+  description: 'Swagger 2.0 contract for the Playbook HubSpot integration service: OAuth 2.0 connection
+    to HubSpot, sync settings and field mappings, Playbook <-> HubSpot ID mappings, engagement sync settings,
+    HubSpot deal stages / lead statuses / users lookups, and read-sync triggering. Authenticated with
+    an x-access-token or x-api-key header.'
+  humanURL: https://magicmoment.jp/playbook/hubspot
+  baseURL: https://hubspot.magicmoment.co.jp/
+  tags:
+  - sales
+  - crm
+  - sales-automation
+  - integration
+  - japan
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-hubspot-integration-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Overlay
+    url: overlays/magic-moment-hubspot-integration-overlay.yaml
+  x-source: https://hubspot.magicmoment.co.jp/swagger.json
+  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
+    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
+    and its CRM integrations.
+- name: Magic Moment Playbook Office Suite Integration API
+  description: 'Swagger 2.0 contract for the Playbook office-suite integration service: calendar event
+    create/list/update/delete across connected Google Workspace and Microsoft 365 accounts, mail sync
+    (OAuth results queue, IMAP/SMTP credentials, attachments), Microsoft 365 webhook subscription handling,
+    Zoom Phone call-log and recording capture, and OAuth 2.0 authorize/callback/deauthorization. Authenticated
+    with an x-access-token or x-api-key header.'
+  humanURL: https://magicmoment.jp/playbook
+  baseURL: https://suite.magicmoment.co.jp/
+  tags:
+  - sales
+  - crm
+  - sales-automation
+  - integration
+  - japan
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-office-suite-integration-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Overlay
+    url: overlays/magic-moment-office-suite-integration-overlay.yaml
+  x-source: https://suite.magicmoment.co.jp/swagger.json
+  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
+    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
+    and its CRM integrations.
+- name: Magic Moment Playbook Call Integration API
+  description: 'Swagger 2.0 contract for the Playbook call integration service: call-log capture (including
+    MiiTel), call-provider settings, capability tokens for the softphone client, and conference control
+    (create, hold music, join callback, status changes). Authenticated with an x-access-token header.'
+  humanURL: https://magicmoment.jp/playbook
+  baseURL: https://call.magicmoment.co.jp/
+  tags:
+  - sales
+  - crm
+  - sales-automation
+  - integration
+  - japan
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-call-integration-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Overlay
+    url: overlays/magic-moment-call-integration-overlay.yaml
+  x-source: https://call.magicmoment.co.jp/swagger.json
+  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
+    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
+    and its CRM integrations.
+- name: Magic Moment Playbook Reporting API
+  description: 'Swagger 2.0 contract for the Playbook aggregation/reporting service: performance summary
+    and detail by team, rep, and playbook phase, achievement by unit and user, performance targets, playbook
+    phase aggregation, MRR and contract sales reports, and input-form value reads. Authenticated with
+    an x-access-token or x-api-key header.'
+  humanURL: https://magicmoment.jp/playbook
+  baseURL: https://report.magicmoment.co.jp/
+  tags:
+  - sales
+  - crm
+  - sales-automation
+  - integration
+  - japan
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-reporting-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+  - type: Overlay
+    url: overlays/magic-moment-reporting-overlay.yaml
+  x-source: https://report.magicmoment.co.jp/swagger.json
+  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
+    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
+    and its CRM integrations.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/magic-moment-agentic-access.yml
+- type: Authentication
+  url: authentication/magic-moment-authentication.yml
 - type: Website
   url: https://www.magicmoment.jp/
 - type: Blog
@@ -64,8 +201,28 @@ common:
   url: security/magic-moment-domain-security.yml
 - type: LLMsTxt
   url: llms/magic-moment-llms.txt
+- type: DeveloperPortal
+  url: https://developer.magicmoment.co.jp
+- type: Pricing
+  url: https://magicmoment.jp/playbook/faq
+- type: Login
+  url: https://magicmoment.co.jp/login
+- type: Plans
+  url: plans/magic-moment-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/magic-moment-rate-limits.yml
+- type: Conventions
+  url: conventions/magic-moment-conventions.yml
+- type: ErrorCatalog
+  url: errors/magic-moment-problem-types.yml
+- type: DataModel
+  url: data-model/magic-moment-data-model.yml
+- type: Lifecycle
+  url: lifecycle/magic-moment-lifecycle.yml
+- type: AgentSkill
+  url: skills/_index.yml
 x-enrichment:
-  date: '2026-07-20'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 4
+  artifacts_added: 32
   pass: local-v1
