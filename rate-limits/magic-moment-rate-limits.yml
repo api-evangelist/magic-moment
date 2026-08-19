@@ -1,0 +1,41 @@
+generated: '2026-08-13'
+method: probed
+source: live probes of the Magic Moment Playbook production hosts + https://magicmoment.jp docs surface
+fetched: '2026-08-13'
+limit_count: 0
+note: >-
+  Magic Moment publishes no rate limits. There is no public API reference to read them from — the
+  developer portal named in the Playbook API announcement is login-gated — and no rate-limit signalling
+  headers appeared on any anonymously observable response. This is a measured absence, not an unchecked
+  field: an agent calling this API cannot discover its budget from either the docs or the runtime.
+limits: []
+response_headers:
+  observed: []
+  checked:
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  - RateLimit-Limit
+  - RateLimit-Remaining
+  - RateLimit-Reset
+  - Retry-After
+exhaustion_status_code: null
+evidence:
+- url: https://api.magicmoment.co.jp/openapi.json
+  http_status: 401
+  headers_returned: [x-powered-by, vary, content-type, content-length, date, x-envoy-upstream-service-time,
+    server, x-envoy-decorator-operation, via, alt-svc]
+  note: no rate-limit header of any family present
+- url: https://api.magicmoment.co.jp/health
+  http_status: 200
+  note: 'returns "OK"; no rate-limit headers'
+- url: https://suite.magicmoment.co.jp/swagger.json
+  http_status: 200
+  note: served contract declares no 429 response and no rate-limit headers
+- url: https://magicmoment.jp/sitemap.xml
+  http_status: 200
+  note: 618 URLs, no API reference or limits page
+spec_evidence:
+  operations_checked: 111
+  operations_declaring_429: 0
+  source: openapi/ (five harvested Swagger 2.0 contracts)

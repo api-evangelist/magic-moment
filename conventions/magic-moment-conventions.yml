@@ -1,0 +1,107 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/ (five harvested Swagger 2.0 contracts) + live probes of the Magic Moment Playbook
+  production hosts on 2026-08-13
+note: >-
+  Magic Moment publishes no public API style guide. Everything below is derived from the five
+  anonymously served Swagger 2.0 contracts and from HTTP responses observed live against the
+  magicmoment.co.jp production hosts. Absences (no idempotency contract, no pagination contract, no
+  rate-limit headers) are recorded as measured absences, not as unchecked fields.
+
+authentication:
+  style: api-key-header
+  schemes:
+  - name: accessToken
+    header: x-access-token
+    scope: tenant/user access token issued by the Playbook platform
+    used_by: all five services
+  - name: apiKey
+    header: x-api-key
+    scope: service-to-service key
+    used_by: salesforce-integration, hubspot-integration, office-suite-integration, reporting
+  - name: apiToken
+    header: x-api-key
+    scope: declared as `apiToken` in the office-suite contract; same header as `apiKey` elsewhere
+    used_by: office-suite-integration
+  oauth2:
+    present_as_server: false
+    present_as_client: true
+    note: >-
+      The /oauth2/authorize, /oauth2/callback, /oauth2/results and /oauth2/deauthorization operations in
+      the Salesforce, HubSpot and office-suite contracts are Magic Moment acting as an OAuth 2.0 CLIENT
+      of Salesforce, HubSpot, Google Workspace and Microsoft 365. Magic Moment does not publish an
+      OAuth 2.0 authorization server of its own in these contracts, so there is no scopes/ artifact.
+  detail: authentication/magic-moment-authentication.yml
+
+idempotency:
+  supported: false
+  evidence: >-
+    No Idempotency-Key (or any idempotency-shaped) header or parameter appears in any of the 111
+    operations across the five harvested contracts, and no idempotency contract is documented on the
+    public site or in llms.txt. Retry-safety for POST/PUT/PATCH is therefore undefined for consumers.
+
+pagination:
+  supported: false
+  evidence: >-
+    No cursor/page/offset/limit/per_page parameter appears in any of the 111 harvested operations.
+    Collection reads (for example getCallLog, listCalendarEvents, getRepPerformanceSummary) are
+    filtered by domain parameters (date ranges, owner ids, team ids) rather than paged.
+
+filtering:
+  style: query-parameter
+  examples:
+  - startDate / endDate (reporting)
+  - 'contractedUnitIds[] / contractedUserIds[] / productIds[] (reporting; bracketed array form)'
+  - keyword, service_type, sync_setting_id, mmp_id (integration services)
+
+request_tracing:
+  request_id_header: null
+  evidence: >-
+    No request-id / correlation-id header is declared in any harvested response, and none was returned
+    on live probes. The gateway does return x-envoy-upstream-service-time and
+    x-envoy-decorator-operation (Istio/Envoy), which are infrastructure timing headers, not a
+    consumer-facing trace id.
+
+versioning:
+  scheme: none-in-path
+  current: 1.0.0
+  evidence: >-
+    All five contracts declare info.version 1.0.0 and expose unversioned paths on their own service
+    host (for example https://sfdc.magicmoment.co.jp/settings). The main gateway
+    api.magicmoment.co.jp answers an identical 401 envelope on every path, so no versioning scheme can
+    be observed there without credentials.
+  detail: lifecycle/magic-moment-lifecycle.yml
+
+error_envelope:
+  gateway:
+    shape: '{"head":{"success":false,"code":<int>,"message":"<string>","errors":[]},"body":null}'
+    observed_on: https://api.magicmoment.co.jp/ and https://sso.magicmoment.co.jp/
+  service:
+    shape: '{"code":<int>,"message":"<string>"}'
+    observed_on: https://suite.magicmoment.co.jp/, report., call., sfdc., hubspot., crm-integration-gateway.
+  rfc9457: false
+  detail: errors/magic-moment-problem-types.yml
+
+rate_limit_signaling:
+  headers: []
+  evidence: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header was present on any live response observed on
+    2026-08-13 (401 from api.magicmoment.co.jp, 404/400 from the service hosts, 200 from
+    /healthcheck), and no limits are documented publicly.
+  detail: rate-limits/magic-moment-rate-limits.yml
+
+health:
+  endpoints:
+  - GET /healthcheck (declared in call, hubspot, salesforce and office-suite contracts; operationId healthCheck)
+  - GET /healthcheck (reporting contract; operationId get-healthcheck)
+  - GET https://api.magicmoment.co.jp/health -> 200 "OK" (observed anonymously 2026-08-13)
+
+webhooks:
+  outbound_to_customers: false
+  inbound_receivers:
+  - POST /microsoft365/webhook/subscription (office-suite; receives Microsoft 365 subscription notifications)
+  - POST /zoom-phone/webhook (office-suite; receives Zoom Phone events)
+  note: >-
+    The webhook endpoints in these contracts are RECEIVERS for Microsoft 365 and Zoom Phone
+    notifications. Magic Moment publishes no outbound customer-facing webhook or event catalogue and no
+    AsyncAPI, so no Webhooks or AsyncAPI pointer is emitted.

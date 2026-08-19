@@ -1,0 +1,59 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/ (Swagger 2.0 4xx/5xx responses) + live probes of https://api.magicmoment.co.jp/*
+format: vendor-envelope
+note: Magic Moment Playbook does not use RFC 9457 application/problem+json. Errors are returned in a vendor envelope observed
+  live on the production gateway. The harvested Swagger 2.0 specs declare few explicit 4xx/5xx responses, so most of this
+  catalog is the observed gateway envelope rather than in-spec documentation.
+envelope:
+  shape: '{"head":{"success":false,"code":<int>,"message":"<string>","errors":[]},"body":null}'
+  fields:
+  - name: head.success
+    type: boolean
+    note: false on error
+  - name: head.code
+    type: integer
+    note: vendor code; -1 observed on the main API gateway, -2 on the SSO service
+  - name: head.message
+    type: string
+    note: human-readable message, e.g. "401 Unauthorized"
+  - name: head.errors
+    type: array
+    note: detail array; empty on the anonymous probes observed
+  - name: body
+    type: object|null
+    note: null on error
+  observed:
+  - url: https://api.magicmoment.co.jp/openapi.json
+    http_status: 401
+    body: '{"head":{"success":false,"code":-1,"message":"401 Unauthorized","errors":[]},"body":null}'
+    fetched: '2026-08-13'
+  - url: https://sso.magicmoment.co.jp/
+    http_status: 401
+    body: '{"head":{"success":false,"code":-2,"message":"401 Unauthorized","errors":[]},"body":null}'
+    fetched: '2026-08-13'
+alternate_envelopes:
+- service: suite/report/call/sfdc/hubspot (go-swagger runtime)
+  shape: '{"code":<int>,"message":"<string>"}'
+  observed:
+  - url: https://suite.magicmoment.co.jp/openapi.json
+    http_status: 404
+    body: '{"code":404,"message":"path /openapi.json was not found"}'
+    fetched: '2026-08-13'
+- service: crm-integration-gateway
+  shape: '{"code":<int>,"message":"<string>"}'
+  observed:
+  - url: https://crm-integration-gateway.magicmoment.co.jp/
+    http_status: 401
+    body: '{"code":8001,"message":"unauthorized"}'
+    fetched: '2026-08-13'
+problems:
+- status: 401
+  title: HTTP 401
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#callbackAuth
+- status: 409
+  title: Conflict
+  source_operation: openapi/magic-moment-reporting-openapi.yml#saveDailyPlaybookReport
+- status: 500
+  title: HTTP 500
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#updateMicrosoft365SubscriptionExpiration

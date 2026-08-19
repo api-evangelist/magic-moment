@@ -1,0 +1,1438 @@
+consumes:
+- application/json
+produces:
+- application/json
+swagger: '2.0'
+info:
+  description: Office suite service連携アプリケーションAPI仕様
+  title: Office suite service連携アプリケーション
+  version: 1.0.0
+paths:
+  /calendars:
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: カレンダーイベントを作成
+      operationId: createCalendarEvent
+      parameters:
+      - description: イベント情報
+        name: event
+        in: body
+        required: true
+        schema:
+          allOf:
+          - $ref: '#/definitions/event'
+          - properties:
+              ownerId:
+                type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/event'
+  /calendars/events:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: カレンダーイベント一覧を取得
+      operationId: listCalendarEvents
+      parameters:
+      - type: string
+        format: date
+        description: 検索範囲(開始)
+        name: startDate
+        in: query
+        required: true
+      - type: string
+        format: date
+        description: 検索範囲(終了)
+        name: endDate
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    events:
+                      type: array
+                      items:
+                        $ref: '#/definitions/event'
+                    userId:
+                      type: string
+  /calendars/{calendarId}/{eventId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: Show calendar event
+      operationId: showCalendarEvents
+      parameters:
+      - type: string
+        description: カレンダーID
+        name: calendarId
+        in: path
+        required: true
+      - type: string
+        description: イベントID
+        name: eventId
+        in: path
+        required: true
+      - type: string
+        description: カレンダーの所有者ID
+        name: ownerId
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              events:
+                $ref: '#/definitions/event'
+              userId:
+                type: string
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: カレンダーイベントを更新
+      operationId: updateCalendarEvent
+      parameters:
+      - type: string
+        description: カレンダーID
+        name: calendarId
+        in: path
+        required: true
+      - type: string
+        description: イベントID
+        name: eventId
+        in: path
+        required: true
+      - description: イベント情報
+        name: event
+        in: body
+        required: true
+        schema:
+          allOf:
+          - $ref: '#/definitions/event'
+          - properties:
+              ownerId:
+                type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/event'
+    delete:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: カレンダーイベントを削除
+      operationId: deleteCalendarEvent
+      parameters:
+      - type: string
+        description: カレンダーID
+        name: calendarId
+        in: path
+        required: true
+      - type: string
+        description: イベントID
+        name: eventId
+        in: path
+        required: true
+      - type: string
+        description: カレンダーの所有者ID
+        name: ownerId
+        in: query
+      responses:
+        '200':
+          description: OK
+  /calendars/{userId}/events:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: List calendar events for selected user
+      operationId: listUserCalendarEvents
+      parameters:
+      - type: string
+        description: User ID
+        name: userId
+        in: path
+        required: true
+      - type: string
+        format: date
+        description: 検索範囲(開始)
+        name: startDate
+        in: query
+        required: true
+      - type: string
+        format: date
+        description: 検索範囲(終了)
+        name: endDate
+        in: query
+        required: true
+      - type: boolean
+        description: 終日予定を取得するかどうか
+        name: containsAllDayEvent
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    events:
+                      type: array
+                      items:
+                        $ref: '#/definitions/event'
+                    userId:
+                      type: string
+  /healthcheck:
+    get:
+      tags:
+      - utils
+      summary: ヘルスチェック
+      operationId: healthCheck
+      responses:
+        '200':
+          description: OK
+  /mail/attachment/{mailAttachmentId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - mail
+      summary: 添付メールダウンロード
+      operationId: getMailAttachment
+      parameters:
+      - type: string
+        description: Header
+        name: mailAttachmentId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: string
+              fileName:
+                type: string
+              fileSize:
+                type: integer
+  /mail/oauth-results/enqueue:
+    patch:
+      security:
+      - apiToken: []
+      tags:
+      - mail
+      summary: メール取り込み対象の oauth_results をエンキューする
+      operationId: enqueueOauthResultsForSyncMail
+      responses:
+        '204':
+          description: OK
+  /mail/oauth-results/{oauthResultId}/sync:
+    patch:
+      security:
+      - apiToken: []
+      tags:
+      - mail
+      summary: 指定された oauth_result_id に紐づくユーザーのメールを取り込む
+      operationId: syncMailByOauthResultId
+      parameters:
+      - type: string
+        description: oauth_results テーブルの ID
+        name: oauthResultId
+        in: path
+        required: true
+      responses:
+        '204':
+          description: OK
+  /mail/smtp-imap-credentials/sync:
+    patch:
+      security:
+      - apiToken: []
+      tags:
+      - mail
+      summary: smtp-imap-credentials に紐づくユーザーのメールを取り込む
+      operationId: syncMailByImap
+      responses:
+        '204':
+          description: OK
+  /mail/sync:
+    patch:
+      security:
+      - accessToken: []
+      tags:
+      - mail
+      summary: Clientからのポーリングによるメール同期を廃止するため、本APIも合わせて廃止予定です。API自体が 404 を返さないようにするため、処理は行わず 204 を返します
+      operationId: syncMails
+      deprecated: true
+      responses:
+        '204':
+          description: OK
+  /microsoft365/subscription-expiration:
+    patch:
+      security:
+      - apiToken: []
+      description: Microsoft 365 サブスクリプションの有効期限を延長します
+      tags:
+      - microsoft365
+      summary: Microsoft 365 サブスクリプションの有効期限を延長
+      operationId: updateMicrosoft365SubscriptionExpiration
+      responses:
+        '200':
+          $ref: '#/responses/success'
+        '500':
+          $ref: '#/responses/default'
+  /microsoft365/webhook/subscription:
+    post:
+      description: Microsoft 365 からのサブスクリプション通知を受け取ります
+      produces:
+      - text/plain
+      tags:
+      - microsoft365
+      summary: Microsoft 365 Webhook サブスクリプションの受け取り
+      operationId: microsoft365WebhookSubscription
+      parameters:
+      - type: string
+        description: Microsoft 365 から送られるサブスクリプション検証トークン
+        name: validationToken
+        in: query
+      - description: Webhook body
+        name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  changeType:
+                    description: 変更タイプ
+                    type: string
+                  clientState:
+                    description: クライアントステート
+                    type: string
+                  id:
+                    description: ID
+                    type: string
+                  lifecycleEvent:
+                    description: ライフサイクルイベント
+                    type: string
+                  resource:
+                    description: リソース
+                    type: string
+                  resourceData:
+                    type: object
+                    properties:
+                      '@odata.etag':
+                        description: ODataのETag
+                        type: string
+                      '@odata.id':
+                        description: ODataのID
+                        type: string
+                      '@odata.type':
+                        description: ODataの型
+                        type: string
+                      id:
+                        description: ID
+                        type: string
+                  subscriptionExpirationDateTime:
+                    description: サブスクリプション有効期限
+                    type: string
+                  subscriptionId:
+                    description: サブスクリプションID
+                    type: string
+                  tenantId:
+                    description: テナントID
+                    type: string
+      responses:
+        '200':
+          description: サブスクリプションの検証が成功しました
+          schema:
+            type: string
+        '202':
+          description: ライフサイクル通知の検証が成功しました
+          schema:
+            type: string
+  /oauth2/authorize:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - oauth2
+      summary: 認証
+      operationId: startAuth
+      parameters:
+      - type: string
+        format: uri
+        description: リダイレクトURI
+        name: redirect_uri
+        in: query
+        required: true
+      - type: string
+        format: number
+        description: Service type [1 - GSuite / 2 - Office 365]
+        name: service_type
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              redirectUrl:
+                type: string
+    delete:
+      security:
+      - accessToken: []
+      tags:
+      - oauth2
+      summary: Unlink service
+      operationId: deleteAuth
+      parameters:
+      - type: string
+        format: number
+        description: Service type [1 - GSuite / 2 - Office 365]
+        name: service_type
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+  /oauth2/callback:
+    get:
+      tags:
+      - oauth2
+      summary: 認証コールバック
+      operationId: callbackAuth
+      parameters:
+      - type: string
+        description: 承認コード
+        name: code
+        in: query
+      - type: string
+        description: authorizeで送ったstate
+        name: state
+        in: query
+      - type: string
+        description: エラーメッセージ
+        name: error
+        in: query
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/responses/unauthorized'
+  /oauth2/deauthorization:
+    post:
+      security: []
+      tags:
+      - oauth2
+      summary: サービスの認可取消し
+      operationId: deauthorization
+      parameters:
+      - type: string
+        format: number
+        description: Service type [1 - GSuite / 2 - Office 365 / 3 - Zoom]
+        name: service_type
+        in: query
+        required: true
+      - type: string
+        name: authorization
+        in: header
+        required: true
+      - description: 認可取消しイベント通知
+        name: event
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/deauthorization'
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/responses/unauthorized'
+  /oauth2/results:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - oauth2
+      summary: 認証結果一覧
+      operationId: listOauthResults
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/oauthResult'
+  /profiles/{userId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - profiles
+      summary: プロフィールを取得
+      operationId: getProfile
+      parameters:
+      - type: string
+        name: userId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/profile'
+  /zoom-phone/call-logs:
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: Zoom Phone の通話ログの永続化
+      operationId: createZoomPhoneCallLog
+      parameters:
+      - description: call log parameters
+        name: callLog
+        in: body
+        required: true
+        schema:
+          type: object
+          required:
+          - callLogId
+          - phoneNumber
+          - callDirection
+          - callType
+          properties:
+            callDirection:
+              description: 架電なのか受電なのか
+              type: string
+              enum:
+              - INCOMING
+              - OUTGOING
+            callDuration:
+              description: 通話時間
+              type: number
+            callEndedAt:
+              description: 通話終了時間
+              type: string
+              format: date-time
+            callLogId:
+              description: zoom で付与される通話ログのユニークな ID
+              type: string
+              example: c106fda5-7320-46cb-a5d2-7c73a2173d2f
+            callStartedAt:
+              description: 通話開始時間
+              type: string
+              format: date-time
+            callType:
+              description: 不在着信か否か
+              type: string
+              enum:
+              - CALLED
+              - ABSENCE
+            contactId:
+              description: 取引先担当者の ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+            engagementId:
+              description: Engagement ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+            phoneNumber:
+              description: 電話番号
+              type: string
+              example: 123456789999
+            repActivityId:
+              description: Rep Activity ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+      responses:
+        '200':
+          $ref: '#/responses/success'
+        '401':
+          $ref: '#/responses/unauthorized'
+  /zoom-phone/call-logs/recording:
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: ZoomPhone通話録音の取得と保存
+      operationId: saveUserRecording
+      parameters:
+      - description: call log parameters
+        name: saveUserRecordingBody
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            callLogId:
+              description: zoom で付与される通話ログのユニークな ID
+              type: string
+              example: c106fda5-7320-46cb-a5d2-7c73a2173d2f
+            userId:
+              description: ユーザーのID
+              type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            required:
+            - success
+            properties:
+              success:
+                type: boolean
+        '401':
+          $ref: '#/responses/unauthorized'
+  /zoom-phone/call-logs/recordings/{recodingId}/stream:
+    get:
+      security:
+      - accessToken: []
+      produces:
+      - audio/mp3
+      tags:
+      - zoom
+      summary: recodingIdを元に録音データのstreamを取得する
+      operationId: getZoomPhoneRecodingDataStream
+      parameters:
+      - type: string
+        name: recodingId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: 音声のバイナリデータ
+          schema:
+            type: file
+          headers:
+            Accept-Ranges:
+              type: string
+              description: The value of this field indicates the unit that can be used to define a range
+            Content-Length:
+              type: integer
+              description: The size of the entity-body, in bytes
+            Content-Range:
+              type: string
+              description: Indicates where in a full body message a partial message belongs
+  /zoom-phone/call-logs/{callLogId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: callLogIdを元にcallLogを取得する
+      operationId: getZoomPhoneCallLogById
+      parameters:
+      - type: string
+        name: callLogId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              recordingId:
+                type: string
+  /zoom-phone/webhook:
+    post:
+      tags:
+      - zoom
+      operationId: zoomPhoneWebhook
+      parameters:
+      - type: string
+        name: x-zm-signature
+        in: header
+        required: true
+      - type: string
+        name: x-zm-request-timestamp
+        in: header
+        required: true
+      - type: string
+        name: x-zm-custom-signature
+        in: header
+        required: true
+      - description: call log parameters
+        name: webhook
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            event:
+              description: Name of the event.
+              type: string
+            event_ts:
+              description: Timestamp (in milliseconds since epoch) at which the event occurred.
+              type: integer
+              format: int64
+            payload:
+              type: object
+              properties:
+                account_id:
+                  description: Account ID of the callee.
+                  type: string
+                object:
+                  type: object
+                  properties:
+                    call_logs:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          answer_start_time:
+                            description: The GMT time at which the callee answered the call.
+                            type: string
+                          call_end_time:
+                            description: End time of the call.
+                            type: string
+                            format: date-time
+                          call_id:
+                            description: Unique identifier of the call.
+                            type: string
+                          call_type:
+                            description: The type of call.
+                            type: string
+                            enum:
+                            - voip
+                            - pstn
+                            - tollfree
+                            - international
+                            - contactCenter
+                          callee_country_code:
+                            description: Callee's country code.
+                            type: string
+                          callee_country_iso_code:
+                            description: ISO alpha2 country code.
+                            type: string
+                          callee_did_number:
+                            description: Callee's DID number.
+                            type: string
+                          callee_location:
+                            description: Location of the callee.
+                            type: string
+                          callee_name:
+                            description: Name of the callee.
+                            type: string
+                          callee_number:
+                            description: Phone number of the callee.
+                            type: string
+                          callee_number_source:
+                            description: Phone number source of the callee.
+                            type: string
+                            enum:
+                            - internal
+                            - external
+                            - byop
+                          callee_number_type:
+                            description: Phone number type of the callee.
+                            type: integer
+                            enum:
+                            - 1
+                            - 2
+                          caller_country_code:
+                            description: Caller's country code.
+                            type: string
+                          caller_country_iso_code:
+                            description: ISO alpha2 country code.
+                            type: string
+                          caller_did_number:
+                            description: Caller's DID number.
+                            type: string
+                          caller_location:
+                            description: Location of the caller.
+                            type: string
+                          caller_name:
+                            description: Name of the caller.
+                            type: string
+                          caller_number:
+                            description: Phone number of the caller.
+                            type: string
+                          caller_number_source:
+                            description: Phone number source of the caller.
+                            type: string
+                            enum:
+                            - internal
+                            - external
+                            - byop
+                          caller_number_type:
+                            description: Phone number type of the caller.
+                            type: integer
+                            enum:
+                            - 1
+                            - 2
+                          client_code:
+                            description: Client code.
+                            type: string
+                          cost_center:
+                            description: Cost center name.
+                            type: string
+                          date_time:
+                            description: Start date and time of the call.
+                            type: string
+                            format: date-time
+                          department:
+                            description: Department name.
+                            type: string
+                          direction:
+                            description: Direction of the call.
+                            type: string
+                            enum:
+                            - inbound
+                            - outbound
+                          duration:
+                            description: Duration of the call.
+                            type: integer
+                          forward_to:
+                            type: object
+                            properties:
+                              extension_number:
+                                description: The extension number the call was forwarded to.
+                                type: string
+                              extension_type:
+                                description: The type of extension the call was forwarded to.
+                                type: string
+                                enum:
+                                - callQueue
+                                - sharedLineGroup
+                                - sharedLines
+                                - autoReceptionist
+                              location:
+                                type: string
+                              name:
+                                description: The name of the extension the call was forwarded to.
+                                type: string
+                              number_type:
+                                description: Phone number types. 1 - Extension 2- E164 number 3 - Custom
+                                  number.
+                                type: integer
+                              phone_number:
+                                type: string
+                          forwarded_by:
+                            type: object
+                            properties:
+                              extension_number:
+                                description: The extension number the call was forwarded from.
+                                type: string
+                              extension_type:
+                                description: The type of extension the call was forwarded from.
+                                type: string
+                                enum:
+                                - callQueue
+                                - sharedLineGroup
+                                - sharedLines
+                                - autoReceptionist
+                              location:
+                                type: string
+                              name:
+                                description: The name of the extension the call was forwarded from.
+                                type: string
+                              number_type:
+                                description: Phone number types. 1 - Extension 2- E164 number 3 - Custom
+                                  number.
+                                type: integer
+                              phone_number:
+                                type: string
+                          has_recording:
+                            description: Indicates whether the call log includes recording or not.
+                            type: boolean
+                          has_voicemail:
+                            description: Indicates whether the call log includes voicemail or not.
+                            type: boolean
+                          hold_time:
+                            description: Hold time during a call in seconds.
+                            type: integer
+                          id:
+                            description: Unique Identifier of the call log.
+                            type: string
+                          path:
+                            description: Path of the call log.
+                            type: string
+                          recording_id:
+                            description: ID of this recording.
+                            type: string
+                          recording_type:
+                            description: Recording type of the call.
+                            type: string
+                          result:
+                            description: Status of the call.
+                            type: string
+                          site:
+                            type: object
+                            properties:
+                              id:
+                                description: The phone number's assigned target site.
+                                type: string
+                          waiting_time:
+                            description: Waiting time of the call.
+                            type: integer
+                    recordings:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          accepted_by:
+                            description: The call-receiving user. The current recording must belong to
+                              the receiver and call queue for it to be available.
+                            type: object
+                            properties:
+                              extension_number:
+                                description: The user extension number.
+                                type: string
+                              name:
+                                description: User name.
+                                type: string
+                          call_id:
+                            description: The unique identifier of the call.
+                            type: string
+                          call_log_id:
+                            description: The call log id.
+                            type: string
+                          callee_did_number:
+                            description: The callee's DID number.
+                            type: string
+                          callee_name:
+                            description: The name of the callee.
+                            type: string
+                          callee_number:
+                            description: The phone number of the callee.
+                            type: string
+                          callee_number_type:
+                            description: 'The phone number type of the callee. The value can be one of
+                              the following:
+
+                              * 1 - internal
+
+                              * 2 - external
+
+                              '
+                            type: integer
+                            enum:
+                            - 1
+                            - 2
+                          caller_did_number:
+                            description: The caller's DID number.
+                            type: string
+                          caller_name:
+                            description: The name of the caller.
+                            type: string
+                          caller_number:
+                            description: The phone number of the caller.
+                            type: string
+                          caller_number_type:
+                            description: 'The phone number type of the caller. The value can be one of
+                              the following:
+
+                              * 1 - internal
+
+                              * 2 - external
+
+                              '
+                            type: integer
+                            enum:
+                            - 1
+                            - 2
+                          date_time:
+                            description: The start date and time of the call.
+                            type: string
+                            format: date-time
+                          direction:
+                            description: The direction of the call. The value of this field can either
+                              be inbound or outbound.
+                            type: string
+                            enum:
+                            - inbound
+                            - outbound
+                          download_url:
+                            description: 'The URL to download the call recording.
+
+                              To download the recording via this URL, you must add an “access_token” query
+                              parameter to the download URL and provide either the user''s OAuth access
+                              token or your app''s **JWT** as the value of the “access_token” parameter.
+
+                              For example, if the value of this field is "https://zoom.us/v2/phone/recording/download/abcD666T",
+                              the complete URL path to download the recording will be as below:
+
+                              https://zoom.us/v2/phone/recording/download/abcD666T?access_token={YOUR_ACCESS_TOKEN_HERE}
+
+                              '
+                            type: string
+                          duration:
+                            description: The duration of the call in seconds.
+                            type: integer
+                          end_time:
+                            description: The recording's end time.
+                            type: string
+                            format: date-time
+                          id:
+                            description: The recording ID is the unique Identifier of the call recording.
+                            type: string
+                          outgoing_by:
+                            description: The call-initiating user. The current recording must belong to
+                              the initiator and call queue for it to be available.
+                            type: object
+                            properties:
+                              extension_number:
+                                description: The user's extension number.
+                                type: string
+                              name:
+                                description: The user name.
+                                type: string
+                          owner:
+                            description: The owner of the call.
+                            type: object
+                            required:
+                            - type
+                            - id
+                            - name
+                            properties:
+                              extension_number:
+                                description: The extension number of the owner.
+                                type: integer
+                              has_access_permission:
+                                description: Whether the owner has the access permission to this recording.
+                                type: boolean
+                              id:
+                                description: The owner ID.
+                                type: string
+                              name:
+                                description: The owner name.
+                                type: string
+                              type:
+                                description: The owner type. This value field can be user or callQueue.
+                                type: string
+                            additionalProperties: false
+                          recording_type:
+                            description: The recording type of the call. This value field can be OnDemand
+                              or Automatic.
+                            type: string
+                          site:
+                            description: The site of the call.
+                            type: object
+                            properties:
+                              id:
+                                description: The site ID of the call.
+                                type: string
+                            additionalProperties: false
+                          user_id:
+                            description: The unique identifier of the user.
+                            type: string
+                    user_id:
+                      description: User Id of the callee.
+                      type: string
+                plainToken:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            required:
+            - success
+            properties:
+              encryptedToken:
+                type: string
+              plainToken:
+                type: string
+  /zoom-phone/{userId}/status:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: ユーザーのZoomPhone連携が有効になっているか確認する
+      operationId: verifyZoomPhoneActive
+      parameters:
+      - type: string
+        description: ユーザーのID
+        name: userId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            required:
+            - isActive
+            properties:
+              isActive:
+                type: boolean
+        '401':
+          $ref: '#/responses/unauthorized'
+definitions:
+  createCalendarEventRequestBody:
+    type: object
+    required:
+    - summary
+    - attendees
+    properties:
+      attendees:
+        type: array
+        default: null
+        items:
+          type: string
+          format: email
+        x-nullable: false
+        x-omitempty: false
+      description:
+        description: Description
+        type: string
+        x-nullable: false
+        example: Description
+      endDate:
+        description: 終了日
+        type: string
+        format: date
+        example: '2017-07-21'
+      endDatetime:
+        description: 終了日時
+        type: string
+        format: date-time
+        example: '2017-07-21T17:32:28Z'
+      isOnlineMeeting:
+        description: disable/enable meeting online
+        type: boolean
+        default: false
+        x-nullable: false
+        example: true
+      meeting:
+        $ref: '#/definitions/meeting'
+      ownerId:
+        type: string
+      serviceType:
+        description: サービス
+        type: string
+        default: UNSPECIFIED
+        enum:
+        - UNSPECIFIED
+        - GSUITE
+        - OFFICE365
+        - ZOOM
+        x-nullable: false
+        x-omitempty: false
+      startDate:
+        description: 開始日
+        type: string
+        format: date
+        example: '2017-07-21'
+      startDatetime:
+        description: 開始日時
+        type: string
+        format: date-time
+        example: '2017-07-21T17:32:28Z'
+      summary:
+        description: Summary
+        type: string
+        x-nullable: false
+        example: Summary
+  createdAt:
+    description: 作成日
+    type: string
+    format: date-time
+    example: '2017-07-21T17:32:28Z'
+  deauthorization:
+    type: object
+    properties:
+      event:
+        type: string
+      payload:
+        type: object
+        properties:
+          user_id:
+            type: string
+  entryPoint:
+    type: object
+    properties:
+      AccessCode:
+        type: string
+      entryPointType:
+        type: string
+      label:
+        type: string
+      pin:
+        type: string
+      uri:
+        type: string
+  error:
+    type: object
+    required:
+    - message
+    properties:
+      code:
+        type: integer
+        format: int64
+        example: 404
+      message:
+        type: string
+        example: Not Found
+  event:
+    type: object
+    properties:
+      attendees:
+        type: array
+        items:
+          type: string
+          format: email
+      calendarId:
+        description: カレンダーID
+        type: string
+        example: example@example.jp
+      description:
+        description: Description
+        type: string
+        example: Description
+      endDate:
+        description: 終了日
+        type: string
+        format: date
+        example: '2017-07-21'
+      endDatetime:
+        description: 終了日時
+        type: string
+        format: date-time
+        example: '2017-07-21T17:32:28Z'
+      entryPoints:
+        type: array
+        items:
+          $ref: '#/definitions/entryPoint'
+      eventId:
+        description: イベントID
+        type: string
+        example: 550e8400-e29b-41d4-a716-446655440000
+      isAllDay:
+        description: 終日予定かどうか
+        type: boolean
+        example: true
+      isOnlineMeeting:
+        description: disable/enable meeting online
+        type: boolean
+        example: true
+      meeting:
+        $ref: '#/definitions/meeting'
+      serviceType:
+        description: サービス
+        type: string
+        enum:
+        - UNSPECIFIED
+        - GSUITE
+        - OFFICE365
+        - ZOOM
+      startDate:
+        description: 開始日
+        type: string
+        format: date
+        example: '2017-07-21'
+      startDatetime:
+        description: 開始日時
+        type: string
+        format: date-time
+        example: '2017-07-21T17:32:28Z'
+      summary:
+        description: Summary
+        type: string
+        example: Summary
+  mail:
+    type: object
+    properties:
+      bcc:
+        description: BCC
+        type: array
+        items:
+          $ref: '#/definitions/mailDestination'
+      cc:
+        description: CC
+        type: array
+        items:
+          $ref: '#/definitions/mailDestination'
+      createdAt:
+        $ref: '#/definitions/createdAt'
+      from:
+        description: 送信元
+        $ref: '#/definitions/mailDestination'
+      html:
+        description: HTML本文
+        type: string
+        example: HTML body
+      id:
+        description: ID
+        type: string
+        example: 550e8400-e29b-41d4-a716-446655440000
+      subject:
+        description: 件名
+        type: string
+        example: Subject
+      text:
+        description: テキスト本文
+        type: string
+        example: Text body
+      to:
+        description: 宛先
+        type: array
+        items:
+          $ref: '#/definitions/mailDestination'
+      trackingAddress:
+        description: トラッキング用アドレス(${teamID(ハイフンなし)}${EngagementID(ハイフンなし)}@${ENGAGEMENT_MAIL_DOMAIN})
+        type: string
+        example: 550e8400e29b41d4a716446655440000550e8400e29b41d4a716446655440000@engagement.magicmoment.jp
+  mailDestination:
+    type: object
+    properties:
+      address:
+        description: メールアドレス
+        type: string
+        format: email
+        example: example@example.jp
+      createdAt:
+        $ref: '#/definitions/createdAt'
+      mailId:
+        description: メールID
+        type: string
+        format: uuid
+        example: body
+  meeting:
+    type: object
+    properties:
+      link:
+        type: string
+      serviceType:
+        type: string
+        enum:
+        - MEET
+        - TEAMS
+        - ZOOM
+        - CALL
+        - VISIT
+  oauthResult:
+    type: object
+    properties:
+      createdAt:
+        $ref: '#/definitions/createdAt'
+      profile:
+        $ref: '#/definitions/profile'
+      scopes:
+        description: OAuthスコープ
+        type: array
+        items:
+          type: string
+      serviceType:
+        description: 認証サービス
+        type: string
+        enum:
+        - UNSPECIFIED
+        - GSUITE
+        - OFFICE365
+        - ZOOM
+      userId:
+        type: string
+  operator:
+    type: object
+    properties:
+      teamId:
+        type: string
+      userId:
+        type: string
+  principal:
+    type: object
+    properties:
+      operator:
+        $ref: '#/definitions/operator'
+      token:
+        type: string
+  profile:
+    type: object
+    properties:
+      email:
+        description: メールアドレス
+        type: string
+        format: email
+  services:
+    type: string
+    enum:
+    - UNSPECIFIED
+    - GSUITE
+    - OFFICE365
+    - ZOOM
+  success:
+    type: object
+    required:
+    - success
+    properties:
+      success:
+        type: boolean
+responses:
+  bad_request:
+    description: 入力が不正な場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  conflict:
+    description: 対象がすでに存在している場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  default:
+    description: 未知のエラーの場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  forbidden:
+    description: 権限が不足している場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  not_found:
+    description: 対象が存在しない場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  success:
+    description: リクエストの成功時に返却します。
+    schema:
+      $ref: '#/definitions/success'
+  unauthorized:
+    description: 認証に失敗した場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+securityDefinitions:
+  accessToken:
+    type: apiKey
+    name: x-access-token
+    in: header
+  apiToken:
+    type: apiKey
+    name: x-api-key
+    in: header

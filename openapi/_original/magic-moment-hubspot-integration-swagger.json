@@ -1,0 +1,967 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Hubspot連携アプリケーションAPI仕様",
+    "title": "Hubspot連携アプリケーション",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/crm/deal_stages": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "fetch_hubspot"
+        ],
+        "summary": "Get value from Hubspot dealstages Object",
+        "operationId": "getDealStagesOfHubspot",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/hubspot_api_name"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/crm/hs_lead_statuses": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "fetch_hubspot"
+        ],
+        "summary": "Get value from Hubspot hs_lead_status Object",
+        "operationId": "getHsLeadStatusOfHubspot",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/hubspot_api_name"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/crm/users": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "fetch_hubspot"
+        ],
+        "summary": "Show list hubspot users API",
+        "operationId": "getHubspotUsers",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "keyword",
+            "in": "query"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "name": "hubspotIds",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/hubspotUser"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/engagement_sync_settings": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "engagement_sync_settings"
+        ],
+        "summary": "Get EngagementSyncSetting data beetwen Playbook \u003c-\u003e Hubspot",
+        "operationId": "getEngagementSyncSettingOfHubspot",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/engagement_sync_setting"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "engagement_sync_settings"
+        ],
+        "summary": "Create/update EngagementSyncSetting data beetwen Playbook \u003c-\u003e Hubspot",
+        "operationId": "saveEngagementSyncSettingOfHubspot",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/engagement_sync_setting"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/engagement_sync_setting"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/engagement_sync_settings/{engagement_sync_setting_id}/": {
+      "delete": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "engagement_sync_settings"
+        ],
+        "summary": "Delete Engagement sync setting",
+        "operationId": "deleteEngagementSyncSettingOfHubspot",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "name": "engagement_sync_setting_id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/healthcheck": {
+      "get": {
+        "tags": [
+          "utils"
+        ],
+        "summary": "ヘルスチェック",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/mappings": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "mappings"
+        ],
+        "summary": "Playbook \u003c-\u003e Hubspot の ID の対応関係を取得する",
+        "operationId": "getSyncIDMapOfHubspot",
+        "parameters": [
+          {
+            "type": "string",
+            "format": "uuid",
+            "name": "sync_setting_id",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "format": "uuid",
+            "name": "mmp_id",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/sync_id_maps"
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "mappings"
+        ],
+        "summary": "Playbook \u003c-\u003e Hubspot の ID の対応関係を作成・更新する",
+        "operationId": "saveSyncIDMapOfHubspot",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id_maps": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "hubspot_id": {
+                        "$ref": "#/definitions/hubspot_id"
+                      },
+                      "mmp_id": {
+                        "$ref": "#/definitions/mmp_id"
+                      }
+                    }
+                  }
+                },
+                "sync_setting_id": {
+                  "$ref": "#/definitions/sync_setting_id"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/sync_id_maps"
+            }
+          }
+        }
+      }
+    },
+    "/mappings/{mapping_id}/": {
+      "delete": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "description": "Delete mapping by id of sync_id_mappings table",
+        "tags": [
+          "mappings"
+        ],
+        "summary": "Delete mapping",
+        "operationId": "deleteSyncIDMapOfHubspot",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mapping_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/oauth2/authorize/": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "oauth2"
+        ],
+        "summary": "Hubspot認証・認可",
+        "operationId": "startHubspotAuth",
+        "parameters": [
+          {
+            "type": "string",
+            "format": "uri",
+            "description": "リダイレクトURI",
+            "name": "redirect_uri",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSONリクエストの場合のみ、リダイレクトせずにリダイレクト先URLを返す",
+            "schema": {
+              "$ref": "#/definitions/redirect_url"
+            }
+          },
+          "302": {
+            "description": "Found",
+            "headers": {
+              "Location": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "oauth2"
+        ],
+        "summary": "Unlink service",
+        "operationId": "deleteHubspotAuth",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/oauth2/callback/": {
+      "get": {
+        "description": "認可コールバックのエンドポイント",
+        "tags": [
+          "oauth2"
+        ],
+        "summary": "Hubspot認可コールバック",
+        "operationId": "callbackHubspotAuth",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "code",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "state",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "302": {
+            "description": "Found",
+            "headers": {
+              "Location": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth2/results": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "oauth2"
+        ],
+        "summary": "認証結果一覧",
+        "operationId": "listOauthResults",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/oauthResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settings": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "settings"
+        ],
+        "summary": "Hubspot読み込み設定の取得",
+        "operationId": "getSyncSettingOfHubspot",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "mmpObject",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/sync_settings"
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "settings"
+        ],
+        "summary": "Playbook \u003c-\u003e Hubspot の対応関係設定追加",
+        "operationId": "createSyncSettingOfHubspot",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "auto_sync": {
+                  "type": "boolean"
+                },
+                "hubspot_object_name": {
+                  "$ref": "#/definitions/hubspot_object_name"
+                },
+                "mmp_table_name": {
+                  "$ref": "#/definitions/mmp_table_name"
+                },
+                "sync_field_map": {
+                  "$ref": "#/definitions/sync_field_map"
+                },
+                "sync_order": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/settings/{sync_setting_id}": {
+      "patch": {
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "settings"
+        ],
+        "summary": "Playbook \u003c-\u003e HubSpot の対応関係設定更新",
+        "operationId": "updateSyncFieldMapOfHubspot",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hubspot_object_name": {
+                  "$ref": "#/definitions/hubspot_object_name"
+                },
+                "mmp_table_name": {
+                  "$ref": "#/definitions/mmp_table_name"
+                },
+                "sync_field_map": {
+                  "$ref": "#/definitions/sync_field_map"
+                },
+                "write_sync_patterns": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/write_sync_pattern"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/parameters/sync_setting_id"
+        }
+      ]
+    },
+    "/sync/read": {
+      "post": {
+        "security": [
+          {
+            "accessToken": []
+          },
+          {
+            "apiKey": []
+          }
+        ],
+        "tags": [
+          "sync_hubspot"
+        ],
+        "summary": "Hubspotからデータを読み込み Playbook にデータを反映する",
+        "operationId": "readSyncWithHubspot",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string"
+                },
+                "teamId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sync/syncable": {
+      "get": {
+        "security": [
+          {
+            "accessToken": []
+          },
+          {
+            "apiKey": []
+          }
+        ],
+        "tags": [
+          "sync_hubspot"
+        ],
+        "summary": "同期状態",
+        "operationId": "getSyncable",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "team_id",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/syncable"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "accessToken": []
+          }
+        ],
+        "tags": [
+          "sync_hubspot"
+        ],
+        "summary": "同期開始・ストップ",
+        "operationId": "toggleSyncable",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "syncable": {
+                  "type": "boolean"
+                },
+                "team_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/syncable"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "createdAt": {
+      "description": "作成日",
+      "type": "string",
+      "format": "date-time",
+      "example": "2017-07-21T17:32:28Z"
+    },
+    "engagement_sync_setting": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "phase_sync_id_map": {
+          "type": "object",
+          "properties": {
+            "hubspot_id": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "mmp_id": {
+              "type": "string",
+              "enum": [
+                "nurturing",
+                "qualification",
+                "closing",
+                "onboarding",
+                "adoption",
+                "expansion",
+                "recycling",
+                "end"
+              ]
+            },
+            "sync_setting": {
+              "type": "object",
+              "properties": {
+                "hubspot_object_name": {
+                  "type": "string",
+                  "enum": [
+                    "dealstages",
+                    "hs_lead_status"
+                  ]
+                },
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "mmp_table_name": {
+                  "type": "string",
+                  "enum": [
+                    "playbook_phases",
+                    "engagement_statuses"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "progress": {
+          "type": "number",
+          "maximum": 100
+        },
+        "sync_setting": {
+          "type": "object",
+          "properties": {
+            "hubspot_object_name": {
+              "type": "string",
+              "enum": [
+                "deals",
+                "contacts"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "mmp_table_name": {
+              "type": "string",
+              "enum": [
+                "engagements"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "hubspotUser": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "mmp_user_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sync_map_id": {
+          "type": "string"
+        }
+      }
+    },
+    "hubspot_api_name": {
+      "type": "object",
+      "properties": {
+        "api_name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "hubspot_id": {
+      "type": "string"
+    },
+    "hubspot_object_name": {
+      "type": "string"
+    },
+    "mmp_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "mmp_table_name": {
+      "type": "string"
+    },
+    "oauthResult": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "$ref": "#/definitions/createdAt"
+        },
+        "serviceType": {
+          "description": "認証サービス",
+          "type": "string",
+          "enum": [
+            "HUBSPOT"
+          ]
+        }
+      }
+    },
+    "redirect_url": {
+      "type": "string"
+    },
+    "services": {
+      "type": "string",
+      "enum": [
+        "HUBSPOT"
+      ]
+    },
+    "sync_field_map": {
+      "type": "string"
+    },
+    "sync_id_map": {
+      "type": "object",
+      "properties": {
+        "hubspot_id": {
+          "$ref": "#/definitions/hubspot_id"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "mmp_id": {
+          "$ref": "#/definitions/mmp_id"
+        },
+        "sync_setting_id": {
+          "$ref": "#/definitions/sync_setting_id"
+        }
+      }
+    },
+    "sync_id_maps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/sync_id_map"
+      }
+    },
+    "sync_setting": {
+      "type": "object",
+      "properties": {
+        "auto_sync": {
+          "type": "boolean"
+        },
+        "hubspot_object_name": {
+          "$ref": "#/definitions/hubspot_object_name"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "mmp_table_name": {
+          "$ref": "#/definitions/mmp_table_name"
+        },
+        "sync_field_map": {
+          "$ref": "#/definitions/sync_field_map"
+        },
+        "sync_order": {
+          "type": "integer"
+        },
+        "team_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "write_sync_patterns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/write_sync_pattern"
+          }
+        }
+      }
+    },
+    "sync_setting_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sync_settings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/sync_setting"
+      }
+    },
+    "syncable": {
+      "type": "object",
+      "properties": {
+        "syncable": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "teamId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "write_sync_pattern": {
+      "type": "string",
+      "enum": [
+        "ARCHIVE",
+        "SIMPLE_WRITE"
+      ]
+    }
+  },
+  "parameters": {
+    "mapping_id": {
+      "type": "string",
+      "format": "uuid",
+      "name": "mapping_id",
+      "in": "path",
+      "required": true
+    },
+    "sync_setting_id": {
+      "type": "string",
+      "format": "uuid",
+      "name": "sync_setting_id",
+      "in": "path",
+      "required": true
+    }
+  },
+  "securityDefinitions": {
+    "accessToken": {
+      "type": "apiKey",
+      "name": "x-access-token",
+      "in": "header"
+    },
+    "apiKey": {
+      "type": "apiKey",
+      "name": "x-api-key",
+      "in": "header"
+    }
+  }
+}

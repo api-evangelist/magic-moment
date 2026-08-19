@@ -1,0 +1,41 @@
+generated: '2026-08-13'
+method: searched
+source: https://magicmoment.jp/playbook/faq
+fetched: '2026-08-13'
+http_status: 200
+currency: JPY
+plan_count: 2
+note: >-
+  Magic Moment publishes no pricing page — the 618-URL sitemap at https://magicmoment.jp/sitemap.xml
+  contains no /pricing path and https://magicmoment.jp/pricing returns 404. One list price is published,
+  in the Playbook FAQ (question 11, 料金は？); the platform itself is quoted on request. Nothing is
+  published about pricing for the Playbook API, the Revenue Platform, or Magic Moment X.
+plans:
+- name: Playbook Capture (AI自動記録)
+  price: 5000
+  currency: JPY
+  tax: excluded (税別)
+  period: month
+  unit: per user
+  included: 自動記録 月10時間 (10 hours of AI auto-recording per user per month)
+  overage: not published
+  source_quote: AI自動記録（Playbook Capture）は1ユーザーあたり月額5,000円（税別・自動記録 月10時間付与）。
+  source: https://magicmoment.jp/playbook/faq
+- name: Magic Moment Playbook (platform)
+  price: null
+  currency: JPY
+  period: null
+  model: quote-on-request
+  included: not published
+  source_quote: Magic Moment Playbook 本体の料金は規模・要件に応じてご案内します。PoC（短期検証）から始め、本導入で段階的に拡張できます。
+  note: Priced by scale and requirements; a short PoC is offered before full deployment.
+  source: https://magicmoment.jp/playbook/faq
+api_pricing:
+  published: false
+  note: >-
+    The Playbook API announcement (https://magicmoment.jp/announcements/xip33i39nknwve03om0ym3vw,
+    2024-04-03) directs developers to playbook-api@magicmoment.jp and to the login-gated developer
+    portal; no API price, quota, or free tier is published anonymously.
+free_trial:
+  published: false
+  note: A PoC (proof of concept) engagement is offered in place of a self-serve trial.

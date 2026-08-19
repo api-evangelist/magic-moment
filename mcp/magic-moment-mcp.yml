@@ -1,0 +1,348 @@
+generated: '2026-08-13'
+method: derived
+status: candidate
+source: openapi/ operations (Swagger 2.0), derived after searching the provider site, llms.txt, npm and the MCP registries
+  for a published server
+deployment:
+  mode: none
+  auth: unknown
+  verified: searched
+  note: No Magic Moment MCP server was found. https://magicmoment.jp/llms.txt (fetched 2026-08-13) lists no MCP endpoint;
+    https://api.magicmoment.co.jp/mcp answers the same blanket 401 vendor envelope as every other path on that gateway and
+    is NOT evidence of an MCP surface; no @magicmoment package exists on npm and no entry exists in the public MCP registries.
+    Tools below are a CANDIDATE mapping of real OpenAPI operations, not a shipped server.
+tool_count: 111
+tools:
+- name: getLeadStatusOfSfdc
+  description: Get value from Salesforce LeadStatus Object
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#getLeadStatusOfSfdc
+- name: getOpportunityStageOfSfdc
+  description: Get value from Salesforce OpportunityStage Object
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#getOpportunityStageOfSfdc
+- name: getSalesforceUsers
+  description: Show list salesforce users API
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#getSalesforceUsers
+- name: getEngagementSyncSettingOfSfdc
+  description: Get EngagementSyncSetting data beetwen Playbook <-> Salesforce
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#getEngagementSyncSettingOfSfdc
+- name: saveEngagementSyncSettingOfSfdc
+  description: Create/update EngagementSyncSetting data beetwen Playbook <-> Salesforce
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#saveEngagementSyncSettingOfSfdc
+- name: deleteEngagementSyncSettingOfSfdc
+  description: Delete Engagement sync setting
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#deleteEngagementSyncSettingOfSfdc
+- name: healthCheck
+  description: ヘルスチェック
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#healthCheck
+- name: getSyncIDMapOfSfdc
+  description: Playbook <-> Salesforce の ID の対応関係を取得する
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#getSyncIDMapOfSfdc
+- name: saveSyncIDMapOfSfdc
+  description: Playbook <-> Salesforce の ID の対応関係を設定する
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#saveSyncIDMapOfSfdc
+- name: deleteSyncIDMapOfSfdc
+  description: Delete mapping
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#deleteSyncIDMapOfSfdc
+- name: updateAccessTokens
+  description: Update access tokens for all tenants
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#updateAccessTokens
+- name: startSfdcAuth
+  description: Salesforce認証・認可
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#startSfdcAuth
+- name: deleteSfdcAuth
+  description: Unlink service
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#deleteSfdcAuth
+- name: callbackSfdcAuth
+  description: Salesforce認可コールバック
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#callbackSfdcAuth
+- name: listOauthResults
+  description: 認証結果一覧
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#listOauthResults
+- name: getSyncSettingOfSfdc
+  description: Salesforce読み込み設定の取得
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#getSyncSettingOfSfdc
+- name: createSyncSettingOfSfdc
+  description: Playbook <-> Salesforce の対応関係設定追加
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#createSyncSettingOfSfdc
+- name: getCredentialSettingOfMarketo
+  description: Marketo認証設定の取得
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#getCredentialSettingOfMarketo
+- name: createCredentialSettingsOfMarketo
+  description: Marketo認証設定の登録
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#createCredentialSettingsOfMarketo
+- name: updateCredentialSettingsOfMarketo
+  description: Marketo認証設定の更新
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#updateCredentialSettingsOfMarketo
+- name: updateSyncFieldMapOfSfdc
+  description: Playbook <-> Salesforce の対応関係設定更新
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#updateSyncFieldMapOfSfdc
+- name: createEngagementSyncSettingOfSfdc
+  description: Engagement の対応関係設定追加
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#createEngagementSyncSettingOfSfdc
+- name: readSyncWithSfdc
+  description: Salesforce からデータを読み込み Playbook にデータを反映する
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#readSyncWithSfdc
+- name: getSyncable
+  description: 同期状態
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#getSyncable
+- name: toggleSyncable
+  description: 同期開始・ストップ
+  source_operation: openapi/magic-moment-salesforce-integration-openapi.yml#toggleSyncable
+- name: getDealStagesOfHubspot
+  description: Get value from Hubspot dealstages Object
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#getDealStagesOfHubspot
+- name: getHsLeadStatusOfHubspot
+  description: Get value from Hubspot hs_lead_status Object
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#getHsLeadStatusOfHubspot
+- name: getHubspotUsers
+  description: Show list hubspot users API
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#getHubspotUsers
+- name: getEngagementSyncSettingOfHubspot
+  description: Get EngagementSyncSetting data beetwen Playbook <-> Hubspot
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#getEngagementSyncSettingOfHubspot
+- name: saveEngagementSyncSettingOfHubspot
+  description: Create/update EngagementSyncSetting data beetwen Playbook <-> Hubspot
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#saveEngagementSyncSettingOfHubspot
+- name: deleteEngagementSyncSettingOfHubspot
+  description: Delete Engagement sync setting
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#deleteEngagementSyncSettingOfHubspot
+- name: healthCheck
+  description: ヘルスチェック
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#healthCheck
+- name: getSyncIDMapOfHubspot
+  description: Playbook <-> Hubspot の ID の対応関係を取得する
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#getSyncIDMapOfHubspot
+- name: saveSyncIDMapOfHubspot
+  description: Playbook <-> Hubspot の ID の対応関係を作成・更新する
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#saveSyncIDMapOfHubspot
+- name: deleteSyncIDMapOfHubspot
+  description: Delete mapping
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#deleteSyncIDMapOfHubspot
+- name: startHubspotAuth
+  description: Hubspot認証・認可
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#startHubspotAuth
+- name: deleteHubspotAuth
+  description: Unlink service
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#deleteHubspotAuth
+- name: callbackHubspotAuth
+  description: Hubspot認可コールバック
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#callbackHubspotAuth
+- name: listOauthResults
+  description: 認証結果一覧
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#listOauthResults
+- name: getSyncSettingOfHubspot
+  description: Hubspot読み込み設定の取得
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#getSyncSettingOfHubspot
+- name: createSyncSettingOfHubspot
+  description: Playbook <-> Hubspot の対応関係設定追加
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#createSyncSettingOfHubspot
+- name: updateSyncFieldMapOfHubspot
+  description: Playbook <-> HubSpot の対応関係設定更新
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#updateSyncFieldMapOfHubspot
+- name: readSyncWithHubspot
+  description: Hubspotからデータを読み込み Playbook にデータを反映する
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#readSyncWithHubspot
+- name: getSyncable
+  description: 同期状態
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#getSyncable
+- name: toggleSyncable
+  description: 同期開始・ストップ
+  source_operation: openapi/magic-moment-hubspot-integration-openapi.yml#toggleSyncable
+- name: createCalendarEvent
+  description: カレンダーイベントを作成
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#createCalendarEvent
+- name: listCalendarEvents
+  description: カレンダーイベント一覧を取得
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#listCalendarEvents
+- name: showCalendarEvents
+  description: Show calendar event
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#showCalendarEvents
+- name: updateCalendarEvent
+  description: カレンダーイベントを更新
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#updateCalendarEvent
+- name: deleteCalendarEvent
+  description: カレンダーイベントを削除
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#deleteCalendarEvent
+- name: listUserCalendarEvents
+  description: List calendar events for selected user
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#listUserCalendarEvents
+- name: healthCheck
+  description: ヘルスチェック
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#healthCheck
+- name: getMailAttachment
+  description: 添付メールダウンロード
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#getMailAttachment
+- name: enqueueOauthResultsForSyncMail
+  description: メール取り込み対象の oauth_results をエンキューする
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#enqueueOauthResultsForSyncMail
+- name: syncMailByOauthResultId
+  description: 指定された oauth_result_id に紐づくユーザーのメールを取り込む
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#syncMailByOauthResultId
+- name: syncMailByImap
+  description: smtp-imap-credentials に紐づくユーザーのメールを取り込む
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#syncMailByImap
+- name: syncMails
+  description: Clientからのポーリングによるメール同期を廃止するため、本APIも合わせて廃止予定です。API自体が 404 を返さないようにするため、処理は行わず 204 を返します
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#syncMails
+- name: updateMicrosoft365SubscriptionExpiration
+  description: Microsoft 365 サブスクリプションの有効期限を延長
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#updateMicrosoft365SubscriptionExpiration
+- name: microsoft365WebhookSubscription
+  description: Microsoft 365 Webhook サブスクリプションの受け取り
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#microsoft365WebhookSubscription
+- name: startAuth
+  description: 認証
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#startAuth
+- name: deleteAuth
+  description: Unlink service
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#deleteAuth
+- name: callbackAuth
+  description: 認証コールバック
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#callbackAuth
+- name: deauthorization
+  description: サービスの認可取消し
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#deauthorization
+- name: listOauthResults
+  description: 認証結果一覧
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#listOauthResults
+- name: getProfile
+  description: プロフィールを取得
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#getProfile
+- name: createZoomPhoneCallLog
+  description: Zoom Phone の通話ログの永続化
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#createZoomPhoneCallLog
+- name: saveUserRecording
+  description: ZoomPhone通話録音の取得と保存
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#saveUserRecording
+- name: getZoomPhoneRecodingDataStream
+  description: recodingIdを元に録音データのstreamを取得する
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#getZoomPhoneRecodingDataStream
+- name: getZoomPhoneCallLogById
+  description: callLogIdを元にcallLogを取得する
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#getZoomPhoneCallLogById
+- name: zoomPhoneWebhook
+  description: POST /zoom-phone/webhook
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#zoomPhoneWebhook
+- name: verifyZoomPhoneActive
+  description: ユーザーのZoomPhone連携が有効になっているか確認する
+  source_operation: openapi/magic-moment-office-suite-integration-openapi.yml#verifyZoomPhoneActive
+- name: getCallLog
+  description: Get call log
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#getCallLog
+- name: createCallLog
+  description: Create Call log
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#createCallLog
+- name: createCallLogForMiitel
+  description: Create Call log for Miitel
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#createCallLogForMiitel
+- name: getCallProviderSetting
+  description: Get call provider setting
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#getCallProviderSetting
+- name: createCallProviderSetting
+  description: Create call provider setting
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#createCallProviderSetting
+- name: getMiitelSetting
+  description: Get Miitel setting
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#getMiitelSetting
+- name: createMiitelSetting
+  description: Create Miitel setting
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#createMiitelSetting
+- name: updateMiitelSetting
+  description: Update Miitel setting
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#updateMiitelSetting
+- name: deleteMiitelSetting
+  description: Delete Miitel setting
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#deleteMiitelSetting
+- name: updateCallProviderSetting
+  description: Update call provider setting
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#updateCallProviderSetting
+- name: deleteCallProviderSetting
+  description: Delete call provider setting
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#deleteCallProviderSetting
+- name: GetCapabilityToken
+  description: Get token from Call center
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#GetCapabilityToken
+- name: AuthCapabilityToken
+  description: Authenticate when client connect to Call center
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#AuthCapabilityToken
+- name: ConferenceHoldMusic
+  description: Get xml setting for hold music
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#ConferenceHoldMusic
+- name: ConferenceCreate
+  description: Get xml setting for creating conference
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#ConferenceCreate
+- name: ClientReceiveCallXml
+  description: Show xml setting for redirect call from phone numer to web client
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#ClientReceiveCallXml
+- name: ChangeConferenceStatus
+  description: Hold / un-Hold the call by change conference status
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#ChangeConferenceStatus
+- name: healthCheck
+  description: ヘルスチェック
+  source_operation: openapi/magic-moment-call-integration-openapi.yml#healthCheck
+- name: savePlaybookReport
+  description: PUT /aggregate/playbook-phases
+  source_operation: openapi/magic-moment-reporting-openapi.yml#savePlaybookReport
+- name: saveDailyPlaybookReport
+  description: PUT /aggregate/playbook-phases/daily
+  source_operation: openapi/magic-moment-reporting-openapi.yml#saveDailyPlaybookReport
+- name: get-healthcheck
+  description: Your GET endpoint
+  source_operation: openapi/magic-moment-reporting-openapi.yml#get-healthcheck
+- name: getUnitPerformanceTarget
+  description: GET /performance-target/unit
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getUnitPerformanceTarget
+- name: getUserPerformanceTarget
+  description: GET /performance-target/user
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getUserPerformanceTarget
+- name: savePerformanceTarget
+  description: PUT /performance-target/user
+  source_operation: openapi/magic-moment-reporting-openapi.yml#savePerformanceTarget
+- name: getUnitAchievement
+  description: GET /reports/achievement/unit
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getUnitAchievement
+- name: getUserAchievement
+  description: GET /reports/achievement/user
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getUserAchievement
+- name: getEngagementIdsOfPerformanceSummary
+  description: GET /reports/engagement-ids
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getEngagementIdsOfPerformanceSummary
+- name: getPhasePerformanceDetail
+  description: GET /reports/performance-detail/phase/{phaseValue}
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getPhasePerformanceDetail
+- name: getRepPerformanceDetail
+  description: GET /reports/performance-detail/rep/{engagementOwnerId}
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getRepPerformanceDetail
+- name: getTeamPerformanceDetail
+  description: GET /reports/performance-detail/team
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getTeamPerformanceDetail
+- name: getPhasePerformanceSummary
+  description: GET /reports/performance-summary/phase
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getPhasePerformanceSummary
+- name: getRepPerformanceSummary
+  description: GET /reports/performance-summary/rep
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getRepPerformanceSummary
+- name: getTeamPerformanceSummary
+  description: GET /reports/performance-summary/team
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getTeamPerformanceSummary
+- name: getPlaybookDetailReport
+  description: Get Playbook Phase Details
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getPlaybookDetailReport
+- name: getPlaybookItemSummaryReport
+  description: GET /reports/playbook-phases/{playbookPhaseId}/items/summary
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getPlaybookItemSummaryReport
+- name: listPlaybookItemWordCounts
+  description: GET /reports/playbook-phases/{playbookPhaseId}/items/{playbookItemId}/word-counts
+  source_operation: openapi/magic-moment-reporting-openapi.yml#listPlaybookItemWordCounts
+- name: getPlaybookSummaryReport
+  description: Get Playbook Summary
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getPlaybookSummaryReport
+- name: getContractSalesReport
+  description: GET /reports/sales/contract
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getContractSalesReport
+- name: getMrrSalesReport
+  description: GET /reports/sales/mrr
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getMrrSalesReport
+- name: getAchievedInputFormValues
+  description: GET /values/playbook_input_forms/{playbookInputFormId}
+  source_operation: openapi/magic-moment-reporting-openapi.yml#getAchievedInputFormValues

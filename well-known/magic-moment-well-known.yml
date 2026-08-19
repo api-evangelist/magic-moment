@@ -1,0 +1,254 @@
+generated: '2026-08-13'
+method: probed
+source: live GET probes of every Magic Moment host in apis.yml (website + five API baseURLs) on 2026-08-13
+result: none
+note: No /.well-known document is served on any Magic Moment host. magicmoment.jp answers a Next.js HTML 404 for every path;
+  api.magicmoment.co.jp answers the same blanket 401 vendor envelope it returns for every path, which is an auth wall rather
+  than a document; the five service hosts answer a go-swagger 404 JSON. No WellKnown, SecurityTxt or AgentCard pointer is
+  emitted — this file records a measured absence.
+documents:
+- host: magicmoment.jp
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+  note: Next.js 404 HTML page
+- host: magicmoment.jp
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+  note: Next.js 404 HTML page
+- host: magicmoment.jp
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+  note: Next.js 404 HTML page
+- host: magicmoment.jp
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+  note: Next.js 404 HTML page
+- host: magicmoment.jp
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+  note: Next.js 404 HTML page
+- host: magicmoment.jp
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+  note: Next.js 404 HTML page
+- host: magicmoment.jp
+  path: /.well-known/agent.json
+  status: 404
+  file: null
+  note: Next.js 404 HTML page
+- host: api.magicmoment.co.jp
+  path: /.well-known/security.txt
+  status: 401
+  file: null
+  note: blanket vendor 401 envelope returned for every path on this gateway; not a document
+- host: api.magicmoment.co.jp
+  path: /.well-known/openid-configuration
+  status: 401
+  file: null
+  note: blanket vendor 401 envelope returned for every path on this gateway; not a document
+- host: api.magicmoment.co.jp
+  path: /.well-known/oauth-authorization-server
+  status: 401
+  file: null
+  note: blanket vendor 401 envelope returned for every path on this gateway; not a document
+- host: api.magicmoment.co.jp
+  path: /.well-known/api-catalog
+  status: 401
+  file: null
+  note: blanket vendor 401 envelope returned for every path on this gateway; not a document
+- host: api.magicmoment.co.jp
+  path: /.well-known/ai-plugin.json
+  status: 401
+  file: null
+  note: blanket vendor 401 envelope returned for every path on this gateway; not a document
+- host: api.magicmoment.co.jp
+  path: /.well-known/agent-card.json
+  status: 401
+  file: null
+  note: blanket vendor 401 envelope returned for every path on this gateway; not a document
+- host: api.magicmoment.co.jp
+  path: /.well-known/agent.json
+  status: 401
+  file: null
+  note: blanket vendor 401 envelope returned for every path on this gateway; not a document
+- host: sfdc.magicmoment.co.jp
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: sfdc.magicmoment.co.jp
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: sfdc.magicmoment.co.jp
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: sfdc.magicmoment.co.jp
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: sfdc.magicmoment.co.jp
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: sfdc.magicmoment.co.jp
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: sfdc.magicmoment.co.jp
+  path: /.well-known/agent.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: hubspot.magicmoment.co.jp
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: hubspot.magicmoment.co.jp
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: hubspot.magicmoment.co.jp
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: hubspot.magicmoment.co.jp
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: hubspot.magicmoment.co.jp
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: hubspot.magicmoment.co.jp
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: hubspot.magicmoment.co.jp
+  path: /.well-known/agent.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: suite.magicmoment.co.jp
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: suite.magicmoment.co.jp
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: suite.magicmoment.co.jp
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: suite.magicmoment.co.jp
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: suite.magicmoment.co.jp
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: suite.magicmoment.co.jp
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: suite.magicmoment.co.jp
+  path: /.well-known/agent.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: call.magicmoment.co.jp
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: call.magicmoment.co.jp
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: call.magicmoment.co.jp
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: call.magicmoment.co.jp
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: call.magicmoment.co.jp
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: call.magicmoment.co.jp
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: call.magicmoment.co.jp
+  path: /.well-known/agent.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: report.magicmoment.co.jp
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: report.magicmoment.co.jp
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: report.magicmoment.co.jp
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: report.magicmoment.co.jp
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: report.magicmoment.co.jp
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: report.magicmoment.co.jp
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON
+- host: report.magicmoment.co.jp
+  path: /.well-known/agent.json
+  status: 404
+  file: null
+  note: go-swagger runtime 404 JSON

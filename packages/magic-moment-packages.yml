@@ -1,0 +1,27 @@
+generated: '2026-08-13'
+method: searched
+source: npm registry search (magicmoment, magic moment playbook), pypi.org/pypi/{magicmoment,magic-moment,playbook-api}/json,
+  rubygems.org, crates.io, and the Magic Moment public site + llms.txt
+package_count: 0
+official_sdk_count: 0
+note: 'No first-party Magic Moment client library exists in any public registry as of 2026-08-13: npm search returns no magicmoment/@magicmoment
+  package, PyPI returns 404 for magicmoment, magic-moment and playbook-api, RubyGems 404s and crates.io returns zero results.
+  Magic Moment publishes no SDK, CLI or code sample anonymously; the Playbook API announcement points developers to a login-gated
+  portal. No SDKs pointer is emitted.'
+packages: []
+evidence:
+- url: https://registry.npmjs.org/-/v1/search?text=magicmoment&size=20
+  http_status: 200
+  result: 0 objects
+- url: https://pypi.org/pypi/magicmoment/json
+  http_status: 404
+- url: https://pypi.org/pypi/magic-moment/json
+  http_status: 404
+- url: https://rubygems.org/api/v1/gems/magicmoment.json
+  http_status: 404
+- url: https://crates.io/api/v1/crates?q=magicmoment
+  http_status: 200
+  result: total 0
+- url: https://api.github.com/orgs/magic-moment
+  http_status: 404
+  result: no Magic Moment GitHub organisation; the github.com/magicmoment org is an unrelated 2015 healthcare project

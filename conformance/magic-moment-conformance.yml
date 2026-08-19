@@ -1,8 +1,62 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
-source: https://www.magicmoment.jp/company/security-policy
+source: https://www.magicmoment.jp/company/security-policy + openapi/ (five Swagger 2.0 contracts
+  harvested 2026-08-13)
 standards:
 - id: iso-27001
   conforms: true
   evidence: ISO/IEC 27001:2022 certification named on the company security policy page
   source: https://www.magicmoment.jp/company/security-policy
+  method: searched
+- id: swagger-2.0
+  conforms: true
+  evidence: 'all five published contracts declare swagger: "2.0" (OpenAPI 3.x is not used)'
+  source: openapi/
+  method: derived
+- id: openapi-3
+  conforms: false
+  evidence: no OpenAPI 3.x document is published on any Magic Moment host
+  method: derived
+- id: oauth2
+  conforms: false
+  evidence: >-
+    Magic Moment operates as an OAuth 2.0 CLIENT of Salesforce, HubSpot, Google Workspace and
+    Microsoft 365 (/oauth2/authorize, /oauth2/callback, /oauth2/deauthorization in three contracts), but
+    publishes no OAuth 2.0 authorization server of its own. Its own APIs authenticate with the
+    x-access-token / x-api-key headers.
+  source: openapi/
+  method: derived
+- id: openid-connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every service host and a blanket 401 on
+    api.magicmoment.co.jp
+  method: probed
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors are returned in vendor envelopes ({"head":{...},"body":null} at the gateway,
+    {"code":n,"message":"..."} at the services); no application/problem+json anywhere
+  source: errors/magic-moment-problem-types.yml
+  method: derived
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on magicmoment.jp and on all five API hosts
+  source: well-known/magic-moment-well-known.yml
+  method: probed
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: >-
+    no Sunset or Deprecation header is declared in any contract; one operation carries an in-spec
+    deprecated flag with no policy behind it
+  source: lifecycle/magic-moment-lifecycle.yml
+  method: derived
+- id: a2a-agent-card
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 (or the blanket gateway
+    401) on every Magic Moment host
+  method: probed
+- id: llms-txt
+  conforms: true
+  evidence: https://magicmoment.jp/llms.txt returns HTTP 200 with a real llms.txt document (10,095 bytes,
+    text/plain) covering products, solutions, FAQ and legal pages
+  source: llms/magic-moment-llms.txt
+  method: probed

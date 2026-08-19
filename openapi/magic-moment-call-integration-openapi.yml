@@ -1,0 +1,752 @@
+consumes:
+- application/json
+produces:
+- application/json
+swagger: '2.0'
+info:
+  description: Call Integration service連携アプリケーションAPI仕様
+  title: Call Integration service連携アプリケーション
+  version: 1.0.0
+paths:
+  /call-log:
+    get:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - call-log
+      summary: Get call log
+      operationId: getCallLog
+      parameters:
+      - type: string
+        description: Call Sid
+        name: call_sid
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              callLog:
+                type: object
+                properties:
+                  from:
+                    type: string
+                  incoming_call_sid:
+                    type: string
+                  to:
+                    type: string
+              providerType:
+                type: string
+                enum:
+                - TWILIO
+    post:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - call-log
+      summary: Create Call log
+      operationId: createCallLog
+      parameters:
+      - description: call log parameters
+        name: callLog
+        in: body
+        required: true
+        schema:
+          type: object
+          required:
+          - phoneType
+          - parentCallSid
+          - phoneNumber
+          properties:
+            callDirection:
+              type: string
+              enum:
+              - INCOMING
+              - OUTGOING
+            contactId:
+              description: Contact ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+            engagementId:
+              description: Engagement ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+            parentCallSid:
+              description: Twilio Parent Call SID
+              type: string
+              example: CAb1f9321e569792fd03f4cce68dcc7e38
+            phoneNumber:
+              description: Call to Phone Number
+              type: string
+              example: 123456789999
+            repActivityId:
+              description: Rep Activity ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+      responses:
+        '200':
+          description: OK
+  /call-log/miitel:
+    post:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - call-log
+      summary: Create Call log for Miitel
+      operationId: createCallLogForMiitel
+      parameters:
+      - description: call log parameters
+        name: callLog
+        in: body
+        required: true
+        schema:
+          type: object
+          required:
+          - phoneNumber
+          - callDirection
+          - callType
+          properties:
+            callDirection:
+              type: string
+              enum:
+              - INCOMING
+              - OUTGOING
+            callDuration:
+              type: number
+            callEndedAt:
+              type: string
+              format: date-time
+            callStartedAt:
+              type: string
+              format: date-time
+            callType:
+              type: string
+              enum:
+              - CALLED
+              - ABSENCE
+            contactId:
+              description: Contact ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+            engagementId:
+              description: Engagement ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+            phoneNumber:
+              description: Call to Phone Number
+              type: string
+              example: 123456789999
+            repActivityId:
+              description: Rep Activity ID
+              type: string
+              example: 6ca00f74-1351-11eb-adc1-0242ac120002
+      responses:
+        '200':
+          description: OK
+  /call-providers:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Get call provider setting
+      operationId: getCallProviderSetting
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              config:
+                $ref: '#/definitions/CallProviderSetting'
+              providerType:
+                type: string
+                enum:
+                - TWILIO
+    post:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - settings
+      summary: Create call provider setting
+      operationId: createCallProviderSetting
+      parameters:
+      - description: setting for call provider
+        name: setting
+        in: body
+        required: true
+        schema:
+          type: object
+          required:
+          - providerType
+          properties:
+            accountSid:
+              description: Account SID
+              type: string
+              example: AC5c289c4ef49a096a08a60d649z988a11
+            accountToken:
+              description: Account Token
+              type: string
+              example: 24f3366bf2cfafb2khdla43e99pdde07
+            callerId:
+              description: Caller ID
+              type: string
+              example: 84992992123
+            capabilityTokenUrl:
+              description: Capability Token Url
+              type: string
+              example: https://demo-token-axyz.twilio.com
+            providerType:
+              description: Provider Type
+              type: string
+              enum:
+              - TWILIO
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              config:
+                $ref: '#/definitions/CallProviderSetting'
+              providerType:
+                type: string
+                enum:
+                - TWILIO
+  /call-providers/miitel:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Get Miitel setting
+      operationId: getMiitelSetting
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MiitelSetting'
+    post:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - settings
+      summary: Create Miitel setting
+      operationId: createMiitelSetting
+      parameters:
+      - description: setting for Miitel
+        name: setting
+        in: body
+        required: true
+        schema:
+          type: object
+          required:
+          - companyId
+          - accessKey
+          properties:
+            accessKey:
+              description: Miitel access key
+              type: string
+            companyId:
+              description: Miitel Company ID
+              type: string
+      responses:
+        '201':
+          description: OK
+          schema:
+            $ref: '#/definitions/MiitelSetting'
+  /call-providers/miitel/{settingId}:
+    put:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - settings
+      summary: Update Miitel setting
+      operationId: updateMiitelSetting
+      parameters:
+      - type: string
+        description: Miitel setting ID
+        name: settingId
+        in: path
+        required: true
+      - description: setting parameters
+        name: setting
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            accessKey:
+              description: Miitel access key
+              type: string
+            companyId:
+              description: Miitel Company ID
+              type: string
+      responses:
+        '204':
+          description: OK
+    delete:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - settings
+      summary: Delete Miitel setting
+      operationId: deleteMiitelSetting
+      parameters:
+      - type: string
+        description: Miitel setting ID
+        name: settingId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+  /call-providers/{settingId}:
+    put:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - settings
+      summary: Update call provider setting
+      operationId: updateCallProviderSetting
+      parameters:
+      - type: string
+        description: call provider setting ID
+        name: settingId
+        in: path
+        required: true
+      - description: setting parameters
+        name: setting
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            accountSid:
+              description: Twilio Account SID
+              type: string
+              example: AC5c289c4ef49a096a08a60d649z988a11
+            accountToken:
+              description: Twilio Account Token
+              type: string
+              example: 24f3366bf2cfafb2khdla43e99pdde07
+            callerId:
+              description: Caller ID
+              type: string
+              example: 84992992123
+            capabilityTokenUrl:
+              description: Capability Token Url
+              type: string
+              example: https://demo-token-axyz.twilio.com
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              config:
+                $ref: '#/definitions/CallProviderSetting'
+              providerType:
+                type: string
+                enum:
+                - TWILIO
+    delete:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - settings
+      summary: Delete call provider setting
+      operationId: deleteCallProviderSetting
+      parameters:
+      - type: string
+        description: call provider setting ID
+        name: settingId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+  /call-providers/{settingId}/capability-token:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - capability
+      summary: Get token from Call center
+      operationId: GetCapabilityToken
+      parameters:
+      - type: string
+        name: settingId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Response token from Twilio
+          schema:
+            type: object
+            properties:
+              identity:
+                type: string
+              token:
+                type: string
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/xml
+      tags:
+      - capability
+      summary: Authenticate when client connect to Call center
+      operationId: AuthCapabilityToken
+      parameters:
+      - type: string
+        name: settingId
+        in: path
+        required: true
+      - type: string
+        description: params To from call provider
+        name: To
+        in: formData
+        required: true
+      responses:
+        '200':
+          description: Response XML type for Twilio
+          schema:
+            $ref: '#/definitions/Response'
+  /call-providers/{settingId}/conference:
+    get:
+      produces:
+      - text/xml
+      tags:
+      - conference
+      summary: Get xml setting for hold music
+      operationId: ConferenceHoldMusic
+      parameters:
+      - type: string
+        name: settingId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Response XML type for Twilio
+          schema:
+            type: object
+            $ref: '#/definitions/Response'
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/xml
+      tags:
+      - conference
+      summary: Get xml setting for creating conference
+      operationId: ConferenceCreate
+      parameters:
+      - type: string
+        name: settingId
+        in: path
+        required: true
+      - type: string
+        description: client name for Twilio client
+        name: client_name
+        in: query
+      responses:
+        '200':
+          description: Response XML type for Twilio
+          schema:
+            type: object
+            $ref: '#/definitions/Response'
+        '201':
+          description: Response XML type for busy call
+          schema:
+            type: object
+            $ref: '#/definitions/Response'
+  /call-providers/{settingId}/conference/join-callback:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - text/xml
+      tags:
+      - conference
+      summary: Show xml setting for redirect call from phone numer to web client
+      operationId: ClientReceiveCallXml
+      parameters:
+      - type: string
+        name: settingId
+        in: path
+        required: true
+      - type: string
+        description: client name for Twilio client
+        name: client_name
+        in: query
+      - type: string
+        description: params ConferenceSid from twilio
+        name: ConferenceSid
+        in: formData
+        required: true
+      - type: string
+        description: params CallSid from twilio
+        name: CallSid
+        in: formData
+        required: true
+      responses:
+        '200':
+          description: Response XML type for Twilio
+          schema:
+            type: object
+            $ref: '#/definitions/Response'
+  /call-providers/{settingId}/conference/status:
+    post:
+      security:
+      - accessToken: []
+      consumes:
+      - application/json
+      tags:
+      - conference
+      summary: Hold / un-Hold the call by change conference status
+      operationId: ChangeConferenceStatus
+      parameters:
+      - type: string
+        name: settingId
+        in: path
+        required: true
+      - description: setting for conference status
+        name: conferenceStatus
+        in: body
+        required: true
+        schema:
+          type: object
+          required:
+          - status
+          - callSid
+          - direction
+          properties:
+            callSid:
+              description: Twilio Call SID
+              type: string
+              example: CA6ae92bb9705c8e8770852257a620422b
+            direction:
+              description: Call type incoming call or outgoing call
+              type: string
+              enum:
+              - INCOMING
+              - OUTGOING
+            status:
+              description: Status hold / unhold / completed
+              type: string
+              enum:
+              - HOLD
+              - UNHOLD
+              - COMPLETED
+      responses:
+        '200':
+          description: OK
+  /healthcheck:
+    get:
+      tags:
+      - utils
+      summary: ヘルスチェック
+      operationId: healthCheck
+      responses:
+        '200':
+          description: OK
+definitions:
+  CallProviderSetting:
+    type: object
+    properties:
+      accountSid:
+        type: string
+      accountToken:
+        type: string
+      callerId:
+        type: string
+      capabilityTokenUrl:
+        type: string
+      connectUrl:
+        type: string
+      id:
+        type: string
+      receiveUrl:
+        type: string
+  MiitelSetting:
+    type: object
+    properties:
+      accessKey:
+        type: string
+      companyId:
+        type: string
+      id:
+        type: string
+      teamId:
+        type: string
+  Response:
+    description: xml response for TwiML
+    type: object
+    properties:
+      Dial:
+        type: object
+        properties:
+          CallerId:
+            type: string
+            xml:
+              name: callerId
+              attribute: true
+          Client:
+            type: object
+            properties:
+              value:
+                type: string
+                xml:
+                  name: ',chardata'
+                example: client_name
+          Conference:
+            type: object
+            properties:
+              beep:
+                type: string
+                xml:
+                  name: beep
+                  attribute: true
+              endConferenceOnExit:
+                type: string
+                xml:
+                  name: endConferenceOnExit
+                  attribute: true
+              startConferenceOnEnter:
+                type: string
+                xml:
+                  name: startConferenceOnEnter
+                  attribute: true
+              statusCallback:
+                type: string
+                xml:
+                  name: statusCallback
+                  attribute: true
+              statusCallbackEvent:
+                type: string
+                xml:
+                  name: statusCallbackEvent
+                  attribute: true
+              value:
+                type: string
+                xml:
+                  name: ',chardata'
+                example: conference name
+              waitUrl:
+                type: string
+                xml:
+                  name: waitUrl
+                  attribute: true
+          value:
+            type: string
+            xml:
+              name: ',chardata'
+            example: To xxx
+      Play:
+        type: object
+        properties:
+          loop:
+            type: string
+            xml:
+              name: loop
+              attribute: true
+          value:
+            type: string
+            xml:
+              name: ',chardata'
+            example: music url
+      Say:
+        type: object
+        properties:
+          language:
+            type: string
+            xml:
+              name: language
+              attribute: true
+          value:
+            type: string
+            xml:
+              name: ',chardata'
+            example: Say something
+          voice:
+            type: string
+            xml:
+              name: voice
+              attribute: true
+  error:
+    type: object
+    required:
+    - message
+    properties:
+      code:
+        type: integer
+        format: int64
+        example: 404
+      message:
+        type: string
+        example: Not Found
+  operator:
+    type: object
+    properties:
+      teamId:
+        type: string
+      userId:
+        type: string
+  principal:
+    type: object
+    properties:
+      operator:
+        $ref: '#/definitions/operator'
+      token:
+        type: string
+responses:
+  bad_request:
+    description: 入力が不正な場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  conflict:
+    description: 対象がすでに存在している場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  default:
+    description: 未知のエラーの場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  forbidden:
+    description: 権限が不足している場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  not_found:
+    description: 対象が存在しない場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+  unauthorized:
+    description: 認証に失敗した場合に発生します。
+    schema:
+      $ref: '#/definitions/error'
+securityDefinitions:
+  accessToken:
+    type: apiKey
+    name: x-access-token
+    in: header

@@ -1,0 +1,23 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Magic Moment Playbook (call-integration)
+  version: 1.0.0
+extends: openapi/magic-moment-call-integration-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: https://call.magicmoment.co.jp/swagger.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: magic-moment
+    x-apievangelist-harvested: '2026-08-13'
+    x-apievangelist-source: https://call.magicmoment.co.jp/swagger.json
+    x-apievangelist-note: Harvested anonymously from the Magic Moment Playbook production
+      host. The published spec omits host/basePath/schemes; the host below is observed
+      from the served location and the magicmoment.co.jp TLS certificate SAN list.
+- target: $
+  update:
+    host: call.magicmoment.co.jp
+    basePath: /
+    schemes:
+    - https

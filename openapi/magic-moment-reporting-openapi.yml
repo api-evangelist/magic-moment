@@ -1,0 +1,1110 @@
+consumes:
+- application/json
+produces:
+- application/json
+swagger: '2.0'
+info:
+  description: 集計基盤連携API仕様
+  title: 集計基盤連携アプリケーション
+  version: 1.0.0
+paths:
+  /aggregate/playbook-phases:
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - aggregate
+      operationId: savePlaybookReport
+      parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          required:
+          - startDate
+          - endDate
+          properties:
+            endDate:
+              type: string
+              format: date
+            startDate:
+              type: string
+              format: date
+      responses:
+        '200':
+          description: OK
+  /aggregate/playbook-phases/daily:
+    put:
+      security:
+      - apiKey: []
+      tags:
+      - aggregate
+      operationId: saveDailyPlaybookReport
+      parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          required:
+          - startDate
+          - endDate
+          properties:
+            endDate:
+              type: string
+              format: date
+            startDate:
+              type: string
+              format: date
+      responses:
+        '200':
+          description: OK
+        '409':
+          description: Conflict
+          schema:
+            type: string
+  /healthcheck:
+    get:
+      tags:
+      - healthcheck
+      summary: Your GET endpoint
+      operationId: get-healthcheck
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+  /performance-target/unit:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance-target
+      operationId: getUnitPerformanceTarget
+      parameters:
+      - $ref: '#/parameters/requiredTargetTypeInQuery'
+      - $ref: '#/parameters/unitIdInQuery'
+      - $ref: '#/parameters/requiredPhaseValueInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PerformanceTarget'
+  /performance-target/user:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance-target
+      operationId: getUserPerformanceTarget
+      parameters:
+      - $ref: '#/parameters/requiredTargetTypeInQuery'
+      - $ref: '#/parameters/unitIdInQuery'
+      - $ref: '#/parameters/requiredPhaseValueInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PerformanceTarget'
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - performance-target
+      operationId: savePerformanceTarget
+      parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          required:
+          - target
+          - targetType
+          - unitId
+          - phaseValue
+          properties:
+            phaseValue:
+              $ref: '#/definitions/PhaseValue'
+            target:
+              type: integer
+              maximum: 1000000000
+            targetType:
+              $ref: '#/definitions/PerformanceTargetType'
+            unitId:
+              $ref: '#/definitions/UUID'
+      responses:
+        '200':
+          description: OK
+  /reports/achievement/unit:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getUnitAchievement
+      parameters:
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredTargetTypeInQuery'
+      - $ref: '#/parameters/unitIdInQuery'
+      - $ref: '#/parameters/requiredPhaseValueInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UnitAchievement'
+  /reports/achievement/user:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getUserAchievement
+      parameters:
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredTargetTypeInQuery'
+      - $ref: '#/parameters/unitIdInQuery'
+      - $ref: '#/parameters/requiredPhaseValueInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserAchievement'
+  /reports/engagement-ids:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getEngagementIdsOfPerformanceSummary
+      parameters:
+      - type: string
+        format: uuid
+        name: engagementOwnerId
+        in: query
+      - enum:
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
+        type: string
+        name: phaseValue
+        in: query
+      - type: array
+        items:
+          type: string
+          format: uuid
+        collectionFormat: multi
+        name: unitIds[]
+        in: query
+      - $ref: '#/parameters/requiredItemTypeInQuery'
+      - $ref: '#/parameters/followedPhaseType'
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UUID'
+  /reports/performance-detail/phase/{phaseValue}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getPhasePerformanceDetail
+      parameters:
+      - $ref: '#/parameters/requiredPhaseValueInPath'
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredGroupByInQuery'
+      - $ref: '#/parameters/requiredItemTypeInQuery'
+      - $ref: '#/parameters/followedPhaseType'
+      - $ref: '#/parameters/requiredUnitIdsInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PhasePerformanceDetail'
+  /reports/performance-detail/rep/{engagementOwnerId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getRepPerformanceDetail
+      parameters:
+      - $ref: '#/parameters/requiredEngagementOwnerIdInPath'
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredGroupByInQuery'
+      - $ref: '#/parameters/requiredItemTypeInQuery'
+      - $ref: '#/parameters/followedPhaseType'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/RepPerformanceDetail'
+  /reports/performance-detail/team:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getTeamPerformanceDetail
+      parameters:
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredGroupByInQuery'
+      - $ref: '#/parameters/requiredItemTypeInQuery'
+      - $ref: '#/parameters/followedPhaseType'
+      - $ref: '#/parameters/requiredUnitIdsInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TeamPerformanceDetail'
+  /reports/performance-summary/phase:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getPhasePerformanceSummary
+      parameters:
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredFollowedPhaseType'
+      - $ref: '#/parameters/requiredUnitIdsInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PhasePerformanceSummary'
+  /reports/performance-summary/rep:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getRepPerformanceSummary
+      parameters:
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredFollowedPhaseType'
+      - $ref: '#/parameters/requiredUnitIdsInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/RepPerformanceSummary'
+  /reports/performance-summary/team:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance
+      operationId: getTeamPerformanceSummary
+      parameters:
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredFollowedPhaseType'
+      - $ref: '#/parameters/requiredUnitIdsInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TeamPerformanceSummary'
+  /reports/playbook-phases/{playbookPhaseId}/detail:
+    get:
+      security:
+      - accessToken: []
+      description: Get Playbook Phase Details
+      tags:
+      - playbook-phase
+      operationId: getPlaybookDetailReport
+      parameters:
+      - $ref: '#/parameters/requiredPlaybookPhaseIdInPath'
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/playbookPhaseDetail'
+  /reports/playbook-phases/{playbookPhaseId}/items/summary:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - playbook-phase
+      operationId: getPlaybookItemSummaryReport
+      parameters:
+      - $ref: '#/parameters/requiredPlaybookPhaseIdInPath'
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/unitIdInQuery'
+      - $ref: '#/parameters/userIdInQuery'
+      - type: boolean
+        name: isLost
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/playbookItemSummary'
+  /reports/playbook-phases/{playbookPhaseId}/items/{playbookItemId}/word-counts:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - playbook-phase
+      operationId: listPlaybookItemWordCounts
+      parameters:
+      - $ref: '#/parameters/requiredPlaybookPhaseIdInPath'
+      - $ref: '#/parameters/requiredPlaybookItemIdInPath'
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/unitIdInQuery'
+      - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/WordCount'
+  /reports/playbook-phases/{playbookPhaseId}/summary:
+    get:
+      security:
+      - accessToken: []
+      description: Get Playbook Summary
+      tags:
+      - playbook-phase
+      operationId: getPlaybookSummaryReport
+      parameters:
+      - $ref: '#/parameters/requiredPlaybookPhaseIdInPath'
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/unitIdInQuery'
+      - $ref: '#/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/playbookSummary'
+  /reports/sales/contract:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - sales
+      operationId: getContractSalesReport
+      parameters:
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredSalesValueGroupType'
+      - type: array
+        items:
+          type: string
+          format: uuid
+        collectionFormat: multi
+        name: contractedUnitIds[]
+        in: query
+      - type: array
+        items:
+          type: string
+          format: uuid
+        collectionFormat: multi
+        name: contractedUserIds[]
+        in: query
+      - type: array
+        items:
+          type: string
+          format: uuid
+        collectionFormat: multi
+        name: productIds[]
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SalesValue'
+  /reports/sales/mrr:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - sales
+      operationId: getMrrSalesReport
+      parameters:
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      - $ref: '#/parameters/requiredSalesValueGroupType'
+      - type: array
+        items:
+          type: string
+          format: uuid
+        collectionFormat: multi
+        name: contractedUnitIds[]
+        in: query
+      - type: array
+        items:
+          type: string
+          format: uuid
+        collectionFormat: multi
+        name: contractedUserIds[]
+        in: query
+      - type: array
+        items:
+          type: string
+          format: uuid
+        collectionFormat: multi
+        name: productIds[]
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SalesValue'
+  /values/playbook_input_forms/{playbookInputFormId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - value
+      operationId: getAchievedInputFormValues
+      parameters:
+      - $ref: '#/parameters/requiredPlaybookInputFormIdInPath'
+      - $ref: '#/parameters/requiredStartDateInQuery'
+      - $ref: '#/parameters/requiredEndDateInQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AchievedInputFormValue'
+definitions:
+  AchievedInputFormValue:
+    type: object
+    properties:
+      achievedPhase:
+        $ref: '#/definitions/AchievedPhase'
+      value:
+        type: array
+        items:
+          type: string
+  AchievedPhase:
+    type: object
+    properties:
+      achievedAt:
+        type: string
+        format: date
+        x-nullable: true
+      engagementAssignment:
+        $ref: '#/definitions/EngagementAssignment'
+      engagementAssignmentId:
+        $ref: '#/definitions/UUID'
+      leadTime:
+        type: integer
+        format: int64
+        example: 60
+      lostAt:
+        type: string
+        format: date
+        x-nullable: true
+      startedAt:
+        type: string
+        format: date
+        x-nullable: true
+      tossedupAt:
+        type: string
+        format: date
+        x-nullable: true
+  DecisivePlaybookItem:
+    type: object
+    title: decisivePlaybookItem
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/FixedPhaseValue'
+      playbookItemId:
+        $ref: '#/definitions/UUID'
+  EngagementAssignment:
+    type: object
+    properties:
+      assignedEndTime:
+        type: string
+        format: date
+      assignedStartTime:
+        type: string
+        format: date
+      engagementId:
+        $ref: '#/definitions/UUID'
+      engagementOwner:
+        $ref: '#/definitions/EngagementOwner'
+      engagementOwnerId:
+        $ref: '#/definitions/UUID'
+      playbookPhaseId:
+        $ref: '#/definitions/UUID'
+  EngagementOwner:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/UUID'
+      phaseValue:
+        $ref: '#/definitions/PhaseValue'
+      unitId:
+        $ref: '#/definitions/UUID'
+      userId:
+        $ref: '#/definitions/UUID'
+  FixedPhaseValue:
+    type: object
+    title: fixedPhaseValue
+    properties:
+      playbookFormType:
+        $ref: '#/definitions/FormType'
+      playbookInputFormId:
+        $ref: '#/definitions/UUID'
+      playbookItemId:
+        $ref: '#/definitions/UUID'
+      value:
+        type: array
+        items:
+          type: string
+  FormType:
+    type: string
+    enum:
+    - text
+    - select
+    - radio
+    - checkbox
+    - appointment
+    - number
+    - todo
+    - todoRequired
+  PerformanceDetailValue:
+    type: array
+    items:
+      type: object
+      required:
+      - value
+      properties:
+        date:
+          type: string
+          format: date
+        value:
+          type: number
+          format: float
+  PerformanceSummaryValue:
+    type: object
+    required:
+    - achievedPhase
+    - leadTime
+    - requiredItem
+    - optionalItem
+    properties:
+      achievedPhase:
+        type: integer
+        format: uint32
+      acv:
+        type: integer
+        format: uint64
+      attackEngagement:
+        type: integer
+        format: uint32
+      averageOnboardingDate:
+        type: integer
+        format: uint32
+      averagePrice:
+        type: integer
+        format: uint32
+      cumulativeAssignEngagement:
+        type: integer
+        format: uint32
+      leadTime:
+        type: integer
+        format: uint32
+      newAssignEngagement:
+        type: integer
+        format: uint32
+      onboarding:
+        type: integer
+        format: uint32
+      optionalItem:
+        type: integer
+        format: uint32
+      requiredItem:
+        type: integer
+        format: uint32
+      tossedup:
+        type: integer
+        format: uint32
+      tossedupRate:
+        type: number
+        format: float
+      vacv:
+        type: integer
+        format: uint64
+      winRate:
+        type: number
+        format: float
+      winned:
+        type: integer
+        format: uint32
+    x-examples: {}
+  PerformanceTarget:
+    type: object
+    properties:
+      phaseValue:
+        $ref: '#/definitions/PhaseValue'
+      target:
+        type: number
+        x-omitempty: false
+        example: 10
+      targetType:
+        $ref: '#/definitions/PerformanceTargetType'
+      unitId:
+        $ref: '#/definitions/UUID'
+  PerformanceTargetType:
+    type: string
+    enum:
+    - achievedPhase
+    - requiredItem
+    - optionalItem
+    - winned
+    - mrr
+    - contractValue
+  PhasePerformanceDetail:
+    type: object
+    properties:
+      phaseValue:
+        $ref: '#/definitions/PhaseValue'
+      values:
+        $ref: '#/definitions/PerformanceDetailValue'
+  PhasePerformanceSummary:
+    type: array
+    items:
+      type: object
+      properties:
+        phaseValue:
+          $ref: '#/definitions/PhaseValue'
+        values:
+          $ref: '#/definitions/PerformanceSummaryValue'
+    x-examples: {}
+  PhaseValue:
+    type: string
+    enum:
+    - nurturing
+    - qualification
+    - closing
+    - onboarding
+    - adoption
+    - expansion
+  RepPerformanceDetail:
+    type: object
+    properties:
+      engagementOwner:
+        $ref: '#/definitions/EngagementOwner'
+      values:
+        $ref: '#/definitions/PerformanceDetailValue'
+  RepPerformanceSummary:
+    type: array
+    items:
+      type: object
+      properties:
+        engagementOwner:
+          $ref: '#/definitions/EngagementOwner'
+        values:
+          $ref: '#/definitions/PerformanceSummaryValue'
+  SalesValue:
+    type: object
+    required:
+    - date
+    - groupId
+    - groupType
+    - value
+    properties:
+      date:
+        type: string
+      groupId:
+        $ref: '#/definitions/UUID'
+      groupType:
+        type: string
+        enum:
+        - product
+        - plan
+        - unit
+        - user
+      value:
+        type: integer
+        format: int64
+  TeamPerformanceDetail:
+    type: object
+    properties:
+      values:
+        $ref: '#/definitions/PerformanceDetailValue'
+  TeamPerformanceSummary:
+    type: object
+    properties:
+      values:
+        $ref: '#/definitions/PerformanceSummaryValue'
+  TeamPerformanceSummaryEngagementIds:
+    type: object
+    properties:
+      values:
+        type: array
+        items:
+          $ref: '#/definitions/UUID'
+  UUID:
+    type: string
+    format: uuid
+    example: 550e8400-e29b-41d4-a716-446655440000
+  UnitAchievement:
+    type: object
+    properties:
+      values:
+        $ref: '#/definitions/PerformanceDetailValue'
+  UserAchievement:
+    type: object
+    properties:
+      values:
+        $ref: '#/definitions/PerformanceDetailValue'
+  WordCount:
+    type: object
+    title: word counts tokenized by morphological analyzer
+    properties:
+      text:
+        type: string
+      value:
+        type: integer
+        format: uint64
+  error:
+    type: object
+    required:
+    - message
+    properties:
+      code:
+        type: integer
+        format: int64
+        example: 404
+      message:
+        type: string
+        example: Not Found
+  playbookFormSummary:
+    type: object
+    properties:
+      num:
+        type: integer
+        format: int64
+        example: 60
+      options:
+        type: array
+        items:
+          $ref: '#/definitions/playbookItemOptionSummary'
+      playbookFormId:
+        $ref: '#/definitions/UUID'
+  playbookItemOptionSummary:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/UUID'
+      num:
+        type: integer
+        format: int64
+        example: 60
+    x-examples: {}
+  playbookItemSummary:
+    type: object
+    properties:
+      isLost:
+        type: boolean
+        example: true
+      numOfAchievedOptional:
+        type: integer
+        format: int64
+        example: 60
+      numOfAchievedRequired:
+        type: integer
+        format: int64
+        example: 30
+      numOfOptional:
+        type: integer
+        format: int64
+        example: 60
+      numOfRequired:
+        type: integer
+        format: int64
+        example: 30
+      options:
+        type: array
+        items:
+          $ref: '#/definitions/playbookItemOptionSummary'
+      phaseValue:
+        $ref: '#/definitions/PhaseValue'
+      playbookItemId:
+        $ref: '#/definitions/UUID'
+  playbookPhaseDetail:
+    type: object
+    properties:
+      decisiveOptionalPlaybookItem:
+        $ref: '#/definitions/DecisivePlaybookItem'
+      decisiveRequiredPlaybookItem:
+        $ref: '#/definitions/DecisivePlaybookItem'
+      isLost:
+        type: boolean
+        example: true
+      leadTime:
+        type: integer
+        format: int64
+        example: 60
+      numOfAchievedItem:
+        type: integer
+        format: int64
+        example: 10
+      numOfAchievedPhase:
+        type: integer
+        format: int64
+        example: 10
+      numOfItem:
+        type: integer
+        format: int64
+        example: 10
+      phaseValue:
+        $ref: '#/definitions/PhaseValue'
+  playbookSummary:
+    type: object
+    properties:
+      isLost:
+        type: boolean
+        example: true
+      numOfAchievedOptionalItem:
+        type: integer
+        format: int64
+        example: 60
+      numOfAchievedPhase:
+        type: integer
+        format: int64
+        example: 60
+      numOfAchievedRequiredItem:
+        type: integer
+        format: int64
+        example: 60
+      numOfEngagement:
+        type: integer
+        format: int64
+        example: 10
+      numOfOptionalItem:
+        type: integer
+        format: int64
+        example: 60
+      numOfRequiredItem:
+        type: integer
+        format: int64
+        example: 60
+  principal:
+    type: object
+    properties:
+      isAdministrator:
+        type: boolean
+      teamId:
+        type: string
+      token:
+        type: string
+      userId:
+        type: string
+parameters:
+  dateInQuery:
+    type: string
+    format: date
+    description: 対象日
+    name: date
+    in: query
+  followedPhaseType:
+    enum:
+    - toLatest
+    - sameTerm
+    - inTerm
+    - newAssign
+    type: string
+    name: followedPhaseType
+    in: query
+  requiredEndDateInQuery:
+    type: string
+    format: date
+    description: 検索範囲(終了)
+    name: endDate
+    in: query
+    required: true
+  requiredEngagementOwnerIdInPath:
+    type: string
+    format: uuid
+    name: engagementOwnerId
+    in: path
+    required: true
+  requiredFollowedPhaseType:
+    enum:
+    - toLatest
+    - sameTerm
+    - inTerm
+    - newAssign
+    type: string
+    name: followedPhaseType
+    in: query
+    required: true
+  requiredGroupByInQuery:
+    enum:
+    - daily
+    - monthly
+    type: string
+    description: グループ化条件
+    name: groupBy
+    in: query
+    required: true
+  requiredInputFormIdInPath:
+    type: string
+    format: uuid
+    name: inputFormId
+    in: path
+    required: true
+  requiredItemTypeInQuery:
+    enum:
+    - achievedPhase
+    - leadTime
+    - requiredItem
+    - optionalItem
+    - tossedup
+    - tossedupRate
+    - winned
+    - winRate
+    - averagePrice
+    - acv
+    - onboarding
+    - averageOnboardingDate
+    - vacv
+    - cumulativeAssignEngagement
+    - newAssignEngagement
+    - attackEngagement
+    type: string
+    name: itemType
+    in: query
+    required: true
+  requiredPhaseValueInPath:
+    enum:
+    - nurturing
+    - qualification
+    - closing
+    - onboarding
+    - adoption
+    - expansion
+    type: string
+    name: phaseValue
+    in: path
+    required: true
+  requiredPhaseValueInQuery:
+    enum:
+    - nurturing
+    - qualification
+    - closing
+    - onboarding
+    - adoption
+    - expansion
+    type: string
+    name: phaseValue
+    in: query
+    required: true
+  requiredPlaybookInputFormIdInPath:
+    type: string
+    format: uuid
+    name: playbookInputFormId
+    in: path
+    required: true
+  requiredPlaybookItemIdInPath:
+    type: string
+    format: uuid
+    name: playbookItemId
+    in: path
+    required: true
+  requiredPlaybookPhaseIdInPath:
+    type: string
+    format: uuid
+    name: playbookPhaseId
+    in: path
+    required: true
+  requiredSalesValueGroupType:
+    enum:
+    - product
+    - plan
+    - unit
+    - user
+    type: string
+    name: groupType
+    in: query
+    required: true
+  requiredStartDateInQuery:
+    type: string
+    format: date
+    description: 検索範囲(開始)
+    name: startDate
+    in: query
+    required: true
+  requiredTargetTypeInQuery:
+    enum:
+    - achievedPhase
+    - requiredItem
+    - optionalItem
+    - winned
+    - mrr
+    - contractValue
+    type: string
+    name: targetType
+    in: query
+    required: true
+  requiredUnitIdsInQuery:
+    type: array
+    items:
+      type: string
+      format: uuid
+    collectionFormat: multi
+    name: unitIds[]
+    in: query
+    required: true
+  teamIdInQuery:
+    type: string
+    format: uuid
+    description: チームID
+    name: teamId
+    in: query
+  unitIdInQuery:
+    type: string
+    format: uuid
+    name: unitId
+    in: query
+  userIdInQuery:
+    type: string
+    format: uuid
+    name: userId
+    in: query
+securityDefinitions:
+  accessToken:
+    type: apiKey
+    name: x-access-token
+    in: header
+  apiKey:
+    type: apiKey
+    name: x-api-key
+    in: header

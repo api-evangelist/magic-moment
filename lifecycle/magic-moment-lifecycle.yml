@@ -1,0 +1,59 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/ (five harvested Swagger 2.0 contracts) + live probes of magicmoment.jp /
+  magicmoment.co.jp on 2026-08-13
+versioning:
+  scheme: none-in-path
+  current: 1.0.0
+  docs: null
+  note: >-
+    Every harvested contract declares info.version 1.0.0 and serves unversioned paths on its own
+    service host. No public versioning policy is published.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: >-
+    No deprecation or sunset policy is published, and no Sunset/Deprecation response header is declared
+    in any harvested contract. One operation is flagged deprecated in-spec (below), and its description
+    states the API will be removed but will keep returning 200 rather than 404 for a transition period
+    — the provider's only observed deprecation signal is prose inside a single operation.
+deprecated_operations:
+- operation: openapi/magic-moment-office-suite-integration-openapi.yml#syncMails
+  path: PATCH /mail/sync
+  host: suite.magicmoment.co.jp
+  deprecated: true
+  note: >-
+    Marked `deprecated: true` in the served contract; the description says client-polling mail sync is
+    being retired and the endpoint is scheduled for removal.
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+status_page_evidence:
+- url: https://status.magicmoment.co.jp/
+  result: no TLS certificate covers this host (cert CN=magicmoment.co.jp, SAN list does not include it);
+    connection fails before HTTP
+- url: https://magicmoment.jp/sitemap.xml
+  http_status: 200
+  result: 618 URLs, none of which is a status or uptime page
+developer_portal:
+  url: https://developer.magicmoment.co.jp
+  announced: '2024-04-03'
+  announcement: https://magicmoment.jp/announcements/xip33i39nknwve03om0ym3vw
+  reachable_anonymously: false
+  evidence: >-
+    The developer portal named in Magic Moment's own Playbook API announcement now fails TLS hostname
+    verification (the magicmoment.co.jp certificate SAN list does not include developer.magicmoment.co.jp),
+    and when fetched with verification disabled it returns the login-gated Magic Moment Playbook
+    single-page-app shell (HTTP 200, 2,737 bytes, meta robots noindex) rather than API documentation.
+support:
+  contact: https://magicmoment.jp/company/contact
+  api_contact: playbook-api@magicmoment.jp
+  help_center: https://support.magicmoment.co.jp/hc/ja
+  help_center_reachable: false
+  help_center_evidence: TLS handshake failure (Zendesk host mapping without a matching certificate);
+    magicmoment.zendesk.com returns HTTP 403 to anonymous clients
+changelog: null
+changelog_evidence: >-
+  No release-notes or changelog page appears in the 618-URL sitemap, and the help centre that would
+  carry release notes is not reachable anonymously.

@@ -1,0 +1,30 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/magic-moment-call-integration-openapi.yml, openapi/magic-moment-hubspot-integration-openapi.yml,
+  openapi/magic-moment-office-suite-integration-openapi.yml, openapi/magic-moment-reporting-openapi.yml,
+  openapi/magic-moment-salesforce-integration-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: accessToken
+  type: apiKey
+  in: header
+  parameter: x-access-token
+  sources:
+  - openapi/magic-moment-call-integration-openapi.yml
+  - openapi/magic-moment-hubspot-integration-openapi.yml
+  - openapi/magic-moment-office-suite-integration-openapi.yml
+  - openapi/magic-moment-reporting-openapi.yml
+  - openapi/magic-moment-salesforce-integration-openapi.yml
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  sources:
+  - openapi/magic-moment-hubspot-integration-openapi.yml
+  - openapi/magic-moment-office-suite-integration-openapi.yml
+  - openapi/magic-moment-reporting-openapi.yml
+  - openapi/magic-moment-salesforce-integration-openapi.yml

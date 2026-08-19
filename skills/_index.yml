@@ -1,0 +1,43 @@
+generated: '2026-08-13'
+method: generated
+source: openapi/ (five Swagger 2.0 contracts harvested 2026-08-13 from the Magic Moment Playbook
+  production hosts). Every operationId referenced was verified against the saved specs.
+note: >-
+  Magic Moment publishes no AGENTS.md, skill files, or public API reference, so these are generated
+  operating instructions grounded in the harvested contracts. Every flow requires an x-access-token
+  issued through the Playbook product; none of them can be executed anonymously.
+skills:
+- file: magic-moment-connect-salesforce-sync.md
+  name: Connect Salesforce and start Playbook sync
+  api: openapi/magic-moment-salesforce-integration-openapi.yml
+  operations: [startSfdcAuth, callbackSfdcAuth, listOauthResults, getSalesforceUsers, getOpportunityStageOfSfdc,
+    createSyncSettingOfSfdc, updateSyncFieldMapOfSfdc, saveSyncIDMapOfSfdc, getSyncIDMapOfSfdc,
+    saveEngagementSyncSettingOfSfdc, getSyncable, toggleSyncable, readSyncWithSfdc]
+- file: magic-moment-connect-hubspot-sync.md
+  name: Connect HubSpot and start Playbook sync
+  api: openapi/magic-moment-hubspot-integration-openapi.yml
+  operations: [startHubspotAuth, callbackHubspotAuth, listOauthResults, getHubspotUsers, getDealStagesOfHubspot,
+    getHsLeadStatusOfHubspot, getSyncSettingOfHubspot, createSyncSettingOfHubspot, updateSyncFieldMapOfHubspot,
+    saveSyncIDMapOfHubspot, getSyncIDMapOfHubspot, saveEngagementSyncSettingOfHubspot, getSyncable,
+    toggleSyncable, readSyncWithHubspot]
+- file: magic-moment-capture-call-activity.md
+  name: Capture call activity into Playbook
+  api: openapi/magic-moment-call-integration-openapi.yml
+  operations: [getCallProviderSetting, createCallProviderSetting, updateCallProviderSetting, getMiitelSetting,
+    createMiitelSetting, GetCapabilityToken, AuthCapabilityToken, ConferenceCreate, ChangeConferenceStatus,
+    createCallLog, createCallLogForMiitel, getCallLog]
+- file: magic-moment-read-sales-performance.md
+  name: Read sales performance out of Playbook
+  api: openapi/magic-moment-reporting-openapi.yml
+  operations: [getTeamPerformanceSummary, getRepPerformanceSummary, getPhasePerformanceSummary,
+    getTeamPerformanceDetail, getRepPerformanceDetail, getPhasePerformanceDetail,
+    getEngagementIdsOfPerformanceSummary, getUnitAchievement, getUserAchievement, getUnitPerformanceTarget,
+    getUserPerformanceTarget, getMrrSalesReport, getContractSalesReport, getPlaybookSummaryReport,
+    getPlaybookDetailReport]
+- file: magic-moment-sync-calendar-and-mail.md
+  name: Sync calendar and mail into Playbook
+  api: openapi/magic-moment-office-suite-integration-openapi.yml
+  operations: [startAuth, callbackAuth, listOauthResults, deauthorization, listCalendarEvents,
+    listUserCalendarEvents, createCalendarEvent, showCalendarEvents, updateCalendarEvent, deleteCalendarEvent,
+    enqueueOauthResultsForSyncMail, syncMailByOauthResultId, syncMailByImap, getMailAttachment,
+    updateMicrosoft365SubscriptionExpiration, getProfile]
