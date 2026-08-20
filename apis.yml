@@ -46,6 +46,18 @@ tags:
 - Artificial Intelligence
 - CRM
 - Sales Automation
+- Software-as-a-Service
+- Japan
+- Salesforce
+- HubSpot
+- Sales Enablement
+tags_raw:
+- Company
+- Enterprise
+- Sales
+- Artificial Intelligence
+- CRM
+- Sales Automation
 - SaaS
 - Japan
 - Salesforce
@@ -61,6 +73,12 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Sales
+  - CRM
+  - Sales Automation
+  - Integration
+  - Japan
+  tags_raw:
   - sales
   - crm
   - sales-automation
@@ -85,6 +103,12 @@ apis:
   humanURL: https://magicmoment.jp/playbook/hubspot
   baseURL: https://hubspot.magicmoment.co.jp/
   tags:
+  - Sales
+  - CRM
+  - Sales Automation
+  - Integration
+  - Japan
+  tags_raw:
   - sales
   - crm
   - sales-automation
@@ -110,6 +134,12 @@ apis:
   humanURL: https://magicmoment.jp/playbook
   baseURL: https://suite.magicmoment.co.jp/
   tags:
+  - Sales
+  - CRM
+  - Sales Automation
+  - Integration
+  - Japan
+  tags_raw:
   - sales
   - crm
   - sales-automation
@@ -133,6 +163,12 @@ apis:
   humanURL: https://magicmoment.jp/playbook
   baseURL: https://call.magicmoment.co.jp/
   tags:
+  - Sales
+  - CRM
+  - Sales Automation
+  - Integration
+  - Japan
+  tags_raw:
   - sales
   - crm
   - sales-automation
@@ -157,6 +193,12 @@ apis:
   humanURL: https://magicmoment.jp/playbook
   baseURL: https://report.magicmoment.co.jp/
   tags:
+  - Sales
+  - CRM
+  - Sales Automation
+  - Integration
+  - Japan
+  tags_raw:
   - sales
   - crm
   - sales-automation
