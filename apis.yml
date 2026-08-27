@@ -65,162 +65,503 @@ tags_raw:
 - Sales Enablement
 - API
 apis:
-- name: Magic Moment Playbook Salesforce Integration API
-  description: 'Swagger 2.0 contract for the Playbook Salesforce integration service: OAuth 2.0 connection
-    to Salesforce, sync settings, field and ID mappings, engagement sync settings, Salesforce lead statuses
-    / opportunity stages / users lookups, Marketo credential settings, and read-sync triggering. Authenticated
-    with an x-access-token (tenant/user) or x-api-key header.'
+- aid: magic-moment:magic-moment-aggregate-api
+  name: Magic Moment Aggregate API
+  description: The aggregate API from Magic Moment — 2 operation(s) for aggregate.
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
-  - Sales
-  - CRM
-  - Sales Automation
-  - Integration
-  - Japan
-  tags_raw:
-  - sales
-  - crm
-  - sales-automation
-  - integration
-  - japan
+  - aggregate
   properties:
   - type: OpenAPI
-    url: openapi/magic-moment-salesforce-integration-openapi.yml
+    url: openapi/magic-moment-aggregate-api-openapi.yml
   - type: Swagger
     url: openapi/_original/magic-moment-salesforce-integration-swagger.json
-  - type: Overlay
-    url: overlays/magic-moment-salesforce-integration-overlay.yaml
-  x-source: https://sfdc.magicmoment.co.jp/swagger.json
-  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
-    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
-    and its CRM integrations.
-- name: Magic Moment Playbook HubSpot Integration API
-  description: 'Swagger 2.0 contract for the Playbook HubSpot integration service: OAuth 2.0 connection
-    to HubSpot, sync settings and field mappings, Playbook <-> HubSpot ID mappings, engagement sync settings,
-    HubSpot deal stages / lead statuses / users lookups, and read-sync triggering. Authenticated with
-    an x-access-token or x-api-key header.'
-  humanURL: https://magicmoment.jp/playbook/hubspot
-  baseURL: https://hubspot.magicmoment.co.jp/
-  tags:
-  - Sales
-  - CRM
-  - Sales Automation
-  - Integration
-  - Japan
-  tags_raw:
-  - sales
-  - crm
-  - sales-automation
-  - integration
-  - japan
-  properties:
-  - type: OpenAPI
-    url: openapi/magic-moment-hubspot-integration-openapi.yml
   - type: Swagger
     url: openapi/_original/magic-moment-hubspot-integration-swagger.json
-  - type: Overlay
-    url: overlays/magic-moment-hubspot-integration-overlay.yaml
-  x-source: https://hubspot.magicmoment.co.jp/swagger.json
-  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
-    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
-    and its CRM integrations.
-- name: Magic Moment Playbook Office Suite Integration API
-  description: 'Swagger 2.0 contract for the Playbook office-suite integration service: calendar event
-    create/list/update/delete across connected Google Workspace and Microsoft 365 accounts, mail sync
-    (OAuth results queue, IMAP/SMTP credentials, attachments), Microsoft 365 webhook subscription handling,
-    Zoom Phone call-log and recording capture, and OAuth 2.0 authorize/callback/deauthorization. Authenticated
-    with an x-access-token or x-api-key header.'
-  humanURL: https://magicmoment.jp/playbook
-  baseURL: https://suite.magicmoment.co.jp/
-  tags:
-  - Sales
-  - CRM
-  - Sales Automation
-  - Integration
-  - Japan
-  tags_raw:
-  - sales
-  - crm
-  - sales-automation
-  - integration
-  - japan
-  properties:
-  - type: OpenAPI
-    url: openapi/magic-moment-office-suite-integration-openapi.yml
   - type: Swagger
     url: openapi/_original/magic-moment-office-suite-integration-swagger.json
-  - type: Overlay
-    url: overlays/magic-moment-office-suite-integration-overlay.yaml
-  x-source: https://suite.magicmoment.co.jp/swagger.json
-  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
-    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
-    and its CRM integrations.
-- name: Magic Moment Playbook Call Integration API
-  description: 'Swagger 2.0 contract for the Playbook call integration service: call-log capture (including
-    MiiTel), call-provider settings, capability tokens for the softphone client, and conference control
-    (create, hold music, join callback, status changes). Authenticated with an x-access-token header.'
-  humanURL: https://magicmoment.jp/playbook
-  baseURL: https://call.magicmoment.co.jp/
-  tags:
-  - Sales
-  - CRM
-  - Sales Automation
-  - Integration
-  - Japan
-  tags_raw:
-  - sales
-  - crm
-  - sales-automation
-  - integration
-  - japan
-  properties:
-  - type: OpenAPI
-    url: openapi/magic-moment-call-integration-openapi.yml
   - type: Swagger
     url: openapi/_original/magic-moment-call-integration-swagger.json
-  - type: Overlay
-    url: overlays/magic-moment-call-integration-overlay.yaml
-  x-source: https://call.magicmoment.co.jp/swagger.json
-  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
-    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
-    and its CRM integrations.
-- name: Magic Moment Playbook Reporting API
-  description: 'Swagger 2.0 contract for the Playbook aggregation/reporting service: performance summary
-    and detail by team, rep, and playbook phase, achievement by unit and user, performance targets, playbook
-    phase aggregation, MRR and contract sales reports, and input-form value reads. Authenticated with
-    an x-access-token or x-api-key header.'
-  humanURL: https://magicmoment.jp/playbook
-  baseURL: https://report.magicmoment.co.jp/
-  tags:
-  - Sales
-  - CRM
-  - Sales Automation
-  - Integration
-  - Japan
-  tags_raw:
-  - sales
-  - crm
-  - sales-automation
-  - integration
-  - japan
-  properties:
-  - type: OpenAPI
-    url: openapi/magic-moment-reporting-openapi.yml
   - type: Swagger
     url: openapi/_original/magic-moment-reporting-swagger.json
-  - type: Overlay
-    url: overlays/magic-moment-reporting-overlay.yaml
-  x-source: https://report.magicmoment.co.jp/swagger.json
-  x-ownership: Served anonymously at <host>/swagger.json on hosts named in the magicmoment.co.jp TLS certificate
-    SAN list and hard-coded in the Magic Moment Playbook web app bundle; titles/descriptions name Playbook
-    and its CRM integrations.
+- aid: magic-moment:magic-moment-calendars-api
+  name: Magic Moment Calendars API
+  description: The calendars API from Magic Moment — 4 operation(s) for calendars.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - calendars
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-calendars-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-call-log-api
+  name: Magic Moment Call Log API
+  description: The call-log API from Magic Moment — 2 operation(s) for call-log.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - call-log
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-call-log-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-capability-api
+  name: Magic Moment Capability API
+  description: The capability API from Magic Moment — 1 operation(s) for capability.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - capability
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-capability-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-conference-api
+  name: Magic Moment Conference API
+  description: The conference API from Magic Moment — 3 operation(s) for conference.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - conference
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-conference-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-engagement-sync-settings-api
+  name: Magic Moment Engagement Sync Settings API
+  description: >-
+    The engagement_sync_settings API from Magic Moment — 2 operation(s) for engagement_sync_settings.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - engagement_sync_settings
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-engagement-sync-settings-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-fetch-hubspot-api
+  name: Magic Moment Fetch Hubspot API
+  description: The fetch_hubspot API from Magic Moment — 3 operation(s) for fetch_hubspot.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - fetch_hubspot
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-fetch-hubspot-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-fetch-sfdc-api
+  name: Magic Moment Fetch Sfdc API
+  description: The fetch_sfdc API from Magic Moment — 3 operation(s) for fetch_sfdc.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - fetch_sfdc
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-fetch-sfdc-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-healthcheck-api
+  name: Magic Moment Healthcheck API
+  description: The healthcheck API from Magic Moment — 1 operation(s) for healthcheck.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - healthcheck
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-healthcheck-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-mail-api
+  name: Magic Moment Mail API
+  description: The mail API from Magic Moment — 5 operation(s) for mail.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - mail
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-mail-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-mappings-api
+  name: Magic Moment Mappings API
+  description: The mappings API from Magic Moment — 2 operation(s) for mappings.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - mappings
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-mappings-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-microsoft365-api
+  name: Magic Moment Microsoft365 API
+  description: The microsoft365 API from Magic Moment — 2 operation(s) for microsoft365.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - microsoft365
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-microsoft365-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-oauth2-api
+  name: Magic Moment Oauth2 API
+  description: The oauth2 API from Magic Moment — 7 operation(s) for oauth2.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - oauth2
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-oauth2-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-performance-api
+  name: Magic Moment Performance API
+  description: The performance API from Magic Moment — 9 operation(s) for performance.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - performance
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-performance-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-performance-target-api
+  name: Magic Moment Performance Target API
+  description: The performance-target API from Magic Moment — 2 operation(s) for performance-target.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - performance-target
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-performance-target-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-playbook-phase-api
+  name: Magic Moment Playbook Phase API
+  description: The playbook-phase API from Magic Moment — 4 operation(s) for playbook-phase.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - playbook-phase
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-playbook-phase-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-profiles-api
+  name: Magic Moment Profiles API
+  description: The profiles API from Magic Moment — 1 operation(s) for profiles.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-profiles-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-sales-api
+  name: Magic Moment Sales API
+  description: The sales API from Magic Moment — 2 operation(s) for sales.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - sales
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-sales-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-settings-api
+  name: Magic Moment Settings API
+  description: The settings API from Magic Moment — 8 operation(s) for settings.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - settings
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-settings-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-sync-hubspot-api
+  name: Magic Moment Sync Hubspot API
+  description: The sync_hubspot API from Magic Moment — 2 operation(s) for sync_hubspot.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - sync_hubspot
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-sync-hubspot-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-sync-sfdc-api
+  name: Magic Moment Sync Sfdc API
+  description: The sync_sfdc API from Magic Moment — 2 operation(s) for sync_sfdc.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - sync_sfdc
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-sync-sfdc-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-utils-api
+  name: Magic Moment Utils API
+  description: The utils API from Magic Moment — 1 operation(s) for utils.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - utils
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-utils-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-value-api
+  name: Magic Moment Value API
+  description: The value API from Magic Moment — 1 operation(s) for value.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - value
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-value-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-zoom-api
+  name: Magic Moment Zoom API
+  description: The zoom API from Magic Moment — 6 operation(s) for zoom.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - zoom
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-zoom-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/magic-moment-salesforce-integration-overlay.yaml
+- type: Overlay
+  url: overlays/magic-moment-hubspot-integration-overlay.yaml
+- type: Overlay
+  url: overlays/magic-moment-office-suite-integration-overlay.yaml
+- type: Overlay
+  url: overlays/magic-moment-call-integration-overlay.yaml
+- type: Overlay
+  url: overlays/magic-moment-reporting-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/magic-moment-agentic-access.yml
 - type: Authentication
