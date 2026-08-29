@@ -10,6 +10,18 @@ description: Magic Moment is a Tokyo-based AI sales-automation company whose Mag
   Salesforce, HubSpot, Office suite (Google Workspace / Microsoft 365), call integration (MiiTel, Zoom
   Phone), and the reporting/aggregation service. The company is ISO/IEC 27001:2022 certified and publishes
   an llms.txt.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: sales-led
