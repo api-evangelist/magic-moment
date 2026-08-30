@@ -83,6 +83,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Aggregate
+  tags_raw:
   - aggregate
   properties:
   - type: OpenAPI
@@ -103,6 +105,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Calendars
+  tags_raw:
   - calendars
   properties:
   - type: OpenAPI
@@ -123,6 +127,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Call Log
+  tags_raw:
   - call-log
   properties:
   - type: OpenAPI
@@ -143,6 +149,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Capabilities
+  tags_raw:
   - capability
   properties:
   - type: OpenAPI
@@ -163,6 +171,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Conference
+  tags_raw:
   - conference
   properties:
   - type: OpenAPI
@@ -183,7 +193,8 @@ apis:
     The engagement_sync_settings API from Magic Moment — 2 operation(s) for engagement_sync_settings.
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
-  tags:
+  tags: []
+  tags_raw:
   - engagement_sync_settings
   properties:
   - type: OpenAPI
@@ -203,7 +214,8 @@ apis:
   description: The fetch_hubspot API from Magic Moment — 3 operation(s) for fetch_hubspot.
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
-  tags:
+  tags: []
+  tags_raw:
   - fetch_hubspot
   properties:
   - type: OpenAPI
@@ -223,7 +235,8 @@ apis:
   description: The fetch_sfdc API from Magic Moment — 3 operation(s) for fetch_sfdc.
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
-  tags:
+  tags: []
+  tags_raw:
   - fetch_sfdc
   properties:
   - type: OpenAPI
@@ -244,6 +257,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Health Check
+  tags_raw:
   - healthcheck
   properties:
   - type: OpenAPI
@@ -264,6 +279,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Mail
+  tags_raw:
   - mail
   properties:
   - type: OpenAPI
@@ -284,6 +301,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Mappings
+  tags_raw:
   - mappings
   properties:
   - type: OpenAPI
@@ -304,6 +323,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Microsoft-365
+  tags_raw:
   - microsoft365
   properties:
   - type: OpenAPI
@@ -324,6 +345,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Authentication
+  tags_raw:
   - oauth2
   properties:
   - type: OpenAPI
@@ -344,6 +367,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Performance
+  tags_raw:
   - performance
   properties:
   - type: OpenAPI
@@ -404,6 +429,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Profiles
+  tags_raw:
   - profiles
   properties:
   - type: OpenAPI
@@ -424,6 +451,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Sales
+  tags_raw:
   - sales
   properties:
   - type: OpenAPI
@@ -444,6 +473,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Settings
+  tags_raw:
   - settings
   properties:
   - type: OpenAPI
@@ -463,7 +494,8 @@ apis:
   description: The sync_hubspot API from Magic Moment — 2 operation(s) for sync_hubspot.
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
-  tags:
+  tags: []
+  tags_raw:
   - sync_hubspot
   properties:
   - type: OpenAPI
@@ -483,7 +515,8 @@ apis:
   description: The sync_sfdc API from Magic Moment — 2 operation(s) for sync_sfdc.
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
-  tags:
+  tags: []
+  tags_raw:
   - sync_sfdc
   properties:
   - type: OpenAPI
@@ -504,6 +537,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Utils
+  tags_raw:
   - utils
   properties:
   - type: OpenAPI
@@ -544,6 +579,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Zoom
+  tags_raw:
   - zoom
   properties:
   - type: OpenAPI
