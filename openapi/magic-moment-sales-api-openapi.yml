@@ -1,0 +1,169 @@
+openapi: 3.2.0
+info:
+  description: 集計基盤連携API仕様
+  title: 集計基盤連携アプリケーション Sales API
+  version: 1.0.0
+servers:
+- url: https://report.magicmoment.co.jp/
+tags:
+- name: sales
+paths:
+  /reports/sales/contract:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - sales
+      operationId: getContractSalesReport
+      parameters:
+      - $ref: '#/components/parameters/requiredStartDateInQuery'
+      - $ref: '#/components/parameters/requiredEndDateInQuery'
+      - $ref: '#/components/parameters/requiredSalesValueGroupType'
+      - name: contractedUnitIds[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: contractedUserIds[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: productIds[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SalesValue'
+  /reports/sales/mrr:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - sales
+      operationId: getMrrSalesReport
+      parameters:
+      - $ref: '#/components/parameters/requiredStartDateInQuery'
+      - $ref: '#/components/parameters/requiredEndDateInQuery'
+      - $ref: '#/components/parameters/requiredSalesValueGroupType'
+      - name: contractedUnitIds[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: contractedUserIds[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: productIds[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SalesValue'
+components:
+  parameters:
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredSalesValueGroupType:
+      name: groupType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - product
+        - plan
+        - unit
+        - user
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+  schemas:
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
+    SalesValue:
+      type: object
+      required:
+      - date
+      - groupId
+      - groupType
+      - value
+      properties:
+        date:
+          type: string
+        groupId:
+          $ref: '#/components/schemas/UUID'
+        groupType:
+          type: string
+          enum:
+          - product
+          - plan
+          - unit
+          - user
+        value:
+          type: integer
+          format: int64
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

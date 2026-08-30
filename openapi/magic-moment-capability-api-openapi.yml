@@ -1,0 +1,166 @@
+openapi: 3.2.0
+info:
+  description: Call Integration service連携アプリケーションAPI仕様
+  title: Call Integration service連携アプリケーション Capability API
+  version: 1.0.0
+servers:
+- url: https://call.magicmoment.co.jp/
+tags:
+- name: capability
+paths:
+  /call-providers/{settingId}/capability-token:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - capability
+      summary: Get token from Call center
+      operationId: GetCapabilityToken
+      parameters:
+      - name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response token from Twilio
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identity:
+                    type: string
+                  token:
+                    type: string
+    post:
+      tags:
+      - capability
+      summary: Authenticate when client connect to Call center
+      operationId: AuthCapabilityToken
+      parameters:
+      - name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response XML type for Twilio
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Response'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                To:
+                  type: string
+                  description: params To from call provider
+              required:
+              - To
+components:
+  schemas:
+    Response:
+      description: xml response for TwiML
+      type: object
+      properties:
+        Dial:
+          type: object
+          properties:
+            CallerId:
+              type: string
+              xml:
+                name: callerId
+                attribute: true
+            Client:
+              type: object
+              properties:
+                value:
+                  type: string
+                  xml:
+                    name: ',chardata'
+                  example: client_name
+            Conference:
+              type: object
+              properties:
+                beep:
+                  type: string
+                  xml:
+                    name: beep
+                    attribute: true
+                endConferenceOnExit:
+                  type: string
+                  xml:
+                    name: endConferenceOnExit
+                    attribute: true
+                startConferenceOnEnter:
+                  type: string
+                  xml:
+                    name: startConferenceOnEnter
+                    attribute: true
+                statusCallback:
+                  type: string
+                  xml:
+                    name: statusCallback
+                    attribute: true
+                statusCallbackEvent:
+                  type: string
+                  xml:
+                    name: statusCallbackEvent
+                    attribute: true
+                value:
+                  type: string
+                  xml:
+                    name: ',chardata'
+                  example: conference name
+                waitUrl:
+                  type: string
+                  xml:
+                    name: waitUrl
+                    attribute: true
+            value:
+              type: string
+              xml:
+                name: ',chardata'
+              example: To xxx
+        Play:
+          type: object
+          properties:
+            loop:
+              type: string
+              xml:
+                name: loop
+                attribute: true
+            value:
+              type: string
+              xml:
+                name: ',chardata'
+              example: music url
+        Say:
+          type: object
+          properties:
+            language:
+              type: string
+              xml:
+                name: language
+                attribute: true
+            value:
+              type: string
+              xml:
+                name: ',chardata'
+              example: Say something
+            voice:
+              type: string
+              xml:
+                name: voice
+                attribute: true
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header

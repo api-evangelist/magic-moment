@@ -1,0 +1,43 @@
+openapi: 3.2.0
+info:
+  title: Magic Moment Utils API
+  version: 1.0.0
+  description: 'Operations tagged utils across 4 of this provider''s published API definitions: magic-moment-call-integration-openapi.yml, magic-moment-hubspot-integration-openapi.yml, magic-moment-office-suite-integration-openapi.yml, magic-moment-salesforce-integration-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://call.magicmoment.co.jp/
+- url: https://hubspot.magicmoment.co.jp/
+- url: https://suite.magicmoment.co.jp/
+- url: https://sfdc.magicmoment.co.jp/
+tags:
+- name: utils
+paths:
+  /healthcheck:
+    get:
+      tags:
+      - utils
+      summary: ヘルスチェック
+      operationId: healthCheck
+      responses:
+        '200':
+          description: OK
+    servers:
+    - url: https://call.magicmoment.co.jp/
+components:
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header
+    apiToken:
+      type: apiKey
+      name: x-api-key
+      in: header
+x-refined-from:
+- magic-moment-call-integration-openapi.yml
+- magic-moment-hubspot-integration-openapi.yml
+- magic-moment-office-suite-integration-openapi.yml
+- magic-moment-salesforce-integration-openapi.yml

@@ -1,0 +1,580 @@
+openapi: 3.2.0
+info:
+  title: Magic Moment Settings API
+  version: 1.0.0
+  description: 'Operations tagged settings across 3 of this provider''s published API definitions: magic-moment-call-integration-openapi.yml, magic-moment-hubspot-integration-openapi.yml, magic-moment-salesforce-integration-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://call.magicmoment.co.jp/
+- url: https://hubspot.magicmoment.co.jp/
+- url: https://sfdc.magicmoment.co.jp/
+tags:
+- name: settings
+paths:
+  /call-providers:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Get call provider setting
+      operationId: getCallProviderSetting
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    $ref: '#/components/schemas/CallProviderSetting'
+                  providerType:
+                    type: string
+                    enum:
+                    - TWILIO
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Create call provider setting
+      operationId: createCallProviderSetting
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    $ref: '#/components/schemas/CallProviderSetting'
+                  providerType:
+                    type: string
+                    enum:
+                    - TWILIO
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - providerType
+              properties:
+                accountSid:
+                  description: Account SID
+                  type: string
+                  example: AC5c289c4ef49a096a08a60d649z988a11
+                accountToken:
+                  description: Account Token
+                  type: string
+                  example: 24f3366bf2cfafb2khdla43e99pdde07
+                callerId:
+                  description: Caller ID
+                  type: string
+                  example: 84992992123
+                capabilityTokenUrl:
+                  description: Capability Token Url
+                  type: string
+                  example: https://demo-token-axyz.twilio.com
+                providerType:
+                  description: Provider Type
+                  type: string
+                  enum:
+                  - TWILIO
+        description: setting for call provider
+        required: true
+    servers:
+    - url: https://call.magicmoment.co.jp/
+  /call-providers/miitel:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Get Miitel setting
+      operationId: getMiitelSetting
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MiitelSetting'
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Create Miitel setting
+      operationId: createMiitelSetting
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MiitelSetting'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - companyId
+              - accessKey
+              properties:
+                accessKey:
+                  description: Miitel access key
+                  type: string
+                companyId:
+                  description: Miitel Company ID
+                  type: string
+        description: setting for Miitel
+        required: true
+    servers:
+    - url: https://call.magicmoment.co.jp/
+  /call-providers/miitel/{settingId}:
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Update Miitel setting
+      operationId: updateMiitelSetting
+      parameters:
+      - description: Miitel setting ID
+        name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessKey:
+                  description: Miitel access key
+                  type: string
+                companyId:
+                  description: Miitel Company ID
+                  type: string
+        description: setting parameters
+        required: true
+    delete:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Delete Miitel setting
+      operationId: deleteMiitelSetting
+      parameters:
+      - description: Miitel setting ID
+        name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+    servers:
+    - url: https://call.magicmoment.co.jp/
+  /call-providers/{settingId}:
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Update call provider setting
+      operationId: updateCallProviderSetting
+      parameters:
+      - description: call provider setting ID
+        name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    $ref: '#/components/schemas/CallProviderSetting'
+                  providerType:
+                    type: string
+                    enum:
+                    - TWILIO
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accountSid:
+                  description: Twilio Account SID
+                  type: string
+                  example: AC5c289c4ef49a096a08a60d649z988a11
+                accountToken:
+                  description: Twilio Account Token
+                  type: string
+                  example: 24f3366bf2cfafb2khdla43e99pdde07
+                callerId:
+                  description: Caller ID
+                  type: string
+                  example: 84992992123
+                capabilityTokenUrl:
+                  description: Capability Token Url
+                  type: string
+                  example: https://demo-token-axyz.twilio.com
+        description: setting parameters
+        required: true
+    delete:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Delete call provider setting
+      operationId: deleteCallProviderSetting
+      parameters:
+      - description: call provider setting ID
+        name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+    servers:
+    - url: https://call.magicmoment.co.jp/
+  /settings:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Hubspot読み込み設定の取得
+      operationId: getSyncSettingOfHubspot
+      parameters:
+      - name: mmpObject
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sync_settings'
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Playbook <-> Hubspot の対応関係設定追加
+      operationId: createSyncSettingOfHubspot
+      responses:
+        '201':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auto_sync:
+                  type: boolean
+                hubspot_object_name:
+                  $ref: '#/components/schemas/hubspot_object_name'
+                mmp_table_name:
+                  $ref: '#/components/schemas/mmp_table_name'
+                sync_field_map:
+                  $ref: '#/components/schemas/sync_field_map'
+                sync_order:
+                  type: integer
+        required: true
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+  /settings/{sync_setting_id}:
+    parameters:
+    - $ref: '#/components/parameters/sync_setting_id'
+    patch:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Playbook <-> HubSpot の対応関係設定更新
+      operationId: updateSyncFieldMapOfHubspot
+      responses:
+        '201':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hubspot_object_name:
+                  $ref: '#/components/schemas/hubspot_object_name'
+                mmp_table_name:
+                  $ref: '#/components/schemas/mmp_table_name'
+                sync_field_map:
+                  $ref: '#/components/schemas/sync_field_map'
+                write_sync_patterns:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/write_sync_pattern'
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+  /settings/marketo:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Marketo認証設定の取得
+      operationId: getCredentialSettingOfMarketo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/marketo_credential_setting'
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Marketo認証設定の登録
+      operationId: createCredentialSettingsOfMarketo
+      responses:
+        '201':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clientId:
+                  type: string
+                clientSecret:
+                  type: string
+                consoleURL:
+                  type: string
+                endpointURL:
+                  type: string
+                identityURL:
+                  type: string
+        required: true
+    patch:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Marketo認証設定の更新
+      operationId: updateCredentialSettingsOfMarketo
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clientId:
+                  type: string
+                clientSecret:
+                  type: string
+                consoleURL:
+                  type: string
+                endpointURL:
+                  type: string
+                identityURL:
+                  type: string
+        required: true
+    servers:
+    - url: https://sfdc.magicmoment.co.jp/
+  /settings/{sync_setting_id}/engagement:
+    parameters:
+    - $ref: '#/components/parameters/sync_setting_id'
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - settings
+      summary: Engagement の対応関係設定追加
+      operationId: createEngagementSyncSettingOfSfdc
+      responses:
+        '201':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phase_sync_id_map_id:
+                  type: string
+                  format: uuid
+                playbook_id:
+                  $ref: '#/components/schemas/mmp_id'
+                progress:
+                  type: integer
+        required: true
+    servers:
+    - url: https://sfdc.magicmoment.co.jp/
+components:
+  schemas:
+    CallProviderSetting:
+      type: object
+      properties:
+        accountSid:
+          type: string
+        accountToken:
+          type: string
+        callerId:
+          type: string
+        capabilityTokenUrl:
+          type: string
+        connectUrl:
+          type: string
+        id:
+          type: string
+        receiveUrl:
+          type: string
+    MiitelSetting:
+      type: object
+      properties:
+        accessKey:
+          type: string
+        companyId:
+          type: string
+        id:
+          type: string
+        teamId:
+          type: string
+    hubspot_object_name:
+      type: string
+    mmp_table_name:
+      type: string
+    write_sync_pattern:
+      type: string
+      enum:
+      - ARCHIVE
+      - SIMPLE_WRITE
+    sync_settings:
+      type: array
+      items:
+        $ref: '#/components/schemas/sync_setting'
+    sync_field_map:
+      type: string
+    sync_setting:
+      type: object
+      properties:
+        auto_sync:
+          type: boolean
+        hubspot_object_name:
+          $ref: '#/components/schemas/hubspot_object_name'
+        id:
+          type: string
+          format: uuid
+        mmp_table_name:
+          $ref: '#/components/schemas/mmp_table_name'
+        sync_field_map:
+          $ref: '#/components/schemas/sync_field_map'
+        sync_order:
+          type: integer
+        team_id:
+          type: string
+          format: uuid
+        write_sync_patterns:
+          type: array
+          items:
+            $ref: '#/components/schemas/write_sync_pattern'
+    mmp_id:
+      type: string
+      format: uuid
+    marketo_credential_setting:
+      type: object
+      required:
+      - clientId
+      - clientSecret
+      - identityURL
+      - endpointURL
+      - consoleURL
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+        consoleURL:
+          type: string
+        endpointURL:
+          type: string
+        identityURL:
+          type: string
+    write_sync_pattern_2:
+      type: string
+      enum:
+      - SIMPLE_WRITE
+      - ARCHIVE
+    sfdc_object_name:
+      type: string
+    sync_setting_2:
+      type: object
+      properties:
+        auto_sync:
+          type: boolean
+        id:
+          type: string
+          format: uuid
+        mmp_table_name:
+          $ref: '#/components/schemas/mmp_table_name'
+        sfdc_object_name:
+          $ref: '#/components/schemas/sfdc_object_name'
+        sync_field_map:
+          $ref: '#/components/schemas/sync_field_map'
+        sync_order:
+          type: integer
+        team_id:
+          type: string
+          format: uuid
+        write_sync_patterns:
+          type: array
+          items:
+            $ref: '#/components/schemas/write_sync_pattern_2'
+  parameters:
+    sync_setting_id:
+      name: sync_setting_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header
+x-refined-from:
+- magic-moment-call-integration-openapi.yml
+- magic-moment-hubspot-integration-openapi.yml
+- magic-moment-salesforce-integration-openapi.yml

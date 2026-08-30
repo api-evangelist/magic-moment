@@ -1,0 +1,339 @@
+openapi: 3.2.0
+info:
+  description: Office suite service連携アプリケーションAPI仕様
+  title: Office suite service連携アプリケーション Calendars API
+  version: 1.0.0
+servers:
+- url: https://suite.magicmoment.co.jp/
+tags:
+- name: calendars
+paths:
+  /calendars:
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: カレンダーイベントを作成
+      operationId: createCalendarEvent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/event'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/event'
+              - properties:
+                  ownerId:
+                    type: string
+        description: イベント情報
+        required: true
+  /calendars/events:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: カレンダーイベント一覧を取得
+      operationId: listCalendarEvents
+      parameters:
+      - description: 検索範囲(開始)
+        name: startDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - description: 検索範囲(終了)
+        name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        events:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/event'
+                        userId:
+                          type: string
+  /calendars/{calendarId}/{eventId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: Show calendar event
+      operationId: showCalendarEvents
+      parameters:
+      - description: カレンダーID
+        name: calendarId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: イベントID
+        name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: カレンダーの所有者ID
+        name: ownerId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    $ref: '#/components/schemas/event'
+                  userId:
+                    type: string
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: カレンダーイベントを更新
+      operationId: updateCalendarEvent
+      parameters:
+      - description: カレンダーID
+        name: calendarId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: イベントID
+        name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/event'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/event'
+              - properties:
+                  ownerId:
+                    type: string
+        description: イベント情報
+        required: true
+    delete:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: カレンダーイベントを削除
+      operationId: deleteCalendarEvent
+      parameters:
+      - description: カレンダーID
+        name: calendarId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: イベントID
+        name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: カレンダーの所有者ID
+        name: ownerId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /calendars/{userId}/events:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - calendars
+      summary: List calendar events for selected user
+      operationId: listUserCalendarEvents
+      parameters:
+      - description: User ID
+        name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: 検索範囲(開始)
+        name: startDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - description: 検索範囲(終了)
+        name: endDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - description: 終日予定を取得するかどうか
+        name: containsAllDayEvent
+        in: query
+        required: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        events:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/event'
+                        userId:
+                          type: string
+components:
+  schemas:
+    meeting:
+      type: object
+      properties:
+        link:
+          type: string
+        serviceType:
+          type: string
+          enum:
+          - MEET
+          - TEAMS
+          - ZOOM
+          - CALL
+          - VISIT
+    entryPoint:
+      type: object
+      properties:
+        AccessCode:
+          type: string
+        entryPointType:
+          type: string
+        label:
+          type: string
+        pin:
+          type: string
+        uri:
+          type: string
+    event:
+      type: object
+      properties:
+        attendees:
+          type: array
+          items:
+            type: string
+            format: email
+        calendarId:
+          description: カレンダーID
+          type: string
+          example: example@example.jp
+        description:
+          description: Description
+          type: string
+          example: Description
+        endDate:
+          description: 終了日
+          type: string
+          format: date
+          example: '2017-07-21'
+        endDatetime:
+          description: 終了日時
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
+        entryPoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/entryPoint'
+        eventId:
+          description: イベントID
+          type: string
+          example: 550e8400-e29b-41d4-a716-446655440000
+        isAllDay:
+          description: 終日予定かどうか
+          type: boolean
+          example: true
+        isOnlineMeeting:
+          description: disable/enable meeting online
+          type: boolean
+          example: true
+        meeting:
+          $ref: '#/components/schemas/meeting'
+        serviceType:
+          description: サービス
+          type: string
+          enum:
+          - UNSPECIFIED
+          - GSUITE
+          - OFFICE365
+          - ZOOM
+        startDate:
+          description: 開始日
+          type: string
+          format: date
+          example: '2017-07-21'
+        startDatetime:
+          description: 開始日時
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
+        summary:
+          description: Summary
+          type: string
+          example: Summary
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiToken:
+      type: apiKey
+      name: x-api-key
+      in: header

@@ -1,0 +1,642 @@
+openapi: 3.2.0
+info:
+  description: Office suite service連携アプリケーションAPI仕様
+  title: Office suite service連携アプリケーション Zoom API
+  version: 1.0.0
+servers:
+- url: https://suite.magicmoment.co.jp/
+tags:
+- name: zoom
+paths:
+  /zoom-phone/call-logs:
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: Zoom Phone の通話ログの永続化
+      operationId: createZoomPhoneCallLog
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - callLogId
+              - phoneNumber
+              - callDirection
+              - callType
+              properties:
+                callDirection:
+                  description: 架電なのか受電なのか
+                  type: string
+                  enum:
+                  - INCOMING
+                  - OUTGOING
+                callDuration:
+                  description: 通話時間
+                  type: number
+                callEndedAt:
+                  description: 通話終了時間
+                  type: string
+                  format: date-time
+                callLogId:
+                  description: zoom で付与される通話ログのユニークな ID
+                  type: string
+                  example: c106fda5-7320-46cb-a5d2-7c73a2173d2f
+                callStartedAt:
+                  description: 通話開始時間
+                  type: string
+                  format: date-time
+                callType:
+                  description: 不在着信か否か
+                  type: string
+                  enum:
+                  - CALLED
+                  - ABSENCE
+                contactId:
+                  description: 取引先担当者の ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+                engagementId:
+                  description: Engagement ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+                phoneNumber:
+                  description: 電話番号
+                  type: string
+                  example: 123456789999
+                repActivityId:
+                  description: Rep Activity ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+        description: call log parameters
+        required: true
+  /zoom-phone/call-logs/recording:
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: ZoomPhone通話録音の取得と保存
+      operationId: saveUserRecording
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - success
+                properties:
+                  success:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                callLogId:
+                  description: zoom で付与される通話ログのユニークな ID
+                  type: string
+                  example: c106fda5-7320-46cb-a5d2-7c73a2173d2f
+                userId:
+                  description: ユーザーのID
+                  type: string
+        description: call log parameters
+        required: true
+  /zoom-phone/call-logs/recordings/{recodingId}/stream:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: recodingIdを元に録音データのstreamを取得する
+      operationId: getZoomPhoneRecodingDataStream
+      parameters:
+      - name: recodingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 音声のバイナリデータ
+          headers:
+            Accept-Ranges:
+              description: The value of this field indicates the unit that can be used to define a range
+              schema:
+                type: string
+            Content-Length:
+              description: The size of the entity-body, in bytes
+              schema:
+                type: integer
+            Content-Range:
+              description: Indicates where in a full body message a partial message belongs
+              schema:
+                type: string
+          content:
+            audio/mp3:
+              schema:
+                type: string
+                format: binary
+  /zoom-phone/call-logs/{callLogId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: callLogIdを元にcallLogを取得する
+      operationId: getZoomPhoneCallLogById
+      parameters:
+      - name: callLogId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recordingId:
+                    type: string
+  /zoom-phone/webhook:
+    post:
+      tags:
+      - zoom
+      operationId: zoomPhoneWebhook
+      parameters:
+      - name: x-zm-signature
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: x-zm-request-timestamp
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: x-zm-custom-signature
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - success
+                properties:
+                  encryptedToken:
+                    type: string
+                  plainToken:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event:
+                  description: Name of the event.
+                  type: string
+                event_ts:
+                  description: Timestamp (in milliseconds since epoch) at which the event occurred.
+                  type: integer
+                  format: int64
+                payload:
+                  type: object
+                  properties:
+                    account_id:
+                      description: Account ID of the callee.
+                      type: string
+                    object:
+                      type: object
+                      properties:
+                        call_logs:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              answer_start_time:
+                                description: The GMT time at which the callee answered the call.
+                                type: string
+                              call_end_time:
+                                description: End time of the call.
+                                type: string
+                                format: date-time
+                              call_id:
+                                description: Unique identifier of the call.
+                                type: string
+                              call_type:
+                                description: The type of call.
+                                type: string
+                                enum:
+                                - voip
+                                - pstn
+                                - tollfree
+                                - international
+                                - contactCenter
+                              callee_country_code:
+                                description: Callee's country code.
+                                type: string
+                              callee_country_iso_code:
+                                description: ISO alpha2 country code.
+                                type: string
+                              callee_did_number:
+                                description: Callee's DID number.
+                                type: string
+                              callee_location:
+                                description: Location of the callee.
+                                type: string
+                              callee_name:
+                                description: Name of the callee.
+                                type: string
+                              callee_number:
+                                description: Phone number of the callee.
+                                type: string
+                              callee_number_source:
+                                description: Phone number source of the callee.
+                                type: string
+                                enum:
+                                - internal
+                                - external
+                                - byop
+                              callee_number_type:
+                                description: Phone number type of the callee.
+                                type: integer
+                                enum:
+                                - 1
+                                - 2
+                              caller_country_code:
+                                description: Caller's country code.
+                                type: string
+                              caller_country_iso_code:
+                                description: ISO alpha2 country code.
+                                type: string
+                              caller_did_number:
+                                description: Caller's DID number.
+                                type: string
+                              caller_location:
+                                description: Location of the caller.
+                                type: string
+                              caller_name:
+                                description: Name of the caller.
+                                type: string
+                              caller_number:
+                                description: Phone number of the caller.
+                                type: string
+                              caller_number_source:
+                                description: Phone number source of the caller.
+                                type: string
+                                enum:
+                                - internal
+                                - external
+                                - byop
+                              caller_number_type:
+                                description: Phone number type of the caller.
+                                type: integer
+                                enum:
+                                - 1
+                                - 2
+                              client_code:
+                                description: Client code.
+                                type: string
+                              cost_center:
+                                description: Cost center name.
+                                type: string
+                              date_time:
+                                description: Start date and time of the call.
+                                type: string
+                                format: date-time
+                              department:
+                                description: Department name.
+                                type: string
+                              direction:
+                                description: Direction of the call.
+                                type: string
+                                enum:
+                                - inbound
+                                - outbound
+                              duration:
+                                description: Duration of the call.
+                                type: integer
+                              forward_to:
+                                type: object
+                                properties:
+                                  extension_number:
+                                    description: The extension number the call was forwarded to.
+                                    type: string
+                                  extension_type:
+                                    description: The type of extension the call was forwarded to.
+                                    type: string
+                                    enum:
+                                    - callQueue
+                                    - sharedLineGroup
+                                    - sharedLines
+                                    - autoReceptionist
+                                  location:
+                                    type: string
+                                  name:
+                                    description: The name of the extension the call was forwarded to.
+                                    type: string
+                                  number_type:
+                                    description: Phone number types. 1 - Extension 2- E164 number 3 - Custom number.
+                                    type: integer
+                                  phone_number:
+                                    type: string
+                              forwarded_by:
+                                type: object
+                                properties:
+                                  extension_number:
+                                    description: The extension number the call was forwarded from.
+                                    type: string
+                                  extension_type:
+                                    description: The type of extension the call was forwarded from.
+                                    type: string
+                                    enum:
+                                    - callQueue
+                                    - sharedLineGroup
+                                    - sharedLines
+                                    - autoReceptionist
+                                  location:
+                                    type: string
+                                  name:
+                                    description: The name of the extension the call was forwarded from.
+                                    type: string
+                                  number_type:
+                                    description: Phone number types. 1 - Extension 2- E164 number 3 - Custom number.
+                                    type: integer
+                                  phone_number:
+                                    type: string
+                              has_recording:
+                                description: Indicates whether the call log includes recording or not.
+                                type: boolean
+                              has_voicemail:
+                                description: Indicates whether the call log includes voicemail or not.
+                                type: boolean
+                              hold_time:
+                                description: Hold time during a call in seconds.
+                                type: integer
+                              id:
+                                description: Unique Identifier of the call log.
+                                type: string
+                              path:
+                                description: Path of the call log.
+                                type: string
+                              recording_id:
+                                description: ID of this recording.
+                                type: string
+                              recording_type:
+                                description: Recording type of the call.
+                                type: string
+                              result:
+                                description: Status of the call.
+                                type: string
+                              site:
+                                type: object
+                                properties:
+                                  id:
+                                    description: The phone number's assigned target site.
+                                    type: string
+                              waiting_time:
+                                description: Waiting time of the call.
+                                type: integer
+                        recordings:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              accepted_by:
+                                description: The call-receiving user. The current recording must belong to the receiver and call queue for it to be available.
+                                type: object
+                                properties:
+                                  extension_number:
+                                    description: The user extension number.
+                                    type: string
+                                  name:
+                                    description: User name.
+                                    type: string
+                              call_id:
+                                description: The unique identifier of the call.
+                                type: string
+                              call_log_id:
+                                description: The call log id.
+                                type: string
+                              callee_did_number:
+                                description: The callee's DID number.
+                                type: string
+                              callee_name:
+                                description: The name of the callee.
+                                type: string
+                              callee_number:
+                                description: The phone number of the callee.
+                                type: string
+                              callee_number_type:
+                                description: 'The phone number type of the callee. The value can be one of the following:
+
+                                  * 1 - internal
+
+                                  * 2 - external
+
+                                  '
+                                type: integer
+                                enum:
+                                - 1
+                                - 2
+                              caller_did_number:
+                                description: The caller's DID number.
+                                type: string
+                              caller_name:
+                                description: The name of the caller.
+                                type: string
+                              caller_number:
+                                description: The phone number of the caller.
+                                type: string
+                              caller_number_type:
+                                description: 'The phone number type of the caller. The value can be one of the following:
+
+                                  * 1 - internal
+
+                                  * 2 - external
+
+                                  '
+                                type: integer
+                                enum:
+                                - 1
+                                - 2
+                              date_time:
+                                description: The start date and time of the call.
+                                type: string
+                                format: date-time
+                              direction:
+                                description: The direction of the call. The value of this field can either be inbound or outbound.
+                                type: string
+                                enum:
+                                - inbound
+                                - outbound
+                              download_url:
+                                description: 'The URL to download the call recording.
+
+                                  To download the recording via this URL, you must add an “access_token” query parameter to the download URL and provide either the user''s OAuth access token or your app''s **JWT** as the value of the “access_token” parameter.
+
+                                  For example, if the value of this field is "https://zoom.us/v2/phone/recording/download/abcD666T", the complete URL path to download the recording will be as below:
+
+                                  https://zoom.us/v2/phone/recording/download/abcD666T?access_token={YOUR_ACCESS_TOKEN_HERE}
+
+                                  '
+                                type: string
+                              duration:
+                                description: The duration of the call in seconds.
+                                type: integer
+                              end_time:
+                                description: The recording's end time.
+                                type: string
+                                format: date-time
+                              id:
+                                description: The recording ID is the unique Identifier of the call recording.
+                                type: string
+                              outgoing_by:
+                                description: The call-initiating user. The current recording must belong to the initiator and call queue for it to be available.
+                                type: object
+                                properties:
+                                  extension_number:
+                                    description: The user's extension number.
+                                    type: string
+                                  name:
+                                    description: The user name.
+                                    type: string
+                              owner:
+                                description: The owner of the call.
+                                type: object
+                                required:
+                                - type
+                                - id
+                                - name
+                                properties:
+                                  extension_number:
+                                    description: The extension number of the owner.
+                                    type: integer
+                                  has_access_permission:
+                                    description: Whether the owner has the access permission to this recording.
+                                    type: boolean
+                                  id:
+                                    description: The owner ID.
+                                    type: string
+                                  name:
+                                    description: The owner name.
+                                    type: string
+                                  type:
+                                    description: The owner type. This value field can be user or callQueue.
+                                    type: string
+                                additionalProperties: false
+                              recording_type:
+                                description: The recording type of the call. This value field can be OnDemand or Automatic.
+                                type: string
+                              site:
+                                description: The site of the call.
+                                type: object
+                                properties:
+                                  id:
+                                    description: The site ID of the call.
+                                    type: string
+                                additionalProperties: false
+                              user_id:
+                                description: The unique identifier of the user.
+                                type: string
+                        user_id:
+                          description: User Id of the callee.
+                          type: string
+                    plainToken:
+                      type: string
+        description: call log parameters
+        required: true
+  /zoom-phone/{userId}/status:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - zoom
+      summary: ユーザーのZoomPhone連携が有効になっているか確認する
+      operationId: verifyZoomPhoneActive
+      parameters:
+      - description: ユーザーのID
+        name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - isActive
+                properties:
+                  isActive:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/unauthorized'
+components:
+  schemas:
+    error:
+      type: object
+      required:
+      - message
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 404
+        message:
+          type: string
+          example: Not Found
+    success:
+      type: object
+      required:
+      - success
+      properties:
+        success:
+          type: boolean
+  responses:
+    unauthorized:
+      description: 認証に失敗した場合に発生します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    success:
+      description: リクエストの成功時に返却します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/success'
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiToken:
+      type: apiKey
+      name: x-api-key
+      in: header

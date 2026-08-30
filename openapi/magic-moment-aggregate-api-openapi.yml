@@ -1,0 +1,76 @@
+openapi: 3.2.0
+info:
+  description: 集計基盤連携API仕様
+  title: 集計基盤連携アプリケーション Aggregate API
+  version: 1.0.0
+servers:
+- url: https://report.magicmoment.co.jp/
+tags:
+- name: aggregate
+paths:
+  /aggregate/playbook-phases:
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - aggregate
+      operationId: savePlaybookReport
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - startDate
+              - endDate
+              properties:
+                endDate:
+                  type: string
+                  format: date
+                startDate:
+                  type: string
+                  format: date
+  /aggregate/playbook-phases/daily:
+    put:
+      security:
+      - apiKey: []
+      tags:
+      - aggregate
+      operationId: saveDailyPlaybookReport
+      responses:
+        '200':
+          description: OK
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - startDate
+              - endDate
+              properties:
+                endDate:
+                  type: string
+                  format: date
+                startDate:
+                  type: string
+                  format: date
+components:
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

@@ -1,0 +1,106 @@
+openapi: 3.2.0
+info:
+  description: Salesforce連携アプリケーションAPI仕様
+  title: Salesforce連携アプリケーション Sync Sfdc API
+  version: 1.0.0
+servers:
+- url: https://sfdc.magicmoment.co.jp/
+tags:
+- name: sync_sfdc
+paths:
+  /sync/read:
+    post:
+      security:
+      - accessToken: []
+      - apiKey: []
+      tags:
+      - sync_sfdc
+      summary: Salesforce からデータを読み込み Playbook にデータを反映する
+      operationId: readSyncWithSfdc
+      responses:
+        '201':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mode:
+                  type: string
+                target:
+                  type: string
+                team_id:
+                  type: string
+  /sync/syncable:
+    get:
+      security:
+      - accessToken: []
+      - apiKey: []
+      tags:
+      - sync_sfdc
+      summary: 同期状態
+      operationId: getSyncable
+      parameters:
+      - name: team_id
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/syncable'
+    put:
+      security:
+      - apiKey: []
+      - accessToken: []
+      tags:
+      - sync_sfdc
+      summary: 同期開始・ストップ
+      operationId: toggleSyncable
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/syncable'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                syncable:
+                  type: boolean
+                team_id:
+                  type: string
+        required: true
+components:
+  schemas:
+    syncable:
+      type: object
+      properties:
+        syncable:
+          type: boolean
+          x-omitempty: false
+        teamId:
+          type: string
+          format: uuid
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

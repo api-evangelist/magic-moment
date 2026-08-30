@@ -1,0 +1,221 @@
+openapi: 3.2.0
+info:
+  title: Magic Moment Engagement Sync Settings API
+  version: 1.0.0
+  description: 'Operations tagged engagement_sync_settings across 2 of this provider''s published API definitions: magic-moment-hubspot-integration-openapi.yml, magic-moment-salesforce-integration-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://hubspot.magicmoment.co.jp/
+- url: https://sfdc.magicmoment.co.jp/
+tags:
+- name: engagement_sync_settings
+paths:
+  /engagement_sync_settings:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - engagement_sync_settings
+      summary: Get EngagementSyncSetting data beetwen Playbook <-> Hubspot
+      operationId: getEngagementSyncSettingOfHubspot
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engagement_sync_setting'
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - engagement_sync_settings
+      summary: Create/update EngagementSyncSetting data beetwen Playbook <-> Hubspot
+      operationId: saveEngagementSyncSettingOfHubspot
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engagement_sync_setting'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/engagement_sync_setting'
+        required: true
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+  /engagement_sync_settings/{engagement_sync_setting_id}/:
+    parameters:
+    - name: engagement_sync_setting_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    delete:
+      security:
+      - accessToken: []
+      tags:
+      - engagement_sync_settings
+      summary: Delete Engagement sync setting
+      operationId: deleteEngagementSyncSettingOfHubspot
+      responses:
+        '200':
+          description: OK
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+components:
+  schemas:
+    engagement_sync_setting:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        phase_sync_id_map:
+          type: object
+          properties:
+            hubspot_id:
+              type: string
+            id:
+              type: string
+              format: uuid
+            mmp_id:
+              type: string
+              enum:
+              - nurturing
+              - qualification
+              - closing
+              - onboarding
+              - adoption
+              - expansion
+              - recycling
+              - end
+            sync_setting:
+              type: object
+              properties:
+                hubspot_object_name:
+                  type: string
+                  enum:
+                  - dealstages
+                  - hs_lead_status
+                id:
+                  type: string
+                  format: uuid
+                mmp_table_name:
+                  type: string
+                  enum:
+                  - playbook_phases
+                  - engagement_statuses
+        progress:
+          type: number
+          maximum: 100
+        sync_setting:
+          type: object
+          properties:
+            hubspot_object_name:
+              type: string
+              enum:
+              - deals
+              - contacts
+            id:
+              type: string
+              format: uuid
+            mmp_table_name:
+              type: string
+              enum:
+              - engagements
+    engagement_sync_setting_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        phase_sync_id_map:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            mmp_id:
+              type: string
+              enum:
+              - nurturing
+              - qualification
+              - closing
+              - onboarding
+              - adoption
+              - expansion
+              - recycling
+              - end
+            sfdc_id:
+              type: string
+            sync_setting:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                mmp_table_name:
+                  type: string
+                  enum:
+                  - playbook_phases
+                  - engagement_statuses
+                sfdc_object_name:
+                  type: string
+                  enum:
+                  - LeadStatus
+                  - OpportunityStage
+                  - ContactStatus
+        progress:
+          type: number
+          maximum: 100
+        sync_setting:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            mmp_table_name:
+              type: string
+              enum:
+              - engagements
+            sfdc_object_name:
+              type: string
+              enum:
+              - Lead
+              - Opportunity
+              - Contact
+            sync_field_map:
+              type: object
+              properties:
+                playbook_phase_id:
+                  type: string
+  parameters:
+    engagement_sync_setting_id:
+      name: engagement_sync_setting_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header
+x-refined-from:
+- magic-moment-hubspot-integration-openapi.yml
+- magic-moment-salesforce-integration-openapi.yml

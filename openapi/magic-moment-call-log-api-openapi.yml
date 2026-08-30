@@ -1,0 +1,156 @@
+openapi: 3.2.0
+info:
+  description: Call Integration service連携アプリケーションAPI仕様
+  title: Call Integration service連携アプリケーション Call Log API
+  version: 1.0.0
+servers:
+- url: https://call.magicmoment.co.jp/
+tags:
+- name: call-log
+paths:
+  /call-log:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - call-log
+      summary: Get call log
+      operationId: getCallLog
+      parameters:
+      - description: Call Sid
+        name: call_sid
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  callLog:
+                    type: object
+                    properties:
+                      from:
+                        type: string
+                      incoming_call_sid:
+                        type: string
+                      to:
+                        type: string
+                  providerType:
+                    type: string
+                    enum:
+                    - TWILIO
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - call-log
+      summary: Create Call log
+      operationId: createCallLog
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - phoneType
+              - parentCallSid
+              - phoneNumber
+              properties:
+                callDirection:
+                  type: string
+                  enum:
+                  - INCOMING
+                  - OUTGOING
+                contactId:
+                  description: Contact ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+                engagementId:
+                  description: Engagement ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+                parentCallSid:
+                  description: Twilio Parent Call SID
+                  type: string
+                  example: CAb1f9321e569792fd03f4cce68dcc7e38
+                phoneNumber:
+                  description: Call to Phone Number
+                  type: string
+                  example: 123456789999
+                repActivityId:
+                  description: Rep Activity ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+        description: call log parameters
+        required: true
+  /call-log/miitel:
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - call-log
+      summary: Create Call log for Miitel
+      operationId: createCallLogForMiitel
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - phoneNumber
+              - callDirection
+              - callType
+              properties:
+                callDirection:
+                  type: string
+                  enum:
+                  - INCOMING
+                  - OUTGOING
+                callDuration:
+                  type: number
+                callEndedAt:
+                  type: string
+                  format: date-time
+                callStartedAt:
+                  type: string
+                  format: date-time
+                callType:
+                  type: string
+                  enum:
+                  - CALLED
+                  - ABSENCE
+                contactId:
+                  description: Contact ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+                engagementId:
+                  description: Engagement ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+                phoneNumber:
+                  description: Call to Phone Number
+                  type: string
+                  example: 123456789999
+                repActivityId:
+                  description: Rep Activity ID
+                  type: string
+                  example: 6ca00f74-1351-11eb-adc1-0242ac120002
+        description: call log parameters
+        required: true
+components:
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header

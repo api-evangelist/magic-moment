@@ -1,0 +1,154 @@
+openapi: 3.2.0
+info:
+  description: 集計基盤連携API仕様
+  title: 集計基盤連携アプリケーション Performance Target API
+  version: 1.0.0
+servers:
+- url: https://report.magicmoment.co.jp/
+tags:
+- name: performance-target
+paths:
+  /performance-target/unit:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance-target
+      operationId: getUnitPerformanceTarget
+      parameters:
+      - $ref: '#/components/parameters/requiredTargetTypeInQuery'
+      - $ref: '#/components/parameters/unitIdInQuery'
+      - $ref: '#/components/parameters/requiredPhaseValueInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceTarget'
+  /performance-target/user:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - performance-target
+      operationId: getUserPerformanceTarget
+      parameters:
+      - $ref: '#/components/parameters/requiredTargetTypeInQuery'
+      - $ref: '#/components/parameters/unitIdInQuery'
+      - $ref: '#/components/parameters/requiredPhaseValueInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceTarget'
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - performance-target
+      operationId: savePerformanceTarget
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - target
+              - targetType
+              - unitId
+              - phaseValue
+              properties:
+                phaseValue:
+                  $ref: '#/components/schemas/PhaseValue'
+                target:
+                  type: integer
+                  maximum: 1000000000
+                targetType:
+                  $ref: '#/components/schemas/PerformanceTargetType'
+                unitId:
+                  $ref: '#/components/schemas/UUID'
+components:
+  parameters:
+    requiredTargetTypeInQuery:
+      name: targetType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - achievedPhase
+        - requiredItem
+        - optionalItem
+        - winned
+        - mrr
+        - contractValue
+    unitIdInQuery:
+      name: unitId
+      in: query
+      schema:
+        type: string
+        format: uuid
+    requiredPhaseValueInQuery:
+      name: phaseValue
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
+  schemas:
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
+    PhaseValue:
+      type: string
+      enum:
+      - nurturing
+      - qualification
+      - closing
+      - onboarding
+      - adoption
+      - expansion
+    PerformanceTargetType:
+      type: string
+      enum:
+      - achievedPhase
+      - requiredItem
+      - optionalItem
+      - winned
+      - mrr
+      - contractValue
+    PerformanceTarget:
+      type: object
+      properties:
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+        target:
+          type: number
+          x-omitempty: false
+          example: 10
+        targetType:
+          $ref: '#/components/schemas/PerformanceTargetType'
+        unitId:
+          $ref: '#/components/schemas/UUID'
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

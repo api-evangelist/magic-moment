@@ -1,0 +1,107 @@
+openapi: 3.2.0
+info:
+  description: Hubspot連携アプリケーションAPI仕様
+  title: Hubspot連携アプリケーション Fetch Hubspot API
+  version: 1.0.0
+servers:
+- url: https://hubspot.magicmoment.co.jp/
+tags:
+- name: fetch_hubspot
+paths:
+  /crm/deal_stages:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - fetch_hubspot
+      summary: Get value from Hubspot dealstages Object
+      operationId: getDealStagesOfHubspot
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/hubspot_api_name'
+  /crm/hs_lead_statuses:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - fetch_hubspot
+      summary: Get value from Hubspot hs_lead_status Object
+      operationId: getHsLeadStatusOfHubspot
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/hubspot_api_name'
+  /crm/users:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - fetch_hubspot
+      summary: Show list hubspot users API
+      operationId: getHubspotUsers
+      parameters:
+      - name: keyword
+        in: query
+        schema:
+          type: string
+      - name: hubspotIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/hubspotUser'
+components:
+  schemas:
+    hubspotUser:
+      type: object
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        id:
+          type: string
+        last_name:
+          type: string
+        mmp_user_id:
+          type: string
+        name:
+          type: string
+        sync_map_id:
+          type: string
+    hubspot_api_name:
+      type: object
+      properties:
+        api_name:
+          type: string
+        description:
+          type: string
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

@@ -1,0 +1,49 @@
+openapi: 3.2.0
+info:
+  description: Office suite service連携アプリケーションAPI仕様
+  title: Office suite service連携アプリケーション Profiles API
+  version: 1.0.0
+servers:
+- url: https://suite.magicmoment.co.jp/
+tags:
+- name: profiles
+paths:
+  /profiles/{userId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - profiles
+      summary: プロフィールを取得
+      operationId: getProfile
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/profile'
+components:
+  schemas:
+    profile:
+      type: object
+      properties:
+        email:
+          description: メールアドレス
+          type: string
+          format: email
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiToken:
+      type: apiKey
+      name: x-api-key
+      in: header

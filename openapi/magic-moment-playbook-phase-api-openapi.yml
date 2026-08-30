@@ -1,0 +1,310 @@
+openapi: 3.2.0
+info:
+  description: 集計基盤連携API仕様
+  title: 集計基盤連携アプリケーション Playbook Phase API
+  version: 1.0.0
+servers:
+- url: https://report.magicmoment.co.jp/
+tags:
+- name: playbook-phase
+paths:
+  /reports/playbook-phases/{playbookPhaseId}/detail:
+    get:
+      security:
+      - accessToken: []
+      description: Get Playbook Phase Details
+      tags:
+      - playbook-phase
+      operationId: getPlaybookDetailReport
+      parameters:
+      - $ref: '#/components/parameters/requiredPlaybookPhaseIdInPath'
+      - $ref: '#/components/parameters/requiredStartDateInQuery'
+      - $ref: '#/components/parameters/requiredEndDateInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/playbookPhaseDetail'
+  /reports/playbook-phases/{playbookPhaseId}/items/summary:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - playbook-phase
+      operationId: getPlaybookItemSummaryReport
+      parameters:
+      - $ref: '#/components/parameters/requiredPlaybookPhaseIdInPath'
+      - $ref: '#/components/parameters/requiredStartDateInQuery'
+      - $ref: '#/components/parameters/requiredEndDateInQuery'
+      - $ref: '#/components/parameters/unitIdInQuery'
+      - $ref: '#/components/parameters/userIdInQuery'
+      - name: isLost
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/playbookItemSummary'
+  /reports/playbook-phases/{playbookPhaseId}/items/{playbookItemId}/word-counts:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - playbook-phase
+      operationId: listPlaybookItemWordCounts
+      parameters:
+      - $ref: '#/components/parameters/requiredPlaybookPhaseIdInPath'
+      - $ref: '#/components/parameters/requiredPlaybookItemIdInPath'
+      - $ref: '#/components/parameters/requiredStartDateInQuery'
+      - $ref: '#/components/parameters/requiredEndDateInQuery'
+      - $ref: '#/components/parameters/unitIdInQuery'
+      - $ref: '#/components/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WordCount'
+  /reports/playbook-phases/{playbookPhaseId}/summary:
+    get:
+      security:
+      - accessToken: []
+      description: Get Playbook Summary
+      tags:
+      - playbook-phase
+      operationId: getPlaybookSummaryReport
+      parameters:
+      - $ref: '#/components/parameters/requiredPlaybookPhaseIdInPath'
+      - $ref: '#/components/parameters/requiredStartDateInQuery'
+      - $ref: '#/components/parameters/requiredEndDateInQuery'
+      - $ref: '#/components/parameters/unitIdInQuery'
+      - $ref: '#/components/parameters/userIdInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/playbookSummary'
+components:
+  schemas:
+    WordCount:
+      type: object
+      title: word counts tokenized by morphological analyzer
+      properties:
+        text:
+          type: string
+        value:
+          type: integer
+          format: uint64
+    playbookItemOptionSummary:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        num:
+          type: integer
+          format: int64
+          example: 60
+      x-examples: {}
+    playbookPhaseDetail:
+      type: object
+      properties:
+        decisiveOptionalPlaybookItem:
+          $ref: '#/components/schemas/DecisivePlaybookItem'
+        decisiveRequiredPlaybookItem:
+          $ref: '#/components/schemas/DecisivePlaybookItem'
+        isLost:
+          type: boolean
+          example: true
+        leadTime:
+          type: integer
+          format: int64
+          example: 60
+        numOfAchievedItem:
+          type: integer
+          format: int64
+          example: 10
+        numOfAchievedPhase:
+          type: integer
+          format: int64
+          example: 10
+        numOfItem:
+          type: integer
+          format: int64
+          example: 10
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
+    PhaseValue:
+      type: string
+      enum:
+      - nurturing
+      - qualification
+      - closing
+      - onboarding
+      - adoption
+      - expansion
+    playbookSummary:
+      type: object
+      properties:
+        isLost:
+          type: boolean
+          example: true
+        numOfAchievedOptionalItem:
+          type: integer
+          format: int64
+          example: 60
+        numOfAchievedPhase:
+          type: integer
+          format: int64
+          example: 60
+        numOfAchievedRequiredItem:
+          type: integer
+          format: int64
+          example: 60
+        numOfEngagement:
+          type: integer
+          format: int64
+          example: 10
+        numOfOptionalItem:
+          type: integer
+          format: int64
+          example: 60
+        numOfRequiredItem:
+          type: integer
+          format: int64
+          example: 60
+    FormType:
+      type: string
+      enum:
+      - text
+      - select
+      - radio
+      - checkbox
+      - appointment
+      - number
+      - todo
+      - todoRequired
+    DecisivePlaybookItem:
+      type: object
+      title: decisivePlaybookItem
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedPhaseValue'
+        playbookItemId:
+          $ref: '#/components/schemas/UUID'
+    FixedPhaseValue:
+      type: object
+      title: fixedPhaseValue
+      properties:
+        playbookFormType:
+          $ref: '#/components/schemas/FormType'
+        playbookInputFormId:
+          $ref: '#/components/schemas/UUID'
+        playbookItemId:
+          $ref: '#/components/schemas/UUID'
+        value:
+          type: array
+          items:
+            type: string
+    playbookItemSummary:
+      type: object
+      properties:
+        isLost:
+          type: boolean
+          example: true
+        numOfAchievedOptional:
+          type: integer
+          format: int64
+          example: 60
+        numOfAchievedRequired:
+          type: integer
+          format: int64
+          example: 30
+        numOfOptional:
+          type: integer
+          format: int64
+          example: 60
+        numOfRequired:
+          type: integer
+          format: int64
+          example: 30
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/playbookItemOptionSummary'
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+        playbookItemId:
+          $ref: '#/components/schemas/UUID'
+  parameters:
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    unitIdInQuery:
+      name: unitId
+      in: query
+      schema:
+        type: string
+        format: uuid
+    requiredPlaybookItemIdInPath:
+      name: playbookItemId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    userIdInQuery:
+      name: userId
+      in: query
+      schema:
+        type: string
+        format: uuid
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredPlaybookPhaseIdInPath:
+      name: playbookPhaseId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

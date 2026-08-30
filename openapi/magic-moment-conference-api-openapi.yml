@@ -1,0 +1,248 @@
+openapi: 3.2.0
+info:
+  description: Call Integration service連携アプリケーションAPI仕様
+  title: Call Integration service連携アプリケーション Conference API
+  version: 1.0.0
+servers:
+- url: https://call.magicmoment.co.jp/
+tags:
+- name: conference
+paths:
+  /call-providers/{settingId}/conference:
+    get:
+      tags:
+      - conference
+      summary: Get xml setting for hold music
+      operationId: ConferenceHoldMusic
+      parameters:
+      - name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response XML type for Twilio
+          content:
+            text/xml:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Response'
+    post:
+      tags:
+      - conference
+      summary: Get xml setting for creating conference
+      operationId: ConferenceCreate
+      parameters:
+      - name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: client name for Twilio client
+        name: client_name
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response XML type for Twilio
+          content:
+            application/xml:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Response'
+        '201':
+          description: Response XML type for busy call
+          content:
+            application/xml:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Response'
+  /call-providers/{settingId}/conference/join-callback:
+    post:
+      tags:
+      - conference
+      summary: Show xml setting for redirect call from phone numer to web client
+      operationId: ClientReceiveCallXml
+      parameters:
+      - name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: client name for Twilio client
+        name: client_name
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response XML type for Twilio
+          content:
+            text/xml:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Response'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ConferenceSid:
+                  type: string
+                  description: params ConferenceSid from twilio
+                CallSid:
+                  type: string
+                  description: params CallSid from twilio
+              required:
+              - ConferenceSid
+              - CallSid
+  /call-providers/{settingId}/conference/status:
+    post:
+      security:
+      - accessToken: []
+      tags:
+      - conference
+      summary: Hold / un-Hold the call by change conference status
+      operationId: ChangeConferenceStatus
+      parameters:
+      - name: settingId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - status
+              - callSid
+              - direction
+              properties:
+                callSid:
+                  description: Twilio Call SID
+                  type: string
+                  example: CA6ae92bb9705c8e8770852257a620422b
+                direction:
+                  description: Call type incoming call or outgoing call
+                  type: string
+                  enum:
+                  - INCOMING
+                  - OUTGOING
+                status:
+                  description: Status hold / unhold / completed
+                  type: string
+                  enum:
+                  - HOLD
+                  - UNHOLD
+                  - COMPLETED
+        description: setting for conference status
+        required: true
+components:
+  schemas:
+    Response:
+      description: xml response for TwiML
+      type: object
+      properties:
+        Dial:
+          type: object
+          properties:
+            CallerId:
+              type: string
+              xml:
+                name: callerId
+                attribute: true
+            Client:
+              type: object
+              properties:
+                value:
+                  type: string
+                  xml:
+                    name: ',chardata'
+                  example: client_name
+            Conference:
+              type: object
+              properties:
+                beep:
+                  type: string
+                  xml:
+                    name: beep
+                    attribute: true
+                endConferenceOnExit:
+                  type: string
+                  xml:
+                    name: endConferenceOnExit
+                    attribute: true
+                startConferenceOnEnter:
+                  type: string
+                  xml:
+                    name: startConferenceOnEnter
+                    attribute: true
+                statusCallback:
+                  type: string
+                  xml:
+                    name: statusCallback
+                    attribute: true
+                statusCallbackEvent:
+                  type: string
+                  xml:
+                    name: statusCallbackEvent
+                    attribute: true
+                value:
+                  type: string
+                  xml:
+                    name: ',chardata'
+                  example: conference name
+                waitUrl:
+                  type: string
+                  xml:
+                    name: waitUrl
+                    attribute: true
+            value:
+              type: string
+              xml:
+                name: ',chardata'
+              example: To xxx
+        Play:
+          type: object
+          properties:
+            loop:
+              type: string
+              xml:
+                name: loop
+                attribute: true
+            value:
+              type: string
+              xml:
+                name: ',chardata'
+              example: music url
+        Say:
+          type: object
+          properties:
+            language:
+              type: string
+              xml:
+                name: language
+                attribute: true
+            value:
+              type: string
+              xml:
+                name: ',chardata'
+              example: Say something
+            voice:
+              type: string
+              xml:
+                name: voice
+                attribute: true
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header

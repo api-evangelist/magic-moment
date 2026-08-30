@@ -1,0 +1,146 @@
+openapi: 3.2.0
+info:
+  description: 集計基盤連携API仕様
+  title: 集計基盤連携アプリケーション Value API
+  version: 1.0.0
+servers:
+- url: https://report.magicmoment.co.jp/
+tags:
+- name: value
+paths:
+  /values/playbook_input_forms/{playbookInputFormId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - value
+      operationId: getAchievedInputFormValues
+      parameters:
+      - $ref: '#/components/parameters/requiredPlaybookInputFormIdInPath'
+      - $ref: '#/components/parameters/requiredStartDateInQuery'
+      - $ref: '#/components/parameters/requiredEndDateInQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AchievedInputFormValue'
+components:
+  parameters:
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredPlaybookInputFormIdInPath:
+      name: playbookInputFormId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+  schemas:
+    EngagementAssignment:
+      type: object
+      properties:
+        assignedEndTime:
+          type: string
+          format: date
+        assignedStartTime:
+          type: string
+          format: date
+        engagementId:
+          $ref: '#/components/schemas/UUID'
+        engagementOwner:
+          $ref: '#/components/schemas/EngagementOwner'
+        engagementOwnerId:
+          $ref: '#/components/schemas/UUID'
+        playbookPhaseId:
+          $ref: '#/components/schemas/UUID'
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
+    AchievedInputFormValue:
+      type: object
+      properties:
+        achievedPhase:
+          $ref: '#/components/schemas/AchievedPhase'
+        value:
+          type: array
+          items:
+            type: string
+    PhaseValue:
+      type: string
+      enum:
+      - nurturing
+      - qualification
+      - closing
+      - onboarding
+      - adoption
+      - expansion
+    AchievedPhase:
+      type: object
+      properties:
+        achievedAt:
+          type:
+          - string
+          - 'null'
+          format: date
+        engagementAssignment:
+          $ref: '#/components/schemas/EngagementAssignment'
+        engagementAssignmentId:
+          $ref: '#/components/schemas/UUID'
+        leadTime:
+          type: integer
+          format: int64
+          example: 60
+        lostAt:
+          type:
+          - string
+          - 'null'
+          format: date
+        startedAt:
+          type:
+          - string
+          - 'null'
+          format: date
+        tossedupAt:
+          type:
+          - string
+          - 'null'
+          format: date
+    EngagementOwner:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+        unitId:
+          $ref: '#/components/schemas/UUID'
+        userId:
+          $ref: '#/components/schemas/UUID'
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

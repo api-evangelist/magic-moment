@@ -1,0 +1,338 @@
+openapi: 3.2.0
+info:
+  title: Magic Moment Oauth2 API
+  version: 1.0.0
+  description: 'Operations tagged oauth2 across 3 of this provider''s published API definitions: magic-moment-hubspot-integration-openapi.yml, magic-moment-office-suite-integration-openapi.yml, magic-moment-salesforce-integration-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://hubspot.magicmoment.co.jp/
+- url: https://suite.magicmoment.co.jp/
+- url: https://sfdc.magicmoment.co.jp/
+tags:
+- name: oauth2
+paths:
+  /oauth2/authorize/:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - oauth2
+      summary: Hubspot認証・認可
+      operationId: startHubspotAuth
+      parameters:
+      - description: リダイレクトURI
+        name: redirect_uri
+        in: query
+        schema:
+          type: string
+          format: uri
+      responses:
+        '200':
+          description: JSONリクエストの場合のみ、リダイレクトせずにリダイレクト先URLを返す
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/redirect_url'
+        '302':
+          description: Found
+          headers:
+            Location:
+              schema:
+                type: string
+    delete:
+      security:
+      - accessToken: []
+      tags:
+      - oauth2
+      summary: Unlink service
+      operationId: deleteHubspotAuth
+      responses:
+        '200':
+          description: OK
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+  /oauth2/callback/:
+    get:
+      description: 認可コールバックのエンドポイント
+      tags:
+      - oauth2
+      summary: Hubspot認可コールバック
+      operationId: callbackHubspotAuth
+      parameters:
+      - name: code
+        in: query
+        schema:
+          type: string
+      - name: state
+        in: query
+        schema:
+          type: string
+      responses:
+        '201':
+          description: OK
+        '302':
+          description: Found
+          headers:
+            Location:
+              schema:
+                type: string
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+  /oauth2/results:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - oauth2
+      summary: 認証結果一覧
+      operationId: listOauthResults
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/oauthResult'
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+  /oauth2/authorize:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - oauth2
+      summary: 認証
+      operationId: startAuth
+      parameters:
+      - description: リダイレクトURI
+        name: redirect_uri
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uri
+      - description: Service type [1 - GSuite / 2 - Office 365]
+        name: service_type
+        in: query
+        required: true
+        schema:
+          type: string
+          format: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirectUrl:
+                    type: string
+    delete:
+      security:
+      - accessToken: []
+      tags:
+      - oauth2
+      summary: Unlink service
+      operationId: deleteAuth
+      parameters:
+      - description: Service type [1 - GSuite / 2 - Office 365]
+        name: service_type
+        in: query
+        required: true
+        schema:
+          type: string
+          format: number
+      responses:
+        '200':
+          description: OK
+    servers:
+    - url: https://suite.magicmoment.co.jp/
+  /oauth2/callback:
+    get:
+      tags:
+      - oauth2
+      summary: 認証コールバック
+      operationId: callbackAuth
+      parameters:
+      - description: 承認コード
+        name: code
+        in: query
+        schema:
+          type: string
+      - description: authorizeで送ったstate
+        name: state
+        in: query
+        schema:
+          type: string
+      - description: エラーメッセージ
+        name: error
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/unauthorized'
+    servers:
+    - url: https://suite.magicmoment.co.jp/
+  /oauth2/deauthorization:
+    post:
+      security: []
+      tags:
+      - oauth2
+      summary: サービスの認可取消し
+      operationId: deauthorization
+      parameters:
+      - description: Service type [1 - GSuite / 2 - Office 365 / 3 - Zoom]
+        name: service_type
+        in: query
+        required: true
+        schema:
+          type: string
+          format: number
+      - name: authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deauthorization'
+        description: 認可取消しイベント通知
+        required: true
+    servers:
+    - url: https://suite.magicmoment.co.jp/
+  /oauth2/access-tokens:
+    put:
+      security:
+      - apiKey: []
+      tags:
+      - oauth2
+      summary: Update access tokens for all tenants
+      operationId: updateAccessTokens
+      responses:
+        '204':
+          description: OK
+    servers:
+    - url: https://sfdc.magicmoment.co.jp/
+components:
+  schemas:
+    createdAt:
+      description: 作成日
+      type: string
+      format: date-time
+      example: '2017-07-21T17:32:28Z'
+    redirect_url:
+      type: string
+    oauthResult:
+      type: object
+      properties:
+        createdAt:
+          $ref: '#/components/schemas/createdAt'
+        serviceType:
+          description: 認証サービス
+          type: string
+          enum:
+          - HUBSPOT
+    profile:
+      type: object
+      properties:
+        email:
+          description: メールアドレス
+          type: string
+          format: email
+    oauthResult_2:
+      type: object
+      properties:
+        createdAt:
+          $ref: '#/components/schemas/createdAt'
+        profile:
+          $ref: '#/components/schemas/profile'
+        scopes:
+          description: OAuthスコープ
+          type: array
+          items:
+            type: string
+        serviceType:
+          description: 認証サービス
+          type: string
+          enum:
+          - UNSPECIFIED
+          - GSUITE
+          - OFFICE365
+          - ZOOM
+        userId:
+          type: string
+    deauthorization:
+      type: object
+      properties:
+        event:
+          type: string
+        payload:
+          type: object
+          properties:
+            user_id:
+              type: string
+    error:
+      type: object
+      required:
+      - message
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 404
+        message:
+          type: string
+          example: Not Found
+    oauthResult_3:
+      type: object
+      properties:
+        createdAt:
+          $ref: '#/components/schemas/createdAt'
+        isSandbox:
+          description: Environment is sandbox or not
+          type: boolean
+          x-omitempty: false
+        serviceType:
+          description: 認証サービス
+          type: string
+          enum:
+          - SALESFORCE
+  responses:
+    unauthorized:
+      description: 認証に失敗した場合に発生します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header
+    apiToken:
+      type: apiKey
+      name: x-api-key
+      in: header
+x-refined-from:
+- magic-moment-hubspot-integration-openapi.yml
+- magic-moment-office-suite-integration-openapi.yml
+- magic-moment-salesforce-integration-openapi.yml

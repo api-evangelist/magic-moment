@@ -1,0 +1,101 @@
+openapi: 3.2.0
+info:
+  description: Office suite service連携アプリケーションAPI仕様
+  title: Office suite service連携アプリケーション Mail API
+  version: 1.0.0
+servers:
+- url: https://suite.magicmoment.co.jp/
+tags:
+- name: mail
+paths:
+  /mail/attachment/{mailAttachmentId}:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - mail
+      summary: 添付メールダウンロード
+      operationId: getMailAttachment
+      parameters:
+      - description: Header
+        name: mailAttachmentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                  fileName:
+                    type: string
+                  fileSize:
+                    type: integer
+  /mail/oauth-results/enqueue:
+    patch:
+      security:
+      - apiToken: []
+      tags:
+      - mail
+      summary: メール取り込み対象の oauth_results をエンキューする
+      operationId: enqueueOauthResultsForSyncMail
+      responses:
+        '204':
+          description: OK
+  /mail/oauth-results/{oauthResultId}/sync:
+    patch:
+      security:
+      - apiToken: []
+      tags:
+      - mail
+      summary: 指定された oauth_result_id に紐づくユーザーのメールを取り込む
+      operationId: syncMailByOauthResultId
+      parameters:
+      - description: oauth_results テーブルの ID
+        name: oauthResultId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: OK
+  /mail/smtp-imap-credentials/sync:
+    patch:
+      security:
+      - apiToken: []
+      tags:
+      - mail
+      summary: smtp-imap-credentials に紐づくユーザーのメールを取り込む
+      operationId: syncMailByImap
+      responses:
+        '204':
+          description: OK
+  /mail/sync:
+    patch:
+      security:
+      - accessToken: []
+      tags:
+      - mail
+      summary: Clientからのポーリングによるメール同期を廃止するため、本APIも合わせて廃止予定です。API自体が 404 を返さないようにするため、処理は行わず 204 を返します
+      operationId: syncMails
+      deprecated: true
+      responses:
+        '204':
+          description: OK
+components:
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiToken:
+      type: apiKey
+      name: x-api-key
+      in: header

@@ -1,0 +1,104 @@
+openapi: 3.2.0
+info:
+  description: Hubspot連携アプリケーションAPI仕様
+  title: Hubspot連携アプリケーション Sync Hubspot API
+  version: 1.0.0
+servers:
+- url: https://hubspot.magicmoment.co.jp/
+tags:
+- name: sync_hubspot
+paths:
+  /sync/read:
+    post:
+      security:
+      - accessToken: []
+      - apiKey: []
+      tags:
+      - sync_hubspot
+      summary: Hubspotからデータを読み込み Playbook にデータを反映する
+      operationId: readSyncWithHubspot
+      responses:
+        '201':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mode:
+                  type: string
+                teamId:
+                  type: string
+  /sync/syncable:
+    get:
+      security:
+      - accessToken: []
+      - apiKey: []
+      tags:
+      - sync_hubspot
+      summary: 同期状態
+      operationId: getSyncable
+      parameters:
+      - name: team_id
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/syncable'
+    put:
+      security:
+      - apiKey: []
+      - accessToken: []
+      tags:
+      - sync_hubspot
+      summary: 同期開始・ストップ
+      operationId: toggleSyncable
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/syncable'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                syncable:
+                  type: boolean
+                team_id:
+                  type: string
+        required: true
+components:
+  schemas:
+    syncable:
+      type: object
+      properties:
+        syncable:
+          type: boolean
+          x-omitempty: false
+        teamId:
+          type: string
+          format: uuid
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

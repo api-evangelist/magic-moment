@@ -1,0 +1,107 @@
+openapi: 3.2.0
+info:
+  description: Salesforce連携アプリケーションAPI仕様
+  title: Salesforce連携アプリケーション Fetch Sfdc API
+  version: 1.0.0
+servers:
+- url: https://sfdc.magicmoment.co.jp/
+tags:
+- name: fetch_sfdc
+paths:
+  /crm/lead_statuses:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - fetch_sfdc
+      summary: Get value from Salesforce LeadStatus Object
+      operationId: getLeadStatusOfSfdc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/sfdc_api_name'
+  /crm/opportunity_stages:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - fetch_sfdc
+      summary: Get value from Salesforce OpportunityStage Object
+      operationId: getOpportunityStageOfSfdc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/sfdc_api_name'
+  /crm/users:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - fetch_sfdc
+      summary: Show list salesforce users API
+      operationId: getSalesforceUsers
+      parameters:
+      - name: keyword
+        in: query
+        schema:
+          type: string
+      - name: sfdcIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/salesforceUser'
+components:
+  schemas:
+    salesforceUser:
+      type: object
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        id:
+          type: string
+        last_name:
+          type: string
+        mmp_user_id:
+          type: string
+        name:
+          type: string
+        sync_map_id:
+          type: string
+    sfdc_api_name:
+      type: object
+      properties:
+        api_name:
+          type: string
+        description:
+          type: string
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header

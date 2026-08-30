@@ -1,0 +1,144 @@
+openapi: 3.2.0
+info:
+  description: Office suite service連携アプリケーションAPI仕様
+  title: Office suite service連携アプリケーション Microsoft365 API
+  version: 1.0.0
+servers:
+- url: https://suite.magicmoment.co.jp/
+tags:
+- name: microsoft365
+paths:
+  /microsoft365/subscription-expiration:
+    patch:
+      security:
+      - apiToken: []
+      description: Microsoft 365 サブスクリプションの有効期限を延長します
+      tags:
+      - microsoft365
+      summary: Microsoft 365 サブスクリプションの有効期限を延長
+      operationId: updateMicrosoft365SubscriptionExpiration
+      responses:
+        '200':
+          $ref: '#/components/responses/success'
+        '500':
+          $ref: '#/components/responses/default'
+  /microsoft365/webhook/subscription:
+    post:
+      description: Microsoft 365 からのサブスクリプション通知を受け取ります
+      tags:
+      - microsoft365
+      summary: Microsoft 365 Webhook サブスクリプションの受け取り
+      operationId: microsoft365WebhookSubscription
+      parameters:
+      - description: Microsoft 365 から送られるサブスクリプション検証トークン
+        name: validationToken
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: サブスクリプションの検証が成功しました
+          content:
+            text/plain:
+              schema:
+                type: string
+        '202':
+          description: ライフサイクル通知の検証が成功しました
+          content:
+            text/plain:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      changeType:
+                        description: 変更タイプ
+                        type: string
+                      clientState:
+                        description: クライアントステート
+                        type: string
+                      id:
+                        description: ID
+                        type: string
+                      lifecycleEvent:
+                        description: ライフサイクルイベント
+                        type: string
+                      resource:
+                        description: リソース
+                        type: string
+                      resourceData:
+                        type: object
+                        properties:
+                          '@odata.etag':
+                            description: ODataのETag
+                            type: string
+                          '@odata.id':
+                            description: ODataのID
+                            type: string
+                          '@odata.type':
+                            description: ODataの型
+                            type: string
+                          id:
+                            description: ID
+                            type: string
+                      subscriptionExpirationDateTime:
+                        description: サブスクリプション有効期限
+                        type: string
+                      subscriptionId:
+                        description: サブスクリプションID
+                        type: string
+                      tenantId:
+                        description: テナントID
+                        type: string
+        description: Webhook body
+components:
+  schemas:
+    error:
+      type: object
+      required:
+      - message
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 404
+        message:
+          type: string
+          example: Not Found
+    success:
+      type: object
+      required:
+      - success
+      properties:
+        success:
+          type: boolean
+  responses:
+    success:
+      description: リクエストの成功時に返却します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/success'
+    default:
+      description: 未知のエラーの場合に発生します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiToken:
+      type: apiKey
+      name: x-api-key
+      in: header

@@ -1,0 +1,149 @@
+openapi: 3.2.0
+info:
+  title: Magic Moment Mappings API
+  version: 1.0.0
+  description: 'Operations tagged mappings across 2 of this provider''s published API definitions: magic-moment-hubspot-integration-openapi.yml, magic-moment-salesforce-integration-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://hubspot.magicmoment.co.jp/
+- url: https://sfdc.magicmoment.co.jp/
+tags:
+- name: mappings
+paths:
+  /mappings:
+    get:
+      security:
+      - accessToken: []
+      tags:
+      - mappings
+      summary: Playbook <-> Hubspot の ID の対応関係を取得する
+      operationId: getSyncIDMapOfHubspot
+      parameters:
+      - name: sync_setting_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: mmp_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sync_id_maps'
+    put:
+      security:
+      - accessToken: []
+      tags:
+      - mappings
+      summary: Playbook <-> Hubspot の ID の対応関係を作成・更新する
+      operationId: saveSyncIDMapOfHubspot
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sync_id_maps'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_maps:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      hubspot_id:
+                        $ref: '#/components/schemas/hubspot_id'
+                      mmp_id:
+                        $ref: '#/components/schemas/mmp_id'
+                sync_setting_id:
+                  $ref: '#/components/schemas/sync_setting_id'
+        required: true
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+  /mappings/{mapping_id}/:
+    delete:
+      security:
+      - accessToken: []
+      description: Delete mapping by id of sync_id_mappings table
+      tags:
+      - mappings
+      summary: Delete mapping
+      operationId: deleteSyncIDMapOfHubspot
+      parameters:
+      - $ref: '#/components/parameters/mapping_id'
+      responses:
+        '200':
+          description: OK
+    parameters:
+    - $ref: '#/components/parameters/mapping_id'
+    servers:
+    - url: https://hubspot.magicmoment.co.jp/
+components:
+  schemas:
+    sync_id_map:
+      type: object
+      properties:
+        hubspot_id:
+          $ref: '#/components/schemas/hubspot_id'
+        id:
+          type: string
+          format: uuid
+        mmp_id:
+          $ref: '#/components/schemas/mmp_id'
+        sync_setting_id:
+          $ref: '#/components/schemas/sync_setting_id'
+    mmp_id:
+      type: string
+      format: uuid
+    sync_setting_id:
+      type: string
+      format: uuid
+    sync_id_maps:
+      type: array
+      items:
+        $ref: '#/components/schemas/sync_id_map'
+    hubspot_id:
+      type: string
+    sync_id_map_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        mmp_id:
+          $ref: '#/components/schemas/mmp_id'
+        sfdc_id:
+          $ref: '#/components/schemas/sfdc_id'
+        sync_setting_id:
+          $ref: '#/components/schemas/sync_setting_id'
+    sfdc_id:
+      type: string
+  parameters:
+    mapping_id:
+      name: mapping_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      name: x-access-token
+      in: header
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header
+x-refined-from:
+- magic-moment-hubspot-integration-openapi.yml
+- magic-moment-salesforce-integration-openapi.yml
