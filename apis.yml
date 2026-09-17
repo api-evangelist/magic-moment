@@ -251,28 +251,6 @@ apis:
     url: openapi/_original/magic-moment-call-integration-swagger.json
   - type: Swagger
     url: openapi/_original/magic-moment-reporting-swagger.json
-- aid: magic-moment:magic-moment-healthcheck-api
-  name: Magic Moment Healthcheck API
-  description: The healthcheck API from Magic Moment — 1 operation(s) for healthcheck.
-  humanURL: https://magicmoment.jp/playbook/salesforce
-  baseURL: https://sfdc.magicmoment.co.jp/
-  tags:
-  - Health Check
-  tags_raw:
-  - healthcheck
-  properties:
-  - type: OpenAPI
-    url: openapi/magic-moment-healthcheck-api-openapi.yml
-  - type: Swagger
-    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
-  - type: Swagger
-    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
-  - type: Swagger
-    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
-  - type: Swagger
-    url: openapi/_original/magic-moment-call-integration-swagger.json
-  - type: Swagger
-    url: openapi/_original/magic-moment-reporting-swagger.json
 - aid: magic-moment:magic-moment-mail-api
   name: Magic Moment Mail API
   description: The mail API from Magic Moment — 5 operation(s) for mail.
@@ -329,28 +307,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/magic-moment-microsoft365-api-openapi.yml
-  - type: Swagger
-    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
-  - type: Swagger
-    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
-  - type: Swagger
-    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
-  - type: Swagger
-    url: openapi/_original/magic-moment-call-integration-swagger.json
-  - type: Swagger
-    url: openapi/_original/magic-moment-reporting-swagger.json
-- aid: magic-moment:magic-moment-oauth2-api
-  name: Magic Moment Oauth2 API
-  description: The oauth2 API from Magic Moment — 7 operation(s) for oauth2.
-  humanURL: https://magicmoment.jp/playbook/salesforce
-  baseURL: https://sfdc.magicmoment.co.jp/
-  tags:
-  - Authentication
-  tags_raw:
-  - oauth2
-  properties:
-  - type: OpenAPI
-    url: openapi/magic-moment-oauth2-api-openapi.yml
   - type: Swagger
     url: openapi/_original/magic-moment-salesforce-integration-swagger.json
   - type: Swagger
@@ -585,6 +541,46 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/magic-moment-zoom-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-oauth2-api
+  name: Magic Moment Oauth2 API
+  description: The oauth2 API from Magic Moment — 7 operation(s) for oauth2.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - oauth2
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-oauth2-api-openapi.yml
+  - type: Swagger
+    url: openapi/_original/magic-moment-salesforce-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-hubspot-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-office-suite-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-call-integration-swagger.json
+  - type: Swagger
+    url: openapi/_original/magic-moment-reporting-swagger.json
+- aid: magic-moment:magic-moment-health-check-api
+  name: Magic Moment Health Check API
+  description: The Health Check API from Magic Moment — 1 operation(s) for health check.
+  humanURL: https://magicmoment.jp/playbook/salesforce
+  baseURL: https://sfdc.magicmoment.co.jp/
+  tags:
+  - Health Check
+  properties:
+  - type: OpenAPI
+    url: openapi/magic-moment-health-check-api-openapi.yml
   - type: Swagger
     url: openapi/_original/magic-moment-salesforce-integration-swagger.json
   - type: Swagger
