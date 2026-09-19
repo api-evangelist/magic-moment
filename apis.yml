@@ -105,7 +105,7 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
-  - Calendars
+  - Calendar
   tags_raw:
   - calendars
   properties:
@@ -171,7 +171,7 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
-  - Conference
+  - Conferences
   tags_raw:
   - conference
   properties:
@@ -557,6 +557,8 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
+  - Authentication
+  tags_raw:
   - oauth2
   properties:
   - type: OpenAPI
