@@ -568,6 +568,8 @@ paths:
                       type: string
         description: call log parameters
         required: true
+      summary: Zoom phone webhook
+      x-summary-source: derived
   /zoom-phone/{userId}/status:
     get:
       security:
@@ -598,6 +600,19 @@ paths:
         '401':
           $ref: '#/components/responses/unauthorized'
 components:
+  responses:
+    success:
+      description: リクエストの成功時に返却します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/success'
+    unauthorized:
+      description: 認証に失敗した場合に発生します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   schemas:
     error:
       type: object
@@ -618,19 +633,6 @@ components:
       properties:
         success:
           type: boolean
-  responses:
-    unauthorized:
-      description: 認証に失敗した場合に発生します。
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    success:
-      description: リクエストの成功時に返却します。
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/success'
   securitySchemes:
     accessToken:
       type: apiKey

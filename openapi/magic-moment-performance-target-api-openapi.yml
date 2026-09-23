@@ -26,6 +26,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PerformanceTarget'
+      summary: Get unit performance target
+      x-summary-source: derived
   /performance-target/user:
     get:
       security:
@@ -44,6 +46,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PerformanceTarget'
+      summary: Get user performance target
+      x-summary-source: derived
     put:
       security:
       - accessToken: []
@@ -73,27 +77,10 @@ paths:
                   $ref: '#/components/schemas/PerformanceTargetType'
                 unitId:
                   $ref: '#/components/schemas/UUID'
+      summary: Save performance target
+      x-summary-source: derived
 components:
   parameters:
-    requiredTargetTypeInQuery:
-      name: targetType
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - achievedPhase
-        - requiredItem
-        - optionalItem
-        - winned
-        - mrr
-        - contractValue
-    unitIdInQuery:
-      name: unitId
-      in: query
-      schema:
-        type: string
-        format: uuid
     requiredPhaseValueInQuery:
       name: phaseValue
       in: query
@@ -107,20 +94,30 @@ components:
         - onboarding
         - adoption
         - expansion
+    unitIdInQuery:
+      name: unitId
+      in: query
+      schema:
+        type: string
+        format: uuid
+    requiredTargetTypeInQuery:
+      name: targetType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - achievedPhase
+        - requiredItem
+        - optionalItem
+        - winned
+        - mrr
+        - contractValue
   schemas:
     UUID:
       type: string
       format: uuid
       example: 550e8400-e29b-41d4-a716-446655440000
-    PhaseValue:
-      type: string
-      enum:
-      - nurturing
-      - qualification
-      - closing
-      - onboarding
-      - adoption
-      - expansion
     PerformanceTargetType:
       type: string
       enum:
@@ -143,6 +140,15 @@ components:
           $ref: '#/components/schemas/PerformanceTargetType'
         unitId:
           $ref: '#/components/schemas/UUID'
+    PhaseValue:
+      type: string
+      enum:
+      - nurturing
+      - qualification
+      - closing
+      - onboarding
+      - adoption
+      - expansion
   securitySchemes:
     accessToken:
       type: apiKey

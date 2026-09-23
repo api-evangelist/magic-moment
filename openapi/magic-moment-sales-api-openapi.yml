@@ -6,14 +6,14 @@ info:
 servers:
 - url: https://report.magicmoment.co.jp/
 tags:
-- name: sales
+- name: Sales
 paths:
   /reports/sales/contract:
     get:
       security:
       - accessToken: []
       tags:
-      - sales
+      - Sales
       operationId: getContractSalesReport
       parameters:
       - $ref: '#/components/parameters/requiredStartDateInQuery'
@@ -55,12 +55,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SalesValue'
+      summary: Get contract sales report
+      x-summary-source: derived
   /reports/sales/mrr:
     get:
       security:
       - accessToken: []
       tags:
-      - sales
+      - Sales
       operationId: getMrrSalesReport
       parameters:
       - $ref: '#/components/parameters/requiredStartDateInQuery'
@@ -102,11 +104,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SalesValue'
+      summary: Get mrr sales report
+      x-summary-source: derived
 components:
   parameters:
     requiredEndDateInQuery:
       description: 検索範囲(終了)
       name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
       in: query
       required: true
       schema:
@@ -123,14 +135,6 @@ components:
         - plan
         - unit
         - user
-    requiredStartDateInQuery:
-      description: 検索範囲(開始)
-      name: startDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
   schemas:
     UUID:
       type: string

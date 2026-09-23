@@ -6,14 +6,14 @@ info:
 servers:
 - url: https://report.magicmoment.co.jp/
 tags:
-- name: aggregate
+- name: Aggregate
 paths:
   /aggregate/playbook-phases:
     put:
       security:
       - accessToken: []
       tags:
-      - aggregate
+      - Aggregate
       operationId: savePlaybookReport
       responses:
         '200':
@@ -33,12 +33,14 @@ paths:
                 startDate:
                   type: string
                   format: date
+      summary: Save playbook report
+      x-summary-source: derived
   /aggregate/playbook-phases/daily:
     put:
       security:
       - apiKey: []
       tags:
-      - aggregate
+      - Aggregate
       operationId: saveDailyPlaybookReport
       responses:
         '200':
@@ -64,6 +66,8 @@ paths:
                 startDate:
                   type: string
                   format: date
+      summary: Save daily playbook report
+      x-summary-source: derived
 components:
   securitySchemes:
     accessToken:

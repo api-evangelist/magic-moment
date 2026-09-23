@@ -7,6 +7,10 @@ info:
   description: 集計基盤連携API仕様
   title: 集計基盤連携アプリケーション
   version: 1.0.0
+host: report.magicmoment.co.jp
+basePath: /
+schemes:
+- https
 paths:
   /aggregate/playbook-phases:
     put:

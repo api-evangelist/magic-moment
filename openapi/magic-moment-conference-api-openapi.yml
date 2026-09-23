@@ -6,12 +6,12 @@ info:
 servers:
 - url: https://call.magicmoment.co.jp/
 tags:
-- name: conference
+- name: Conference
 paths:
   /call-providers/{settingId}/conference:
     get:
       tags:
-      - conference
+      - Conference
       summary: Get xml setting for hold music
       operationId: ConferenceHoldMusic
       parameters:
@@ -30,7 +30,7 @@ paths:
                 $ref: '#/components/schemas/Response'
     post:
       tags:
-      - conference
+      - Conference
       summary: Get xml setting for creating conference
       operationId: ConferenceCreate
       parameters:
@@ -62,7 +62,7 @@ paths:
   /call-providers/{settingId}/conference/join-callback:
     post:
       tags:
-      - conference
+      - Conference
       summary: Show xml setting for redirect call from phone numer to web client
       operationId: ClientReceiveCallXml
       parameters:
@@ -104,7 +104,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - conference
+      - Conference
       summary: Hold / un-Hold the call by change conference status
       operationId: ChangeConferenceStatus
       parameters:

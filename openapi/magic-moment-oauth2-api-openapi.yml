@@ -8,14 +8,14 @@ servers:
 - url: https://suite.magicmoment.co.jp/
 - url: https://sfdc.magicmoment.co.jp/
 tags:
-- name: oauth2
+- name: OAuth2
 paths:
   /oauth2/authorize/:
     get:
       security:
       - accessToken: []
       tags:
-      - oauth2
+      - OAuth2
       summary: Hubspot認証・認可
       operationId: startHubspotAuth
       parameters:
@@ -42,7 +42,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - oauth2
+      - OAuth2
       summary: Unlink service
       operationId: deleteHubspotAuth
       responses:
@@ -54,7 +54,7 @@ paths:
     get:
       description: 認可コールバックのエンドポイント
       tags:
-      - oauth2
+      - OAuth2
       summary: Hubspot認可コールバック
       operationId: callbackHubspotAuth
       parameters:
@@ -82,7 +82,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - oauth2
+      - OAuth2
       summary: 認証結果一覧
       operationId: listOauthResults
       responses:
@@ -104,7 +104,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - oauth2
+      - OAuth2
       summary: 認証
       operationId: startAuth
       parameters:
@@ -136,7 +136,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - oauth2
+      - OAuth2
       summary: Unlink service
       operationId: deleteAuth
       parameters:
@@ -155,7 +155,7 @@ paths:
   /oauth2/callback:
     get:
       tags:
-      - oauth2
+      - OAuth2
       summary: 認証コールバック
       operationId: callbackAuth
       parameters:
@@ -185,7 +185,7 @@ paths:
     post:
       security: []
       tags:
-      - oauth2
+      - OAuth2
       summary: サービスの認可取消し
       operationId: deauthorization
       parameters:
@@ -220,7 +220,7 @@ paths:
       security:
       - apiKey: []
       tags:
-      - oauth2
+      - OAuth2
       summary: Update access tokens for all tenants
       operationId: updateAccessTokens
       responses:
@@ -235,8 +235,6 @@ components:
       type: string
       format: date-time
       example: '2017-07-21T17:32:28Z'
-    redirect_url:
-      type: string
     oauthResult:
       type: object
       properties:
@@ -247,13 +245,8 @@ components:
           type: string
           enum:
           - HUBSPOT
-    profile:
-      type: object
-      properties:
-        email:
-          description: メールアドレス
-          type: string
-          format: email
+    redirect_url:
+      type: string
     oauthResult_2:
       type: object
       properties:
@@ -276,16 +269,13 @@ components:
           - ZOOM
         userId:
           type: string
-    deauthorization:
+    profile:
       type: object
       properties:
-        event:
+        email:
+          description: メールアドレス
           type: string
-        payload:
-          type: object
-          properties:
-            user_id:
-              type: string
+          format: email
     error:
       type: object
       required:
@@ -298,6 +288,16 @@ components:
         message:
           type: string
           example: Not Found
+    deauthorization:
+      type: object
+      properties:
+        event:
+          type: string
+        payload:
+          type: object
+          properties:
+            user_id:
+              type: string
     oauthResult_3:
       type: object
       properties:

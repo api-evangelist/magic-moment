@@ -100,6 +100,19 @@ paths:
                         type: string
         description: Webhook body
 components:
+  responses:
+    success:
+      description: リクエストの成功時に返却します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/success'
+    default:
+      description: 未知のエラーの場合に発生します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
   schemas:
     error:
       type: object
@@ -120,19 +133,6 @@ components:
       properties:
         success:
           type: boolean
-  responses:
-    success:
-      description: リクエストの成功時に返却します。
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/success'
-    default:
-      description: 未知のエラーの場合に発生します。
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
   securitySchemes:
     accessToken:
       type: apiKey

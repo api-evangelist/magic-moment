@@ -6,14 +6,14 @@ info:
 servers:
 - url: https://report.magicmoment.co.jp/
 tags:
-- name: performance
+- name: Performance
 paths:
   /reports/achievement/unit:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getUnitAchievement
       parameters:
       - $ref: '#/components/parameters/requiredStartDateInQuery'
@@ -28,12 +28,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnitAchievement'
+      summary: Get unit achievement
+      x-summary-source: derived
   /reports/achievement/user:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getUserAchievement
       parameters:
       - $ref: '#/components/parameters/requiredStartDateInQuery'
@@ -48,12 +50,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserAchievement'
+      summary: Get user achievement
+      x-summary-source: derived
   /reports/engagement-ids:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getEngagementIdsOfPerformanceSummary
       parameters:
       - name: engagementOwnerId
@@ -94,12 +98,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UUID'
+      summary: Get engagement ids of performance summary
+      x-summary-source: derived
   /reports/performance-detail/phase/{phaseValue}:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getPhasePerformanceDetail
       parameters:
       - $ref: '#/components/parameters/requiredPhaseValueInPath'
@@ -116,12 +122,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhasePerformanceDetail'
+      summary: Get phase performance detail
+      x-summary-source: derived
   /reports/performance-detail/rep/{engagementOwnerId}:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getRepPerformanceDetail
       parameters:
       - $ref: '#/components/parameters/requiredEngagementOwnerIdInPath'
@@ -137,12 +145,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RepPerformanceDetail'
+      summary: Get rep performance detail
+      x-summary-source: derived
   /reports/performance-detail/team:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getTeamPerformanceDetail
       parameters:
       - $ref: '#/components/parameters/requiredStartDateInQuery'
@@ -158,12 +168,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamPerformanceDetail'
+      summary: Get team performance detail
+      x-summary-source: derived
   /reports/performance-summary/phase:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getPhasePerformanceSummary
       parameters:
       - $ref: '#/components/parameters/requiredStartDateInQuery'
@@ -177,12 +189,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhasePerformanceSummary'
+      summary: Get phase performance summary
+      x-summary-source: derived
   /reports/performance-summary/rep:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getRepPerformanceSummary
       parameters:
       - $ref: '#/components/parameters/requiredStartDateInQuery'
@@ -196,12 +210,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RepPerformanceSummary'
+      summary: Get rep performance summary
+      x-summary-source: derived
   /reports/performance-summary/team:
     get:
       security:
       - accessToken: []
       tags:
-      - performance
+      - Performance
       operationId: getTeamPerformanceSummary
       parameters:
       - $ref: '#/components/parameters/requiredStartDateInQuery'
@@ -215,29 +231,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamPerformanceSummary'
+      summary: Get team performance summary
+      x-summary-source: derived
 components:
   parameters:
-    requiredEndDateInQuery:
-      description: 検索範囲(終了)
-      name: endDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredPhaseValueInQuery:
-      name: phaseValue
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - nurturing
-        - qualification
-        - closing
-        - onboarding
-        - adoption
-        - expansion
     followedPhaseType:
       name: followedPhaseType
       in: query
@@ -248,16 +245,26 @@ components:
         - sameTerm
         - inTerm
         - newAssign
+    unitIdInQuery:
+      name: unitId
+      in: query
+      schema:
+        type: string
+        format: uuid
+    requiredGroupByInQuery:
+      description: グループ化条件
+      name: groupBy
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - daily
+        - monthly
     requiredEngagementOwnerIdInPath:
       name: engagementOwnerId
       in: path
       required: true
-      schema:
-        type: string
-        format: uuid
-    unitIdInQuery:
-      name: unitId
-      in: query
       schema:
         type: string
         format: uuid
@@ -272,19 +279,19 @@ components:
         - sameTerm
         - inTerm
         - newAssign
-    requiredTargetTypeInQuery:
-      name: targetType
+    requiredPhaseValueInQuery:
+      name: phaseValue
       in: query
       required: true
       schema:
         type: string
         enum:
-        - achievedPhase
-        - requiredItem
-        - optionalItem
-        - winned
-        - mrr
-        - contractValue
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
     requiredItemTypeInQuery:
       name: itemType
       in: query
@@ -308,32 +315,22 @@ components:
         - cumulativeAssignEngagement
         - newAssignEngagement
         - attackEngagement
-    requiredPhaseValueInPath:
-      name: phaseValue
-      in: path
-      required: true
-      schema:
-        type: string
-        enum:
-        - nurturing
-        - qualification
-        - closing
-        - onboarding
-        - adoption
-        - expansion
-    requiredGroupByInQuery:
-      description: グループ化条件
-      name: groupBy
+    requiredTargetTypeInQuery:
+      name: targetType
       in: query
       required: true
       schema:
         type: string
         enum:
-        - daily
-        - monthly
-    requiredStartDateInQuery:
-      description: 検索範囲(開始)
-      name: startDate
+        - achievedPhase
+        - requiredItem
+        - optionalItem
+        - winned
+        - mrr
+        - contractValue
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
       in: query
       required: true
       schema:
@@ -350,16 +347,40 @@ components:
         items:
           type: string
           format: uuid
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredPhaseValueInPath:
+      name: phaseValue
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
   schemas:
-    RepPerformanceSummary:
-      type: array
-      items:
-        type: object
-        properties:
-          engagementOwner:
-            $ref: '#/components/schemas/EngagementOwner'
-          values:
-            $ref: '#/components/schemas/PerformanceSummaryValue'
+    UnitAchievement:
+      type: object
+      properties:
+        values:
+          $ref: '#/components/schemas/PerformanceDetailValue'
+    RepPerformanceDetail:
+      type: object
+      properties:
+        engagementOwner:
+          $ref: '#/components/schemas/EngagementOwner'
+        values:
+          $ref: '#/components/schemas/PerformanceDetailValue'
     PhaseValue:
       type: string
       enum:
@@ -369,17 +390,32 @@ components:
       - onboarding
       - adoption
       - expansion
-    PhasePerformanceDetail:
+    TeamPerformanceDetail:
       type: object
       properties:
-        phaseValue:
-          $ref: '#/components/schemas/PhaseValue'
         values:
           $ref: '#/components/schemas/PerformanceDetailValue'
-    UUID:
-      type: string
-      format: uuid
-      example: 550e8400-e29b-41d4-a716-446655440000
+    EngagementOwner:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+        unitId:
+          $ref: '#/components/schemas/UUID'
+        userId:
+          $ref: '#/components/schemas/UUID'
+    PhasePerformanceSummary:
+      type: array
+      items:
+        type: object
+        properties:
+          phaseValue:
+            $ref: '#/components/schemas/PhaseValue'
+          values:
+            $ref: '#/components/schemas/PerformanceSummaryValue'
+      x-examples: {}
     PerformanceSummaryValue:
       type: object
       required:
@@ -437,54 +473,29 @@ components:
           type: integer
           format: uint32
       x-examples: {}
-    TeamPerformanceDetail:
-      type: object
-      properties:
-        values:
-          $ref: '#/components/schemas/PerformanceDetailValue'
-    RepPerformanceDetail:
-      type: object
-      properties:
-        engagementOwner:
-          $ref: '#/components/schemas/EngagementOwner'
-        values:
-          $ref: '#/components/schemas/PerformanceDetailValue'
-    PhasePerformanceSummary:
-      type: array
-      items:
-        type: object
-        properties:
-          phaseValue:
-            $ref: '#/components/schemas/PhaseValue'
-          values:
-            $ref: '#/components/schemas/PerformanceSummaryValue'
-      x-examples: {}
-    UnitAchievement:
-      type: object
-      properties:
-        values:
-          $ref: '#/components/schemas/PerformanceDetailValue'
     UserAchievement:
       type: object
       properties:
         values:
           $ref: '#/components/schemas/PerformanceDetailValue'
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
     TeamPerformanceSummary:
       type: object
       properties:
         values:
           $ref: '#/components/schemas/PerformanceSummaryValue'
-    EngagementOwner:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/UUID'
-        phaseValue:
-          $ref: '#/components/schemas/PhaseValue'
-        unitId:
-          $ref: '#/components/schemas/UUID'
-        userId:
-          $ref: '#/components/schemas/UUID'
+    RepPerformanceSummary:
+      type: array
+      items:
+        type: object
+        properties:
+          engagementOwner:
+            $ref: '#/components/schemas/EngagementOwner'
+          values:
+            $ref: '#/components/schemas/PerformanceSummaryValue'
     PerformanceDetailValue:
       type: array
       items:
@@ -498,6 +509,13 @@ components:
           value:
             type: number
             format: float
+    PhasePerformanceDetail:
+      type: object
+      properties:
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+        values:
+          $ref: '#/components/schemas/PerformanceDetailValue'
   securitySchemes:
     accessToken:
       type: apiKey

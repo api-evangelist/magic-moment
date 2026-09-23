@@ -15,7 +15,7 @@ paths:
       - accessToken: []
       tags:
       - engagement_sync_settings
-      summary: Get EngagementSyncSetting data beetwen Playbook <-> Hubspot
+      summary: Get EngagementSyncSetting data beetwen Playbook Hubspot
       operationId: getEngagementSyncSettingOfHubspot
       responses:
         '200':
@@ -31,7 +31,7 @@ paths:
       - accessToken: []
       tags:
       - engagement_sync_settings
-      summary: Create/update EngagementSyncSetting data beetwen Playbook <-> Hubspot
+      summary: Create/update EngagementSyncSetting data beetwen Playbook Hubspot
       operationId: saveEngagementSyncSettingOfHubspot
       responses:
         '200':

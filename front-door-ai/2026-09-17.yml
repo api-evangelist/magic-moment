@@ -1,0 +1,25 @@
+# Front Door AI Index — magic-moment — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: magic-moment
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.magicmoment.jp
+  final_host: magicmoment.jp
+  ownership: own
+  owner: magic-moment
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 1
+  host_score: 1
+  density: 10.0
+  words: 100
+  tiers:
+    agentic: 1
+    core: 0
+    model: 0
+  ambiguous: 0
+  top_terms:
+    copilot: 1

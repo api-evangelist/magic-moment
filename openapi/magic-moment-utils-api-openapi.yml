@@ -9,12 +9,12 @@ servers:
 - url: https://suite.magicmoment.co.jp/
 - url: https://sfdc.magicmoment.co.jp/
 tags:
-- name: utils
+- name: Utils
 paths:
   /healthcheck:
     get:
       tags:
-      - utils
+      - Utils
       summary: ヘルスチェック
       operationId: healthCheck
       responses:

@@ -4,48 +4,52 @@ produces:
 - application/json
 swagger: '2.0'
 info:
-  description: Salesforce連携アプリケーションAPI仕様
-  title: Salesforce連携アプリケーション
+  description: Hubspot連携アプリケーションAPI仕様
+  title: Hubspot連携アプリケーション
   version: 1.0.0
+host: hubspot.magicmoment.co.jp
+basePath: /
+schemes:
+- https
 paths:
-  /crm/lead_statuses:
+  /crm/deal_stages:
     get:
       security:
       - accessToken: []
       tags:
-      - fetch_sfdc
-      summary: Get value from Salesforce LeadStatus Object
-      operationId: getLeadStatusOfSfdc
+      - fetch_hubspot
+      summary: Get value from Hubspot dealstages Object
+      operationId: getDealStagesOfHubspot
       responses:
         '200':
           description: OK
           schema:
             type: array
             items:
-              $ref: '#/definitions/sfdc_api_name'
-  /crm/opportunity_stages:
+              $ref: '#/definitions/hubspot_api_name'
+  /crm/hs_lead_statuses:
     get:
       security:
       - accessToken: []
       tags:
-      - fetch_sfdc
-      summary: Get value from Salesforce OpportunityStage Object
-      operationId: getOpportunityStageOfSfdc
+      - fetch_hubspot
+      summary: Get value from Hubspot hs_lead_status Object
+      operationId: getHsLeadStatusOfHubspot
       responses:
         '200':
           description: OK
           schema:
             type: array
             items:
-              $ref: '#/definitions/sfdc_api_name'
+              $ref: '#/definitions/hubspot_api_name'
   /crm/users:
     get:
       security:
       - accessToken: []
       tags:
-      - fetch_sfdc
-      summary: Show list salesforce users API
-      operationId: getSalesforceUsers
+      - fetch_hubspot
+      summary: Show list hubspot users API
+      operationId: getHubspotUsers
       parameters:
       - type: string
         name: keyword
@@ -53,7 +57,7 @@ paths:
       - type: array
         items:
           type: string
-        name: sfdcIds
+        name: hubspotIds
         in: query
       responses:
         '200':
@@ -61,15 +65,15 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/salesforceUser'
+              $ref: '#/definitions/hubspotUser'
   /engagement_sync_settings:
     get:
       security:
       - accessToken: []
       tags:
       - engagement_sync_settings
-      summary: Get EngagementSyncSetting data beetwen Playbook <-> Salesforce
-      operationId: getEngagementSyncSettingOfSfdc
+      summary: Get EngagementSyncSetting data beetwen Playbook <-> Hubspot
+      operationId: getEngagementSyncSettingOfHubspot
       responses:
         '200':
           description: OK
@@ -82,8 +86,8 @@ paths:
       - accessToken: []
       tags:
       - engagement_sync_settings
-      summary: Create/update EngagementSyncSetting data beetwen Playbook <-> Salesforce
-      operationId: saveEngagementSyncSettingOfSfdc
+      summary: Create/update EngagementSyncSetting data beetwen Playbook <-> Hubspot
+      operationId: saveEngagementSyncSettingOfHubspot
       parameters:
       - name: body
         in: body
@@ -106,12 +110,16 @@ paths:
       tags:
       - engagement_sync_settings
       summary: Delete Engagement sync setting
-      operationId: deleteEngagementSyncSettingOfSfdc
+      operationId: deleteEngagementSyncSettingOfHubspot
       responses:
         '200':
           description: OK
     parameters:
-    - $ref: '#/parameters/engagement_sync_setting_id'
+    - type: string
+      format: uuid
+      name: engagement_sync_setting_id
+      in: path
+      required: true
   /healthcheck:
     get:
       tags:
@@ -127,8 +135,8 @@ paths:
       - accessToken: []
       tags:
       - mappings
-      summary: Playbook <-> Salesforce の ID の対応関係を取得する
-      operationId: getSyncIDMapOfSfdc
+      summary: Playbook <-> Hubspot の ID の対応関係を取得する
+      operationId: getSyncIDMapOfHubspot
       parameters:
       - type: string
         format: uuid
@@ -148,8 +156,8 @@ paths:
       - accessToken: []
       tags:
       - mappings
-      summary: Playbook <-> Salesforce の ID の対応関係を設定する
-      operationId: saveSyncIDMapOfSfdc
+      summary: Playbook <-> Hubspot の ID の対応関係を作成・更新する
+      operationId: saveSyncIDMapOfHubspot
       parameters:
       - name: body
         in: body
@@ -162,10 +170,10 @@ paths:
               items:
                 type: object
                 properties:
+                  hubspot_id:
+                    $ref: '#/definitions/hubspot_id'
                   mmp_id:
                     $ref: '#/definitions/mmp_id'
-                  sfdc_id:
-                    $ref: '#/definitions/sfdc_id'
             sync_setting_id:
               $ref: '#/definitions/sync_setting_id'
       responses:
@@ -177,25 +185,15 @@ paths:
     delete:
       security:
       - accessToken: []
+      description: Delete mapping by id of sync_id_mappings table
       tags:
       - mappings
       summary: Delete mapping
-      operationId: deleteSyncIDMapOfSfdc
+      operationId: deleteSyncIDMapOfHubspot
+      parameters:
+      - $ref: '#/parameters/mapping_id'
       responses:
         '200':
-          description: OK
-    parameters:
-    - $ref: '#/parameters/mapping_id'
-  /oauth2/access-tokens:
-    put:
-      security:
-      - apiKey: []
-      tags:
-      - oauth2
-      summary: Update access tokens for all tenants
-      operationId: updateAccessTokens
-      responses:
-        '204':
           description: OK
   /oauth2/authorize/:
     get:
@@ -203,19 +201,14 @@ paths:
       - accessToken: []
       tags:
       - oauth2
-      summary: Salesforce認証・認可
-      operationId: startSfdcAuth
+      summary: Hubspot認証・認可
+      operationId: startHubspotAuth
       parameters:
-      - type: boolean
-        default: false
-        name: is_sandbox
-        in: query
       - type: string
         format: uri
         description: リダイレクトURI
         name: redirect_uri
         in: query
-        required: true
       responses:
         '200':
           description: JSONリクエストの場合のみ、リダイレクトせずにリダイレクト先URLを返す
@@ -232,7 +225,7 @@ paths:
       tags:
       - oauth2
       summary: Unlink service
-      operationId: deleteSfdcAuth
+      operationId: deleteHubspotAuth
       responses:
         '200':
           description: OK
@@ -241,8 +234,8 @@ paths:
       description: 認可コールバックのエンドポイント
       tags:
       - oauth2
-      summary: Salesforce認可コールバック
-      operationId: callbackSfdcAuth
+      summary: Hubspot認可コールバック
+      operationId: callbackHubspotAuth
       parameters:
       - type: string
         name: code
@@ -282,8 +275,8 @@ paths:
       - accessToken: []
       tags:
       - settings
-      summary: Salesforce読み込み設定の取得
-      operationId: getSyncSettingOfSfdc
+      summary: Hubspot読み込み設定の取得
+      operationId: getSyncSettingOfHubspot
       parameters:
       - type: string
         name: mmpObject
@@ -298,8 +291,8 @@ paths:
       - accessToken: []
       tags:
       - settings
-      summary: Playbook <-> Salesforce の対応関係設定追加
-      operationId: createSyncSettingOfSfdc
+      summary: Playbook <-> Hubspot の対応関係設定追加
+      operationId: createSyncSettingOfHubspot
       parameters:
       - name: body
         in: body
@@ -309,10 +302,10 @@ paths:
           properties:
             auto_sync:
               type: boolean
+            hubspot_object_name:
+              $ref: '#/definitions/hubspot_object_name'
             mmp_table_name:
               $ref: '#/definitions/mmp_table_name'
-            sfdc_object_name:
-              $ref: '#/definitions/sfdc_object_name'
             sync_field_map:
               $ref: '#/definitions/sync_field_map'
             sync_order:
@@ -320,91 +313,24 @@ paths:
       responses:
         '201':
           description: OK
-  /settings/marketo:
-    get:
-      security:
-      - accessToken: []
-      tags:
-      - settings
-      summary: Marketo認証設定の取得
-      operationId: getCredentialSettingOfMarketo
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/marketo_credential_setting'
-    post:
-      security:
-      - accessToken: []
-      tags:
-      - settings
-      summary: Marketo認証設定の登録
-      operationId: createCredentialSettingsOfMarketo
-      parameters:
-      - name: body
-        in: body
-        required: true
-        schema:
-          type: object
-          properties:
-            clientId:
-              type: string
-            clientSecret:
-              type: string
-            consoleURL:
-              type: string
-            endpointURL:
-              type: string
-            identityURL:
-              type: string
-      responses:
-        '201':
-          description: OK
-    patch:
-      security:
-      - accessToken: []
-      tags:
-      - settings
-      summary: Marketo認証設定の更新
-      operationId: updateCredentialSettingsOfMarketo
-      parameters:
-      - name: body
-        in: body
-        required: true
-        schema:
-          type: object
-          properties:
-            clientId:
-              type: string
-            clientSecret:
-              type: string
-            consoleURL:
-              type: string
-            endpointURL:
-              type: string
-            identityURL:
-              type: string
-      responses:
-        '200':
-          description: OK
   /settings/{sync_setting_id}:
     patch:
       security:
       - accessToken: []
       tags:
       - settings
-      summary: Playbook <-> Salesforce の対応関係設定更新
-      operationId: updateSyncFieldMapOfSfdc
+      summary: Playbook <-> HubSpot の対応関係設定更新
+      operationId: updateSyncFieldMapOfHubspot
       parameters:
       - name: body
         in: body
         schema:
           type: object
           properties:
+            hubspot_object_name:
+              $ref: '#/definitions/hubspot_object_name'
             mmp_table_name:
               $ref: '#/definitions/mmp_table_name'
-            sfdc_object_name:
-              $ref: '#/definitions/sfdc_object_name'
             sync_field_map:
               $ref: '#/definitions/sync_field_map'
             write_sync_patterns:
@@ -416,42 +342,15 @@ paths:
           description: OK
     parameters:
     - $ref: '#/parameters/sync_setting_id'
-  /settings/{sync_setting_id}/engagement:
-    post:
-      security:
-      - accessToken: []
-      tags:
-      - settings
-      summary: Engagement の対応関係設定追加
-      operationId: createEngagementSyncSettingOfSfdc
-      parameters:
-      - name: body
-        in: body
-        required: true
-        schema:
-          type: object
-          properties:
-            phase_sync_id_map_id:
-              type: string
-              format: uuid
-            playbook_id:
-              $ref: '#/definitions/mmp_id'
-            progress:
-              type: integer
-      responses:
-        '201':
-          description: OK
-    parameters:
-    - $ref: '#/parameters/sync_setting_id'
   /sync/read:
     post:
       security:
       - accessToken: []
       - apiKey: []
       tags:
-      - sync_sfdc
-      summary: Salesforce からデータを読み込み Playbook にデータを反映する
-      operationId: readSyncWithSfdc
+      - sync_hubspot
+      summary: Hubspotからデータを読み込み Playbook にデータを反映する
+      operationId: readSyncWithHubspot
       parameters:
       - name: body
         in: body
@@ -460,9 +359,7 @@ paths:
           properties:
             mode:
               type: string
-            target:
-              type: string
-            team_id:
+            teamId:
               type: string
       responses:
         '201':
@@ -473,7 +370,7 @@ paths:
       - accessToken: []
       - apiKey: []
       tags:
-      - sync_sfdc
+      - sync_hubspot
       summary: 同期状態
       operationId: getSyncable
       parameters:
@@ -492,7 +389,7 @@ paths:
       - apiKey: []
       - accessToken: []
       tags:
-      - sync_sfdc
+      - sync_hubspot
       summary: 同期開始・ストップ
       operationId: toggleSyncable
       parameters:
@@ -529,6 +426,8 @@ definitions:
       phase_sync_id_map:
         type: object
         properties:
+          hubspot_id:
+            type: string
           id:
             type: string
             format: uuid
@@ -543,11 +442,14 @@ definitions:
             - expansion
             - recycling
             - end
-          sfdc_id:
-            type: string
           sync_setting:
             type: object
             properties:
+              hubspot_object_name:
+                type: string
+                enum:
+                - dealstages
+                - hs_lead_status
               id:
                 type: string
                 format: uuid
@@ -556,18 +458,17 @@ definitions:
                 enum:
                 - playbook_phases
                 - engagement_statuses
-              sfdc_object_name:
-                type: string
-                enum:
-                - LeadStatus
-                - OpportunityStage
-                - ContactStatus
       progress:
         type: number
         maximum: 100
       sync_setting:
         type: object
         properties:
+          hubspot_object_name:
+            type: string
+            enum:
+            - deals
+            - contacts
           id:
             type: string
             format: uuid
@@ -575,79 +476,7 @@ definitions:
             type: string
             enum:
             - engagements
-          sfdc_object_name:
-            type: string
-            enum:
-            - Lead
-            - Opportunity
-            - Contact
-          sync_field_map:
-            type: object
-            properties:
-              playbook_phase_id:
-                type: string
-  error:
-    type: object
-    required:
-    - message
-    properties:
-      code:
-        type: integer
-        format: int64
-      message:
-        type: string
-  marketo_credential_setting:
-    type: object
-    required:
-    - clientId
-    - clientSecret
-    - identityURL
-    - endpointURL
-    - consoleURL
-    properties:
-      clientId:
-        type: string
-      clientSecret:
-        type: string
-      consoleURL:
-        type: string
-      endpointURL:
-        type: string
-      identityURL:
-        type: string
-  mmp_id:
-    type: string
-    format: uuid
-  mmp_table_name:
-    type: string
-  oauthResult:
-    type: object
-    properties:
-      createdAt:
-        $ref: '#/definitions/createdAt'
-      isSandbox:
-        description: Environment is sandbox or not
-        type: boolean
-        x-omitempty: false
-      serviceType:
-        description: 認証サービス
-        type: string
-        enum:
-        - SALESFORCE
-  principal:
-    type: object
-    properties:
-      is_administrator:
-        type: boolean
-      team_id:
-        type: string
-      token:
-        type: string
-      user_id:
-        type: string
-  redirect_url:
-    type: string
-  salesforceUser:
+  hubspotUser:
     type: object
     properties:
       email:
@@ -664,33 +493,50 @@ definitions:
         type: string
       sync_map_id:
         type: string
-  services:
-    type: string
-    enum:
-    - SALESFORCE
-  sfdc_api_name:
+  hubspot_api_name:
     type: object
     properties:
       api_name:
         type: string
       description:
         type: string
-  sfdc_id:
+  hubspot_id:
     type: string
-  sfdc_object_name:
+  hubspot_object_name:
     type: string
+  mmp_id:
+    type: string
+    format: uuid
+  mmp_table_name:
+    type: string
+  oauthResult:
+    type: object
+    properties:
+      createdAt:
+        $ref: '#/definitions/createdAt'
+      serviceType:
+        description: 認証サービス
+        type: string
+        enum:
+        - HUBSPOT
+  redirect_url:
+    type: string
+  services:
+    type: string
+    enum:
+    - HUBSPOT
   sync_field_map:
     type: string
   sync_id_map:
     type: object
     properties:
+      hubspot_id:
+        $ref: '#/definitions/hubspot_id'
       id:
         type: string
         format: uuid
       mmp_id:
         $ref: '#/definitions/mmp_id'
-      sfdc_id:
-        $ref: '#/definitions/sfdc_id'
       sync_setting_id:
         $ref: '#/definitions/sync_setting_id'
   sync_id_maps:
@@ -702,13 +548,13 @@ definitions:
     properties:
       auto_sync:
         type: boolean
+      hubspot_object_name:
+        $ref: '#/definitions/hubspot_object_name'
       id:
         type: string
         format: uuid
       mmp_table_name:
         $ref: '#/definitions/mmp_table_name'
-      sfdc_object_name:
-        $ref: '#/definitions/sfdc_object_name'
       sync_field_map:
         $ref: '#/definitions/sync_field_map'
       sync_order:
@@ -739,15 +585,9 @@ definitions:
   write_sync_pattern:
     type: string
     enum:
-    - SIMPLE_WRITE
     - ARCHIVE
+    - SIMPLE_WRITE
 parameters:
-  engagement_sync_setting_id:
-    type: string
-    format: uuid
-    name: engagement_sync_setting_id
-    in: path
-    required: true
   mapping_id:
     type: string
     format: uuid
@@ -760,31 +600,6 @@ parameters:
     name: sync_setting_id
     in: path
     required: true
-responses:
-  bad_request:
-    description: 入力が不正な場合に発生します。
-    schema:
-      $ref: '#/definitions/error'
-  conflict:
-    description: 対象がすでに存在している場合に発生します。
-    schema:
-      $ref: '#/definitions/error'
-  default_error:
-    description: error
-    schema:
-      $ref: '#/definitions/error'
-  forbidden:
-    description: 権限が不足している場合に発生します。
-    schema:
-      $ref: '#/definitions/error'
-  not_found:
-    description: 対象が存在しない場合に発生します。
-    schema:
-      $ref: '#/definitions/error'
-  unauthorized:
-    description: 認証に失敗した場合に発生します。
-    schema:
-      $ref: '#/definitions/error'
 securityDefinitions:
   accessToken:
     type: apiKey

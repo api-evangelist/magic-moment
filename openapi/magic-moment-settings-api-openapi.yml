@@ -8,14 +8,14 @@ servers:
 - url: https://hubspot.magicmoment.co.jp/
 - url: https://sfdc.magicmoment.co.jp/
 tags:
-- name: settings
+- name: Settings
 paths:
   /call-providers:
     get:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Get call provider setting
       operationId: getCallProviderSetting
       responses:
@@ -36,7 +36,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Create call provider setting
       operationId: createCallProviderSetting
       responses:
@@ -91,7 +91,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Get Miitel setting
       operationId: getMiitelSetting
       responses:
@@ -105,7 +105,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Create Miitel setting
       operationId: createMiitelSetting
       responses:
@@ -139,7 +139,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Update Miitel setting
       operationId: updateMiitelSetting
       parameters:
@@ -170,7 +170,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Delete Miitel setting
       operationId: deleteMiitelSetting
       parameters:
@@ -190,7 +190,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Update call provider setting
       operationId: updateCallProviderSetting
       parameters:
@@ -242,7 +242,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Delete call provider setting
       operationId: deleteCallProviderSetting
       parameters:
@@ -262,7 +262,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Hubspot読み込み設定の取得
       operationId: getSyncSettingOfHubspot
       parameters:
@@ -281,8 +281,8 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
-      summary: Playbook <-> Hubspot の対応関係設定追加
+      - Settings
+      summary: Playbook Hubspot の対応関係設定追加
       operationId: createSyncSettingOfHubspot
       responses:
         '201':
@@ -313,8 +313,8 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
-      summary: Playbook <-> HubSpot の対応関係設定更新
+      - Settings
+      summary: Playbook HubSpot の対応関係設定更新
       operationId: updateSyncFieldMapOfHubspot
       responses:
         '201':
@@ -342,7 +342,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Marketo認証設定の取得
       operationId: getCredentialSettingOfMarketo
       responses:
@@ -356,7 +356,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Marketo認証設定の登録
       operationId: createCredentialSettingsOfMarketo
       responses:
@@ -383,7 +383,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Marketo認証設定の更新
       operationId: updateCredentialSettingsOfMarketo
       responses:
@@ -415,7 +415,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - settings
+      - Settings
       summary: Engagement の対応関係設定追加
       operationId: createEngagementSyncSettingOfSfdc
       responses:
@@ -439,6 +439,17 @@ paths:
     - url: https://sfdc.magicmoment.co.jp/
 components:
   schemas:
+    MiitelSetting:
+      type: object
+      properties:
+        accessKey:
+          type: string
+        companyId:
+          type: string
+        id:
+          type: string
+        teamId:
+          type: string
     CallProviderSetting:
       type: object
       properties:
@@ -456,21 +467,6 @@ components:
           type: string
         receiveUrl:
           type: string
-    MiitelSetting:
-      type: object
-      properties:
-        accessKey:
-          type: string
-        companyId:
-          type: string
-        id:
-          type: string
-        teamId:
-          type: string
-    hubspot_object_name:
-      type: string
-    mmp_table_name:
-      type: string
     write_sync_pattern:
       type: string
       enum:
@@ -480,7 +476,7 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/sync_setting'
-    sync_field_map:
+    mmp_table_name:
       type: string
     sync_setting:
       type: object
@@ -505,35 +501,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/write_sync_pattern'
-    mmp_id:
+    sync_field_map:
       type: string
-      format: uuid
-    marketo_credential_setting:
-      type: object
-      required:
-      - clientId
-      - clientSecret
-      - identityURL
-      - endpointURL
-      - consoleURL
-      properties:
-        clientId:
-          type: string
-        clientSecret:
-          type: string
-        consoleURL:
-          type: string
-        endpointURL:
-          type: string
-        identityURL:
-          type: string
+    hubspot_object_name:
+      type: string
     write_sync_pattern_2:
       type: string
       enum:
       - SIMPLE_WRITE
       - ARCHIVE
-    sfdc_object_name:
+    mmp_id:
       type: string
+      format: uuid
     sync_setting_2:
       type: object
       properties:
@@ -557,6 +536,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/write_sync_pattern_2'
+    sfdc_object_name:
+      type: string
+    marketo_credential_setting:
+      type: object
+      required:
+      - clientId
+      - clientSecret
+      - identityURL
+      - endpointURL
+      - consoleURL
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+        consoleURL:
+          type: string
+        endpointURL:
+          type: string
+        identityURL:
+          type: string
   parameters:
     sync_setting_id:
       name: sync_setting_id

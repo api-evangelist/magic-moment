@@ -6,14 +6,14 @@ info:
 servers:
 - url: https://call.magicmoment.co.jp/
 tags:
-- name: capability
+- name: Capability
 paths:
   /call-providers/{settingId}/capability-token:
     get:
       security:
       - accessToken: []
       tags:
-      - capability
+      - Capability
       summary: Get token from Call center
       operationId: GetCapabilityToken
       parameters:
@@ -36,7 +36,7 @@ paths:
                     type: string
     post:
       tags:
-      - capability
+      - Capability
       summary: Authenticate when client connect to Call center
       operationId: AuthCapabilityToken
       parameters:

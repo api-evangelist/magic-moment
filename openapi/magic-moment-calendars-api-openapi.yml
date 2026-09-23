@@ -6,14 +6,14 @@ info:
 servers:
 - url: https://suite.magicmoment.co.jp/
 tags:
-- name: calendars
+- name: Calendars
 paths:
   /calendars:
     post:
       security:
       - accessToken: []
       tags:
-      - calendars
+      - Calendars
       summary: カレンダーイベントを作成
       operationId: createCalendarEvent
       responses:
@@ -39,7 +39,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - calendars
+      - Calendars
       summary: カレンダーイベント一覧を取得
       operationId: listCalendarEvents
       parameters:
@@ -81,7 +81,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - calendars
+      - Calendars
       summary: Show calendar event
       operationId: showCalendarEvents
       parameters:
@@ -118,7 +118,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - calendars
+      - Calendars
       summary: カレンダーイベントを更新
       operationId: updateCalendarEvent
       parameters:
@@ -156,7 +156,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - calendars
+      - Calendars
       summary: カレンダーイベントを削除
       operationId: deleteCalendarEvent
       parameters:
@@ -185,7 +185,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - calendars
+      - Calendars
       summary: List calendar events for selected user
       operationId: listUserCalendarEvents
       parameters:

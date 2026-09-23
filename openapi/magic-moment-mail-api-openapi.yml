@@ -6,14 +6,14 @@ info:
 servers:
 - url: https://suite.magicmoment.co.jp/
 tags:
-- name: mail
+- name: Mail
 paths:
   /mail/attachment/{mailAttachmentId}:
     get:
       security:
       - accessToken: []
       tags:
-      - mail
+      - Mail
       summary: 添付メールダウンロード
       operationId: getMailAttachment
       parameters:
@@ -42,7 +42,7 @@ paths:
       security:
       - apiToken: []
       tags:
-      - mail
+      - Mail
       summary: メール取り込み対象の oauth_results をエンキューする
       operationId: enqueueOauthResultsForSyncMail
       responses:
@@ -53,7 +53,7 @@ paths:
       security:
       - apiToken: []
       tags:
-      - mail
+      - Mail
       summary: 指定された oauth_result_id に紐づくユーザーのメールを取り込む
       operationId: syncMailByOauthResultId
       parameters:
@@ -71,7 +71,7 @@ paths:
       security:
       - apiToken: []
       tags:
-      - mail
+      - Mail
       summary: smtp-imap-credentials に紐づくユーザーのメールを取り込む
       operationId: syncMailByImap
       responses:
@@ -82,8 +82,8 @@ paths:
       security:
       - accessToken: []
       tags:
-      - mail
-      summary: Clientからのポーリングによるメール同期を廃止するため、本APIも合わせて廃止予定です。API自体が 404 を返さないようにするため、処理は行わず 204 を返します
+      - Mail
+      summary: Clientからのポーリングによるメール同期を廃止するため、本APIも合わせて廃止予定です。API自体が 404 を返さないようにするため、処理は行わず…
       operationId: syncMails
       deprecated: true
       responses:

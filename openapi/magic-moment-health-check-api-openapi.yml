@@ -6,12 +6,12 @@ info:
 servers:
 - url: https://report.magicmoment.co.jp/
 tags:
-- name: healthcheck
+- name: Health Check
 paths:
   /healthcheck:
     get:
       tags:
-      - healthcheck
+      - Health Check
       summary: Your GET endpoint
       operationId: get-healthcheck
       responses:

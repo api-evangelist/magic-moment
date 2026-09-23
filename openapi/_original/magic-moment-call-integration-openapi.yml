@@ -7,6 +7,10 @@ info:
   description: Call Integration service連携アプリケーションAPI仕様
   title: Call Integration service連携アプリケーション
   version: 1.0.0
+host: call.magicmoment.co.jp
+basePath: /
+schemes:
+- https
 paths:
   /call-log:
     get:

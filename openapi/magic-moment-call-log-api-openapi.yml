@@ -6,14 +6,14 @@ info:
 servers:
 - url: https://call.magicmoment.co.jp/
 tags:
-- name: call-log
+- name: Call Log
 paths:
   /call-log:
     get:
       security:
       - accessToken: []
       tags:
-      - call-log
+      - Call Log
       summary: Get call log
       operationId: getCallLog
       parameters:
@@ -48,7 +48,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - call-log
+      - Call Log
       summary: Create Call log
       operationId: createCallLog
       responses:
@@ -96,7 +96,7 @@ paths:
       security:
       - accessToken: []
       tags:
-      - call-log
+      - Call Log
       summary: Create Call log for Miitel
       operationId: createCallLogForMiitel
       responses:
