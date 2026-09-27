@@ -467,16 +467,7 @@ components:
           type: string
         receiveUrl:
           type: string
-    write_sync_pattern:
-      type: string
-      enum:
-      - ARCHIVE
-      - SIMPLE_WRITE
-    sync_settings:
-      type: array
-      items:
-        $ref: '#/components/schemas/sync_setting'
-    mmp_table_name:
+    sync_field_map:
       type: string
     sync_setting:
       type: object
@@ -501,18 +492,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/write_sync_pattern'
-    sync_field_map:
+    sync_settings:
+      type: array
+      items:
+        $ref: '#/components/schemas/sync_setting'
+    mmp_table_name:
       type: string
     hubspot_object_name:
       type: string
-    write_sync_pattern_2:
+    write_sync_pattern:
       type: string
       enum:
-      - SIMPLE_WRITE
       - ARCHIVE
-    mmp_id:
-      type: string
-      format: uuid
+      - SIMPLE_WRITE
     sync_setting_2:
       type: object
       properties:
@@ -536,8 +528,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/write_sync_pattern_2'
-    sfdc_object_name:
-      type: string
     marketo_credential_setting:
       type: object
       required:
@@ -557,6 +547,16 @@ components:
           type: string
         identityURL:
           type: string
+    sfdc_object_name:
+      type: string
+    write_sync_pattern_2:
+      type: string
+      enum:
+      - SIMPLE_WRITE
+      - ARCHIVE
+    mmp_id:
+      type: string
+      format: uuid
   parameters:
     sync_setting_id:
       name: sync_setting_id

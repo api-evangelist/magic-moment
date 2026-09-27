@@ -94,12 +94,6 @@ components:
         - onboarding
         - adoption
         - expansion
-    unitIdInQuery:
-      name: unitId
-      in: query
-      schema:
-        type: string
-        format: uuid
     requiredTargetTypeInQuery:
       name: targetType
       in: query
@@ -113,20 +107,26 @@ components:
         - winned
         - mrr
         - contractValue
+    unitIdInQuery:
+      name: unitId
+      in: query
+      schema:
+        type: string
+        format: uuid
   schemas:
     UUID:
       type: string
       format: uuid
       example: 550e8400-e29b-41d4-a716-446655440000
-    PerformanceTargetType:
+    PhaseValue:
       type: string
       enum:
-      - achievedPhase
-      - requiredItem
-      - optionalItem
-      - winned
-      - mrr
-      - contractValue
+      - nurturing
+      - qualification
+      - closing
+      - onboarding
+      - adoption
+      - expansion
     PerformanceTarget:
       type: object
       properties:
@@ -140,15 +140,15 @@ components:
           $ref: '#/components/schemas/PerformanceTargetType'
         unitId:
           $ref: '#/components/schemas/UUID'
-    PhaseValue:
+    PerformanceTargetType:
       type: string
       enum:
-      - nurturing
-      - qualification
-      - closing
-      - onboarding
-      - adoption
-      - expansion
+      - achievedPhase
+      - requiredItem
+      - optionalItem
+      - winned
+      - mrr
+      - contractValue
   securitySchemes:
     accessToken:
       type: apiKey

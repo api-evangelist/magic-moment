@@ -31,35 +31,31 @@ paths:
       summary: Get achieved input form values
       x-summary-source: derived
 components:
-  parameters:
-    requiredEndDateInQuery:
-      description: 検索範囲(終了)
-      name: endDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredStartDateInQuery:
-      description: 検索範囲(開始)
-      name: startDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredPlaybookInputFormIdInPath:
-      name: playbookInputFormId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
   schemas:
+    AchievedInputFormValue:
+      type: object
+      properties:
+        achievedPhase:
+          $ref: '#/components/schemas/AchievedPhase'
+        value:
+          type: array
+          items:
+            type: string
     UUID:
       type: string
       format: uuid
       example: 550e8400-e29b-41d4-a716-446655440000
+    EngagementOwner:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+        unitId:
+          $ref: '#/components/schemas/UUID'
+        userId:
+          $ref: '#/components/schemas/UUID'
     EngagementAssignment:
       type: object
       properties:
@@ -77,15 +73,6 @@ components:
           $ref: '#/components/schemas/UUID'
         playbookPhaseId:
           $ref: '#/components/schemas/UUID'
-    AchievedInputFormValue:
-      type: object
-      properties:
-        achievedPhase:
-          $ref: '#/components/schemas/AchievedPhase'
-        value:
-          type: array
-          items:
-            type: string
     PhaseValue:
       type: string
       enum:
@@ -126,17 +113,30 @@ components:
           - string
           - 'null'
           format: date
-    EngagementOwner:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/UUID'
-        phaseValue:
-          $ref: '#/components/schemas/PhaseValue'
-        unitId:
-          $ref: '#/components/schemas/UUID'
-        userId:
-          $ref: '#/components/schemas/UUID'
+  parameters:
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredPlaybookInputFormIdInPath:
+      name: playbookInputFormId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
   securitySchemes:
     accessToken:
       type: apiKey

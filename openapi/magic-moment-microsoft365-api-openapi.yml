@@ -100,20 +100,14 @@ paths:
                         type: string
         description: Webhook body
 components:
-  responses:
-    success:
-      description: リクエストの成功時に返却します。
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/success'
-    default:
-      description: 未知のエラーの場合に発生します。
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
   schemas:
+    success:
+      type: object
+      required:
+      - success
+      properties:
+        success:
+          type: boolean
     error:
       type: object
       required:
@@ -126,13 +120,19 @@ components:
         message:
           type: string
           example: Not Found
+  responses:
+    default:
+      description: 未知のエラーの場合に発生します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
     success:
-      type: object
-      required:
-      - success
-      properties:
-        success:
-          type: boolean
+      description: リクエストの成功時に返却します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/success'
   securitySchemes:
     accessToken:
       type: apiKey

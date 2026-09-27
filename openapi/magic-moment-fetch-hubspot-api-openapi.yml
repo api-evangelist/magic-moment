@@ -72,6 +72,13 @@ paths:
                   $ref: '#/components/schemas/hubspotUser'
 components:
   schemas:
+    hubspot_api_name:
+      type: object
+      properties:
+        api_name:
+          type: string
+        description:
+          type: string
     hubspotUser:
       type: object
       properties:
@@ -88,13 +95,6 @@ components:
         name:
           type: string
         sync_map_id:
-          type: string
-    hubspot_api_name:
-      type: object
-      properties:
-        api_name:
-          type: string
-        description:
           type: string
   securitySchemes:
     accessToken:

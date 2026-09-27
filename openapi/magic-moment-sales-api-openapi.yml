@@ -107,34 +107,6 @@ paths:
       summary: Get mrr sales report
       x-summary-source: derived
 components:
-  parameters:
-    requiredEndDateInQuery:
-      description: 検索範囲(終了)
-      name: endDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredStartDateInQuery:
-      description: 検索範囲(開始)
-      name: startDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredSalesValueGroupType:
-      name: groupType
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - product
-        - plan
-        - unit
-        - user
   schemas:
     UUID:
       type: string
@@ -162,6 +134,34 @@ components:
         value:
           type: integer
           format: int64
+  parameters:
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredSalesValueGroupType:
+      name: groupType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - product
+        - plan
+        - unit
+        - user
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
   securitySchemes:
     accessToken:
       type: apiKey

@@ -301,9 +301,10 @@ apis:
   humanURL: https://magicmoment.jp/playbook/salesforce
   baseURL: https://sfdc.magicmoment.co.jp/
   tags:
-  - Microsoft-365
+  - Microsoft 365
   tags_raw:
   - microsoft365
+  - Microsoft-365
   properties:
   - type: OpenAPI
     url: openapi/magic-moment-microsoft365-api-openapi.yml

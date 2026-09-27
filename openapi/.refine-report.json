@@ -34,7 +34,7 @@
     "magic-moment-sync-sfdc-api-openapi.yml"
   ],
   "archived": [
-    "deleted 2 superseded output(s) from the previous generation"
+    "deleted 1 superseded output(s) from the previous generation"
   ],
   "errors": [],
   "warnings": [],
@@ -84,8 +84,8 @@
     "tag 'engagement_sync_settings' spans 2 source specs (magic-moment-hubspot-integration-openapi.yml, magic-moment-salesforce-integration-openapi.yml): per-path servers applied",
     "tag 'mappings' spans 2 source specs (magic-moment-hubspot-integration-openapi.yml, magic-moment-salesforce-integration-openapi.yml): per-path servers applied",
     "tag 'oauth2' spans 3 source specs (magic-moment-hubspot-integration-openapi.yml, magic-moment-office-suite-integration-openapi.yml, magic-moment-salesforce-integration-openapi.yml): per-path servers applied",
-    "superseded outputs removed: magic-moment-health-check-api-openapi.yml, magic-moment-o-auth2-api-openapi.yml",
-    "apis.yml register: written (+2 apis, 24 total)"
+    "superseded outputs removed: magic-moment-health-check-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 24 total)"
   ],
   "skipped": [
     "_original/magic-moment-salesforce-integration-swagger.json: archived document superseded by a larger archived document",
@@ -105,7 +105,7 @@
     "magic-moment-mail-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "magic-moment-mappings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "magic-moment-microsoft365-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "magic-moment-o-auth2-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "magic-moment-oauth2-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "magic-moment-performance-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "magic-moment-performance-target-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "magic-moment-playbook-phase-api-openapi.yml: previously refined output, superseded by openapi/_original/",

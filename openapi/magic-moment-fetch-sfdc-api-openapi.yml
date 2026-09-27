@@ -72,13 +72,6 @@ paths:
                   $ref: '#/components/schemas/salesforceUser'
 components:
   schemas:
-    sfdc_api_name:
-      type: object
-      properties:
-        api_name:
-          type: string
-        description:
-          type: string
     salesforceUser:
       type: object
       properties:
@@ -95,6 +88,13 @@ components:
         name:
           type: string
         sync_map_id:
+          type: string
+    sfdc_api_name:
+      type: object
+      properties:
+        api_name:
+          type: string
+        description:
           type: string
   securitySchemes:
     accessToken:

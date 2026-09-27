@@ -230,6 +230,8 @@ paths:
     - url: https://sfdc.magicmoment.co.jp/
 components:
   schemas:
+    redirect_url:
+      type: string
     createdAt:
       description: 作成日
       type: string
@@ -245,8 +247,13 @@ components:
           type: string
           enum:
           - HUBSPOT
-    redirect_url:
-      type: string
+    profile:
+      type: object
+      properties:
+        email:
+          description: メールアドレス
+          type: string
+          format: email
     oauthResult_2:
       type: object
       properties:
@@ -269,13 +276,16 @@ components:
           - ZOOM
         userId:
           type: string
-    profile:
+    deauthorization:
       type: object
       properties:
-        email:
-          description: メールアドレス
+        event:
           type: string
-          format: email
+        payload:
+          type: object
+          properties:
+            user_id:
+              type: string
     error:
       type: object
       required:
@@ -288,16 +298,6 @@ components:
         message:
           type: string
           example: Not Found
-    deauthorization:
-      type: object
-      properties:
-        event:
-          type: string
-        payload:
-          type: object
-          properties:
-            user_id:
-              type: string
     oauthResult_3:
       type: object
       properties:
