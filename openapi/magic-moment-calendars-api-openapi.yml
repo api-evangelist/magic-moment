@@ -236,6 +236,32 @@ paths:
                           type: string
 components:
   schemas:
+    entryPoint:
+      type: object
+      properties:
+        AccessCode:
+          type: string
+        entryPointType:
+          type: string
+        label:
+          type: string
+        pin:
+          type: string
+        uri:
+          type: string
+    meeting:
+      type: object
+      properties:
+        link:
+          type: string
+        serviceType:
+          type: string
+          enum:
+          - MEET
+          - TEAMS
+          - ZOOM
+          - CALL
+          - VISIT
     event:
       type: object
       properties:
@@ -302,32 +328,6 @@ components:
           description: Summary
           type: string
           example: Summary
-    meeting:
-      type: object
-      properties:
-        link:
-          type: string
-        serviceType:
-          type: string
-          enum:
-          - MEET
-          - TEAMS
-          - ZOOM
-          - CALL
-          - VISIT
-    entryPoint:
-      type: object
-      properties:
-        AccessCode:
-          type: string
-        entryPointType:
-          type: string
-        label:
-          type: string
-        pin:
-          type: string
-        uri:
-          type: string
   securitySchemes:
     accessToken:
       type: apiKey

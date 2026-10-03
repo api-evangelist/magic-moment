@@ -80,20 +80,43 @@ paths:
       summary: Save performance target
       x-summary-source: derived
 components:
+  schemas:
+    PhaseValue:
+      type: string
+      enum:
+      - nurturing
+      - qualification
+      - closing
+      - onboarding
+      - adoption
+      - expansion
+    PerformanceTargetType:
+      type: string
+      enum:
+      - achievedPhase
+      - requiredItem
+      - optionalItem
+      - winned
+      - mrr
+      - contractValue
+    PerformanceTarget:
+      type: object
+      properties:
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+        target:
+          type: number
+          x-omitempty: false
+          example: 10
+        targetType:
+          $ref: '#/components/schemas/PerformanceTargetType'
+        unitId:
+          $ref: '#/components/schemas/UUID'
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
   parameters:
-    requiredPhaseValueInQuery:
-      name: phaseValue
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - nurturing
-        - qualification
-        - closing
-        - onboarding
-        - adoption
-        - expansion
     requiredTargetTypeInQuery:
       name: targetType
       in: query
@@ -113,42 +136,19 @@ components:
       schema:
         type: string
         format: uuid
-  schemas:
-    UUID:
-      type: string
-      format: uuid
-      example: 550e8400-e29b-41d4-a716-446655440000
-    PhaseValue:
-      type: string
-      enum:
-      - nurturing
-      - qualification
-      - closing
-      - onboarding
-      - adoption
-      - expansion
-    PerformanceTarget:
-      type: object
-      properties:
-        phaseValue:
-          $ref: '#/components/schemas/PhaseValue'
-        target:
-          type: number
-          x-omitempty: false
-          example: 10
-        targetType:
-          $ref: '#/components/schemas/PerformanceTargetType'
-        unitId:
-          $ref: '#/components/schemas/UUID'
-    PerformanceTargetType:
-      type: string
-      enum:
-      - achievedPhase
-      - requiredItem
-      - optionalItem
-      - winned
-      - mrr
-      - contractValue
+    requiredPhaseValueInQuery:
+      name: phaseValue
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
   securitySchemes:
     accessToken:
       type: apiKey

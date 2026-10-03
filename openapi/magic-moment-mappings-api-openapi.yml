@@ -88,22 +88,13 @@ paths:
     servers:
     - url: https://hubspot.magicmoment.co.jp/
 components:
-  parameters:
-    mapping_id:
-      name: mapping_id
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
   schemas:
+    mmp_id:
+      type: string
+      format: uuid
     sync_setting_id:
       type: string
       format: uuid
-    sync_id_maps:
-      type: array
-      items:
-        $ref: '#/components/schemas/sync_id_map'
     sync_id_map:
       type: object
       properties:
@@ -116,11 +107,14 @@ components:
           $ref: '#/components/schemas/mmp_id'
         sync_setting_id:
           $ref: '#/components/schemas/sync_setting_id'
+    sync_id_maps:
+      type: array
+      items:
+        $ref: '#/components/schemas/sync_id_map'
     hubspot_id:
       type: string
-    mmp_id:
+    sfdc_id:
       type: string
-      format: uuid
     sync_id_map_2:
       type: object
       properties:
@@ -133,8 +127,14 @@ components:
           $ref: '#/components/schemas/sfdc_id'
         sync_setting_id:
           $ref: '#/components/schemas/sync_setting_id'
-    sfdc_id:
-      type: string
+  parameters:
+    mapping_id:
+      name: mapping_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     accessToken:
       type: apiKey

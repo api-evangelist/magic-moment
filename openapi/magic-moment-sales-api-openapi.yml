@@ -107,11 +107,35 @@ paths:
       summary: Get mrr sales report
       x-summary-source: derived
 components:
+  parameters:
+    requiredSalesValueGroupType:
+      name: groupType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - product
+        - plan
+        - unit
+        - user
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
   schemas:
-    UUID:
-      type: string
-      format: uuid
-      example: 550e8400-e29b-41d4-a716-446655440000
     SalesValue:
       type: object
       required:
@@ -134,34 +158,10 @@ components:
         value:
           type: integer
           format: int64
-  parameters:
-    requiredEndDateInQuery:
-      description: 検索範囲(終了)
-      name: endDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredSalesValueGroupType:
-      name: groupType
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - product
-        - plan
-        - unit
-        - user
-    requiredStartDateInQuery:
-      description: 検索範囲(開始)
-      name: startDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
   securitySchemes:
     accessToken:
       type: apiKey

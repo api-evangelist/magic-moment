@@ -234,141 +234,21 @@ paths:
       summary: Get team performance summary
       x-summary-source: derived
 components:
-  parameters:
-    requiredItemTypeInQuery:
-      name: itemType
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - achievedPhase
-        - leadTime
-        - requiredItem
-        - optionalItem
-        - tossedup
-        - tossedupRate
-        - winned
-        - winRate
-        - averagePrice
-        - acv
-        - onboarding
-        - averageOnboardingDate
-        - vacv
-        - cumulativeAssignEngagement
-        - newAssignEngagement
-        - attackEngagement
-    requiredEngagementOwnerIdInPath:
-      name: engagementOwnerId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    requiredUnitIdsInQuery:
-      name: unitIds[]
-      in: query
-      required: true
-      style: form
-      explode: true
-      schema:
-        type: array
-        items:
-          type: string
-          format: uuid
-    requiredEndDateInQuery:
-      description: 検索範囲(終了)
-      name: endDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    followedPhaseType:
-      name: followedPhaseType
-      in: query
-      schema:
-        type: string
-        enum:
-        - toLatest
-        - sameTerm
-        - inTerm
-        - newAssign
-    requiredPhaseValueInPath:
-      name: phaseValue
-      in: path
-      required: true
-      schema:
-        type: string
-        enum:
-        - nurturing
-        - qualification
-        - closing
-        - onboarding
-        - adoption
-        - expansion
-    unitIdInQuery:
-      name: unitId
-      in: query
-      schema:
-        type: string
-        format: uuid
-    requiredPhaseValueInQuery:
-      name: phaseValue
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - nurturing
-        - qualification
-        - closing
-        - onboarding
-        - adoption
-        - expansion
-    requiredGroupByInQuery:
-      description: グループ化条件
-      name: groupBy
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - daily
-        - monthly
-    requiredFollowedPhaseType:
-      name: followedPhaseType
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - toLatest
-        - sameTerm
-        - inTerm
-        - newAssign
-    requiredTargetTypeInQuery:
-      name: targetType
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - achievedPhase
-        - requiredItem
-        - optionalItem
-        - winned
-        - mrr
-        - contractValue
-    requiredStartDateInQuery:
-      description: 検索範囲(開始)
-      name: startDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
   schemas:
+    PhaseValue:
+      type: string
+      enum:
+      - nurturing
+      - qualification
+      - closing
+      - onboarding
+      - adoption
+      - expansion
+    TeamPerformanceDetail:
+      type: object
+      properties:
+        values:
+          $ref: '#/components/schemas/PerformanceDetailValue'
     PerformanceSummaryValue:
       type: object
       required:
@@ -426,6 +306,11 @@ components:
           type: integer
           format: uint32
       x-examples: {}
+    UserAchievement:
+      type: object
+      properties:
+        values:
+          $ref: '#/components/schemas/PerformanceDetailValue'
     EngagementOwner:
       type: object
       properties:
@@ -437,16 +322,11 @@ components:
           $ref: '#/components/schemas/UUID'
         userId:
           $ref: '#/components/schemas/UUID'
-    TeamPerformanceDetail:
+    PhasePerformanceDetail:
       type: object
       properties:
-        values:
-          $ref: '#/components/schemas/PerformanceDetailValue'
-    RepPerformanceDetail:
-      type: object
-      properties:
-        engagementOwner:
-          $ref: '#/components/schemas/EngagementOwner'
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
         values:
           $ref: '#/components/schemas/PerformanceDetailValue'
     PhasePerformanceSummary:
@@ -459,16 +339,11 @@ components:
           values:
             $ref: '#/components/schemas/PerformanceSummaryValue'
       x-examples: {}
-    PhasePerformanceDetail:
+    RepPerformanceDetail:
       type: object
       properties:
-        phaseValue:
-          $ref: '#/components/schemas/PhaseValue'
-        values:
-          $ref: '#/components/schemas/PerformanceDetailValue'
-    UserAchievement:
-      type: object
-      properties:
+        engagementOwner:
+          $ref: '#/components/schemas/EngagementOwner'
         values:
           $ref: '#/components/schemas/PerformanceDetailValue'
     TeamPerformanceSummary:
@@ -476,6 +351,10 @@ components:
       properties:
         values:
           $ref: '#/components/schemas/PerformanceSummaryValue'
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
     PerformanceDetailValue:
       type: array
       items:
@@ -489,19 +368,6 @@ components:
           value:
             type: number
             format: float
-    UUID:
-      type: string
-      format: uuid
-      example: 550e8400-e29b-41d4-a716-446655440000
-    PhaseValue:
-      type: string
-      enum:
-      - nurturing
-      - qualification
-      - closing
-      - onboarding
-      - adoption
-      - expansion
     RepPerformanceSummary:
       type: array
       items:
@@ -516,6 +382,140 @@ components:
       properties:
         values:
           $ref: '#/components/schemas/PerformanceDetailValue'
+  parameters:
+    requiredTargetTypeInQuery:
+      name: targetType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - achievedPhase
+        - requiredItem
+        - optionalItem
+        - winned
+        - mrr
+        - contractValue
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredFollowedPhaseType:
+      name: followedPhaseType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - toLatest
+        - sameTerm
+        - inTerm
+        - newAssign
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredPhaseValueInPath:
+      name: phaseValue
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
+    requiredItemTypeInQuery:
+      name: itemType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - achievedPhase
+        - leadTime
+        - requiredItem
+        - optionalItem
+        - tossedup
+        - tossedupRate
+        - winned
+        - winRate
+        - averagePrice
+        - acv
+        - onboarding
+        - averageOnboardingDate
+        - vacv
+        - cumulativeAssignEngagement
+        - newAssignEngagement
+        - attackEngagement
+    requiredGroupByInQuery:
+      description: グループ化条件
+      name: groupBy
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - daily
+        - monthly
+    requiredUnitIdsInQuery:
+      name: unitIds[]
+      in: query
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          format: uuid
+    unitIdInQuery:
+      name: unitId
+      in: query
+      schema:
+        type: string
+        format: uuid
+    followedPhaseType:
+      name: followedPhaseType
+      in: query
+      schema:
+        type: string
+        enum:
+        - toLatest
+        - sameTerm
+        - inTerm
+        - newAssign
+    requiredEngagementOwnerIdInPath:
+      name: engagementOwnerId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    requiredPhaseValueInQuery:
+      name: phaseValue
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
   securitySchemes:
     accessToken:
       type: apiKey

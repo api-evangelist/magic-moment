@@ -467,8 +467,21 @@ components:
           type: string
         receiveUrl:
           type: string
+    sync_settings:
+      type: array
+      items:
+        $ref: '#/components/schemas/sync_setting'
+    mmp_table_name:
+      type: string
     sync_field_map:
       type: string
+    hubspot_object_name:
+      type: string
+    write_sync_pattern:
+      type: string
+      enum:
+      - ARCHIVE
+      - SIMPLE_WRITE
     sync_setting:
       type: object
       properties:
@@ -492,19 +505,35 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/write_sync_pattern'
-    sync_settings:
-      type: array
-      items:
-        $ref: '#/components/schemas/sync_setting'
-    mmp_table_name:
+    sfdc_object_name:
       type: string
-    hubspot_object_name:
+    mmp_id:
       type: string
-    write_sync_pattern:
+      format: uuid
+    marketo_credential_setting:
+      type: object
+      required:
+      - clientId
+      - clientSecret
+      - identityURL
+      - endpointURL
+      - consoleURL
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+        consoleURL:
+          type: string
+        endpointURL:
+          type: string
+        identityURL:
+          type: string
+    write_sync_pattern_2:
       type: string
       enum:
-      - ARCHIVE
       - SIMPLE_WRITE
+      - ARCHIVE
     sync_setting_2:
       type: object
       properties:
@@ -528,35 +557,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/write_sync_pattern_2'
-    marketo_credential_setting:
-      type: object
-      required:
-      - clientId
-      - clientSecret
-      - identityURL
-      - endpointURL
-      - consoleURL
-      properties:
-        clientId:
-          type: string
-        clientSecret:
-          type: string
-        consoleURL:
-          type: string
-        endpointURL:
-          type: string
-        identityURL:
-          type: string
-    sfdc_object_name:
-      type: string
-    write_sync_pattern_2:
-      type: string
-      enum:
-      - SIMPLE_WRITE
-      - ARCHIVE
-    mmp_id:
-      type: string
-      format: uuid
   parameters:
     sync_setting_id:
       name: sync_setting_id

@@ -101,13 +101,6 @@ paths:
         description: Webhook body
 components:
   schemas:
-    success:
-      type: object
-      required:
-      - success
-      properties:
-        success:
-          type: boolean
     error:
       type: object
       required:
@@ -120,6 +113,13 @@ components:
         message:
           type: string
           example: Not Found
+    success:
+      type: object
+      required:
+      - success
+      properties:
+        success:
+          type: boolean
   responses:
     default:
       description: 未知のエラーの場合に発生します。
