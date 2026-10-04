@@ -600,6 +600,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/magic-moment-capability-edges.yml
+  name: Magic Moment Business Capability Map
 - type: Overlay
   url: overlays/magic-moment-salesforce-integration-overlay.yaml
 - type: Overlay

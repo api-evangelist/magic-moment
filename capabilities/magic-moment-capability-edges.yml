@@ -1,0 +1,37 @@
+slug: magic-moment
+provider: Magic Moment
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Performance
+  spec_file: magic-moment-performance-api-openapi.yml
+  capability_id: BC-410.70
+  capability_id_l1: BC-410
+  capability_name: Sales Performance Management
+  confidence: 0.8
+  evidence: 'GET /reports/performance-summary/rep  getRepPerformanceSummary; GET /reports/achievement/user  getUserAchievement;
+    schemas: RepPerformanceDetail, TeamPerformanceSummary, UnitAchievement'
+  reason: Reporting endpoints deliver sales rep, team, unit and pipeline-phase performance and achievement
+    analytics for the SFA platform, matching sales performance management/sales analytics. Slight ambiguity
+    versus generic management reporting keeps it at 0.8.
+- tag: performance-target
+  spec_file: magic-moment-performance-target-api-openapi.yml
+  capability_id: BC-410.70
+  capability_id_l1: BC-410
+  capability_name: Sales Performance Management
+  confidence: 0.72
+  evidence: GET /performance-target/user  getUserPerformanceTarget; PUT /performance-target/user  savePerformanceTarget;
+    schema PerformanceTarget, PerformanceTargetType
+  reason: Setting and reading performance targets per sales user and per unit in an SFA platform is quota/target
+    management, which sits under Sales Performance Management. Slight residual ambiguity because 'performance
+    target' could be read as generic goal management.
