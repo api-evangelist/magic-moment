@@ -600,6 +600,26 @@ paths:
         '401':
           $ref: '#/components/responses/unauthorized'
 components:
+  schemas:
+    success:
+      type: object
+      required:
+      - success
+      properties:
+        success:
+          type: boolean
+    error:
+      type: object
+      required:
+      - message
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 404
+        message:
+          type: string
+          example: Not Found
   responses:
     unauthorized:
       description: 認証に失敗した場合に発生します。
@@ -613,26 +633,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/success'
-  schemas:
-    error:
-      type: object
-      required:
-      - message
-      properties:
-        code:
-          type: integer
-          format: int64
-          example: 404
-        message:
-          type: string
-          example: Not Found
-    success:
-      type: object
-      required:
-      - success
-      properties:
-        success:
-          type: boolean
   securitySchemes:
     accessToken:
       type: apiKey

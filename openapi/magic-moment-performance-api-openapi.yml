@@ -235,6 +235,33 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    PhasePerformanceSummary:
+      type: array
+      items:
+        type: object
+        properties:
+          phaseValue:
+            $ref: '#/components/schemas/PhaseValue'
+          values:
+            $ref: '#/components/schemas/PerformanceSummaryValue'
+      x-examples: {}
+    UserAchievement:
+      type: object
+      properties:
+        values:
+          $ref: '#/components/schemas/PerformanceDetailValue'
+    TeamPerformanceDetail:
+      type: object
+      properties:
+        values:
+          $ref: '#/components/schemas/PerformanceDetailValue'
+    RepPerformanceDetail:
+      type: object
+      properties:
+        engagementOwner:
+          $ref: '#/components/schemas/EngagementOwner'
+        values:
+          $ref: '#/components/schemas/PerformanceDetailValue'
     PhaseValue:
       type: string
       enum:
@@ -244,11 +271,20 @@ components:
       - onboarding
       - adoption
       - expansion
-    TeamPerformanceDetail:
+    TeamPerformanceSummary:
+      type: object
+      properties:
+        values:
+          $ref: '#/components/schemas/PerformanceSummaryValue'
+    UnitAchievement:
       type: object
       properties:
         values:
           $ref: '#/components/schemas/PerformanceDetailValue'
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
     PerformanceSummaryValue:
       type: object
       required:
@@ -306,11 +342,15 @@ components:
           type: integer
           format: uint32
       x-examples: {}
-    UserAchievement:
-      type: object
-      properties:
-        values:
-          $ref: '#/components/schemas/PerformanceDetailValue'
+    RepPerformanceSummary:
+      type: array
+      items:
+        type: object
+        properties:
+          engagementOwner:
+            $ref: '#/components/schemas/EngagementOwner'
+          values:
+            $ref: '#/components/schemas/PerformanceSummaryValue'
     EngagementOwner:
       type: object
       properties:
@@ -322,39 +362,6 @@ components:
           $ref: '#/components/schemas/UUID'
         userId:
           $ref: '#/components/schemas/UUID'
-    PhasePerformanceDetail:
-      type: object
-      properties:
-        phaseValue:
-          $ref: '#/components/schemas/PhaseValue'
-        values:
-          $ref: '#/components/schemas/PerformanceDetailValue'
-    PhasePerformanceSummary:
-      type: array
-      items:
-        type: object
-        properties:
-          phaseValue:
-            $ref: '#/components/schemas/PhaseValue'
-          values:
-            $ref: '#/components/schemas/PerformanceSummaryValue'
-      x-examples: {}
-    RepPerformanceDetail:
-      type: object
-      properties:
-        engagementOwner:
-          $ref: '#/components/schemas/EngagementOwner'
-        values:
-          $ref: '#/components/schemas/PerformanceDetailValue'
-    TeamPerformanceSummary:
-      type: object
-      properties:
-        values:
-          $ref: '#/components/schemas/PerformanceSummaryValue'
-    UUID:
-      type: string
-      format: uuid
-      example: 550e8400-e29b-41d4-a716-446655440000
     PerformanceDetailValue:
       type: array
       items:
@@ -368,21 +375,25 @@ components:
           value:
             type: number
             format: float
-    RepPerformanceSummary:
-      type: array
-      items:
-        type: object
-        properties:
-          engagementOwner:
-            $ref: '#/components/schemas/EngagementOwner'
-          values:
-            $ref: '#/components/schemas/PerformanceSummaryValue'
-    UnitAchievement:
+    PhasePerformanceDetail:
       type: object
       properties:
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
         values:
           $ref: '#/components/schemas/PerformanceDetailValue'
   parameters:
+    requiredFollowedPhaseType:
+      name: followedPhaseType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+        - toLatest
+        - sameTerm
+        - inTerm
+        - newAssign
     requiredTargetTypeInQuery:
       name: targetType
       in: query
@@ -396,46 +407,6 @@ components:
         - winned
         - mrr
         - contractValue
-    requiredStartDateInQuery:
-      description: 検索範囲(開始)
-      name: startDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredFollowedPhaseType:
-      name: followedPhaseType
-      in: query
-      required: true
-      schema:
-        type: string
-        enum:
-        - toLatest
-        - sameTerm
-        - inTerm
-        - newAssign
-    requiredEndDateInQuery:
-      description: 検索範囲(終了)
-      name: endDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredPhaseValueInPath:
-      name: phaseValue
-      in: path
-      required: true
-      schema:
-        type: string
-        enum:
-        - nurturing
-        - qualification
-        - closing
-        - onboarding
-        - adoption
-        - expansion
     requiredItemTypeInQuery:
       name: itemType
       in: query
@@ -459,16 +430,50 @@ components:
         - cumulativeAssignEngagement
         - newAssignEngagement
         - attackEngagement
-    requiredGroupByInQuery:
-      description: グループ化条件
-      name: groupBy
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredPhaseValueInPath:
+      name: phaseValue
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
+    followedPhaseType:
+      name: followedPhaseType
+      in: query
+      schema:
+        type: string
+        enum:
+        - toLatest
+        - sameTerm
+        - inTerm
+        - newAssign
+    requiredPhaseValueInQuery:
+      name: phaseValue
       in: query
       required: true
       schema:
         type: string
         enum:
-        - daily
-        - monthly
+        - nurturing
+        - qualification
+        - closing
+        - onboarding
+        - adoption
+        - expansion
     requiredUnitIdsInQuery:
       name: unitIds[]
       in: query
@@ -486,16 +491,6 @@ components:
       schema:
         type: string
         format: uuid
-    followedPhaseType:
-      name: followedPhaseType
-      in: query
-      schema:
-        type: string
-        enum:
-        - toLatest
-        - sameTerm
-        - inTerm
-        - newAssign
     requiredEngagementOwnerIdInPath:
       name: engagementOwnerId
       in: path
@@ -503,19 +498,24 @@ components:
       schema:
         type: string
         format: uuid
-    requiredPhaseValueInQuery:
-      name: phaseValue
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredGroupByInQuery:
+      description: グループ化条件
+      name: groupBy
       in: query
       required: true
       schema:
         type: string
         enum:
-        - nurturing
-        - qualification
-        - closing
-        - onboarding
-        - adoption
-        - expansion
+        - daily
+        - monthly
   securitySchemes:
     accessToken:
       type: apiKey

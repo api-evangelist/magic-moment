@@ -108,6 +108,14 @@ paths:
       x-summary-source: derived
 components:
   parameters:
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
     requiredSalesValueGroupType:
       name: groupType
       in: query
@@ -119,14 +127,6 @@ components:
         - plan
         - unit
         - user
-    requiredEndDateInQuery:
-      description: 検索範囲(終了)
-      name: endDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
     requiredStartDateInQuery:
       description: 検索範囲(開始)
       name: startDate

@@ -236,19 +236,6 @@ paths:
                           type: string
 components:
   schemas:
-    entryPoint:
-      type: object
-      properties:
-        AccessCode:
-          type: string
-        entryPointType:
-          type: string
-        label:
-          type: string
-        pin:
-          type: string
-        uri:
-          type: string
     meeting:
       type: object
       properties:
@@ -262,6 +249,19 @@ components:
           - ZOOM
           - CALL
           - VISIT
+    entryPoint:
+      type: object
+      properties:
+        AccessCode:
+          type: string
+        entryPointType:
+          type: string
+        label:
+          type: string
+        pin:
+          type: string
+        uri:
+          type: string
     event:
       type: object
       properties:

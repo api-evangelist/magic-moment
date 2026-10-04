@@ -240,32 +240,13 @@ components:
           type: string
           enum:
           - HUBSPOT
-    redirect_url:
-      type: string
     createdAt:
       description: 作成日
       type: string
       format: date-time
       example: '2017-07-21T17:32:28Z'
-    error:
-      type: object
-      required:
-      - message
-      properties:
-        code:
-          type: integer
-          format: int64
-          example: 404
-        message:
-          type: string
-          example: Not Found
-    profile:
-      type: object
-      properties:
-        email:
-          description: メールアドレス
-          type: string
-          format: email
+    redirect_url:
+      type: string
     oauthResult_2:
       type: object
       properties:
@@ -298,6 +279,25 @@ components:
           properties:
             user_id:
               type: string
+    profile:
+      type: object
+      properties:
+        email:
+          description: メールアドレス
+          type: string
+          format: email
+    error:
+      type: object
+      required:
+      - message
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 404
+        message:
+          type: string
+          example: Not Found
     oauthResult_3:
       type: object
       properties:

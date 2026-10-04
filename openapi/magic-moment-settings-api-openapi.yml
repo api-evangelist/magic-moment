@@ -439,17 +439,6 @@ paths:
     - url: https://sfdc.magicmoment.co.jp/
 components:
   schemas:
-    MiitelSetting:
-      type: object
-      properties:
-        accessKey:
-          type: string
-        companyId:
-          type: string
-        id:
-          type: string
-        teamId:
-          type: string
     CallProviderSetting:
       type: object
       properties:
@@ -467,21 +456,26 @@ components:
           type: string
         receiveUrl:
           type: string
-    sync_settings:
-      type: array
-      items:
-        $ref: '#/components/schemas/sync_setting'
-    mmp_table_name:
-      type: string
-    sync_field_map:
-      type: string
-    hubspot_object_name:
-      type: string
+    MiitelSetting:
+      type: object
+      properties:
+        accessKey:
+          type: string
+        companyId:
+          type: string
+        id:
+          type: string
+        teamId:
+          type: string
     write_sync_pattern:
       type: string
       enum:
       - ARCHIVE
       - SIMPLE_WRITE
+    sync_field_map:
+      type: string
+    mmp_table_name:
+      type: string
     sync_setting:
       type: object
       properties:
@@ -505,11 +499,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/write_sync_pattern'
-    sfdc_object_name:
+    hubspot_object_name:
       type: string
-    mmp_id:
-      type: string
-      format: uuid
+    sync_settings:
+      type: array
+      items:
+        $ref: '#/components/schemas/sync_setting'
     marketo_credential_setting:
       type: object
       required:
@@ -529,6 +524,8 @@ components:
           type: string
         identityURL:
           type: string
+    sfdc_object_name:
+      type: string
     write_sync_pattern_2:
       type: string
       enum:
@@ -557,6 +554,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/write_sync_pattern_2'
+    mmp_id:
+      type: string
+      format: uuid
   parameters:
     sync_setting_id:
       name: sync_setting_id
