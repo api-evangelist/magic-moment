@@ -39,3 +39,25 @@ api_pricing:
 free_trial:
   published: false
   note: A PoC (proof of concept) engagement is offered in place of a self-serve trial.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - seat
+  units:
+  - seat
+  plans:
+  - name: Playbook Capture (AI自動記録)
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Magic Moment Playbook (platform)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
