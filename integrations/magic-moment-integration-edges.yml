@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/magic-moment/integrations
+- https://n8n.io/integrations/magic-moment/
+- https://composio.dev/toolkits/magic-moment
+- https://monid.ai/tools/magic-moment
+checked:
+- https://composio.dev/toolkits/magic-moment
+- https://monid.ai/tools/magic-moment
+- https://n8n.io/integrations/magic-moment/
+- https://zapier.com/apps/magic-moment/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
