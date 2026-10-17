@@ -81,12 +81,6 @@ paths:
       x-summary-source: derived
 components:
   parameters:
-    unitIdInQuery:
-      name: unitId
-      in: query
-      schema:
-        type: string
-        format: uuid
     requiredTargetTypeInQuery:
       name: targetType
       in: query
@@ -100,6 +94,12 @@ components:
         - winned
         - mrr
         - contractValue
+    unitIdInQuery:
+      name: unitId
+      in: query
+      schema:
+        type: string
+        format: uuid
     requiredPhaseValueInQuery:
       name: phaseValue
       in: query
@@ -114,6 +114,10 @@ components:
         - adoption
         - expansion
   schemas:
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
     PerformanceTargetType:
       type: string
       enum:
@@ -145,10 +149,6 @@ components:
       - onboarding
       - adoption
       - expansion
-    UUID:
-      type: string
-      format: uuid
-      example: 550e8400-e29b-41d4-a716-446655440000
   securitySchemes:
     accessToken:
       type: apiKey

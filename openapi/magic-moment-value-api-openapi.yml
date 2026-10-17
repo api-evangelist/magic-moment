@@ -31,30 +31,6 @@ paths:
       summary: Get achieved input form values
       x-summary-source: derived
 components:
-  parameters:
-    requiredPlaybookInputFormIdInPath:
-      name: playbookInputFormId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    requiredEndDateInQuery:
-      description: 検索範囲(終了)
-      name: endDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
-    requiredStartDateInQuery:
-      description: 検索範囲(開始)
-      name: startDate
-      in: query
-      required: true
-      schema:
-        type: string
-        format: date
   schemas:
     AchievedInputFormValue:
       type: object
@@ -65,6 +41,38 @@ components:
           type: array
           items:
             type: string
+    UUID:
+      type: string
+      format: uuid
+      example: 550e8400-e29b-41d4-a716-446655440000
+    EngagementAssignment:
+      type: object
+      properties:
+        assignedEndTime:
+          type: string
+          format: date
+        assignedStartTime:
+          type: string
+          format: date
+        engagementId:
+          $ref: '#/components/schemas/UUID'
+        engagementOwner:
+          $ref: '#/components/schemas/EngagementOwner'
+        engagementOwnerId:
+          $ref: '#/components/schemas/UUID'
+        playbookPhaseId:
+          $ref: '#/components/schemas/UUID'
+    EngagementOwner:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UUID'
+        phaseValue:
+          $ref: '#/components/schemas/PhaseValue'
+        unitId:
+          $ref: '#/components/schemas/UUID'
+        userId:
+          $ref: '#/components/schemas/UUID'
     AchievedPhase:
       type: object
       properties:
@@ -96,17 +104,6 @@ components:
           - string
           - 'null'
           format: date
-    EngagementOwner:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/UUID'
-        phaseValue:
-          $ref: '#/components/schemas/PhaseValue'
-        unitId:
-          $ref: '#/components/schemas/UUID'
-        userId:
-          $ref: '#/components/schemas/UUID'
     PhaseValue:
       type: string
       enum:
@@ -116,27 +113,30 @@ components:
       - onboarding
       - adoption
       - expansion
-    UUID:
-      type: string
-      format: uuid
-      example: 550e8400-e29b-41d4-a716-446655440000
-    EngagementAssignment:
-      type: object
-      properties:
-        assignedEndTime:
-          type: string
-          format: date
-        assignedStartTime:
-          type: string
-          format: date
-        engagementId:
-          $ref: '#/components/schemas/UUID'
-        engagementOwner:
-          $ref: '#/components/schemas/EngagementOwner'
-        engagementOwnerId:
-          $ref: '#/components/schemas/UUID'
-        playbookPhaseId:
-          $ref: '#/components/schemas/UUID'
+  parameters:
+    requiredStartDateInQuery:
+      description: 検索範囲(開始)
+      name: startDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    requiredPlaybookInputFormIdInPath:
+      name: playbookInputFormId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    requiredEndDateInQuery:
+      description: 検索範囲(終了)
+      name: endDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
   securitySchemes:
     accessToken:
       type: apiKey

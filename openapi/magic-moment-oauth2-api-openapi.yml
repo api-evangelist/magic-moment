@@ -247,6 +247,23 @@ components:
       example: '2017-07-21T17:32:28Z'
     redirect_url:
       type: string
+    deauthorization:
+      type: object
+      properties:
+        event:
+          type: string
+        payload:
+          type: object
+          properties:
+            user_id:
+              type: string
+    profile:
+      type: object
+      properties:
+        email:
+          description: メールアドレス
+          type: string
+          format: email
     oauthResult_2:
       type: object
       properties:
@@ -269,23 +286,6 @@ components:
           - ZOOM
         userId:
           type: string
-    deauthorization:
-      type: object
-      properties:
-        event:
-          type: string
-        payload:
-          type: object
-          properties:
-            user_id:
-              type: string
-    profile:
-      type: object
-      properties:
-        email:
-          description: メールアドレス
-          type: string
-          format: email
     error:
       type: object
       required:

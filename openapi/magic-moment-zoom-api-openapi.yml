@@ -600,6 +600,19 @@ paths:
         '401':
           $ref: '#/components/responses/unauthorized'
 components:
+  responses:
+    unauthorized:
+      description: 認証に失敗した場合に発生します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    success:
+      description: リクエストの成功時に返却します。
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/success'
   schemas:
     success:
       type: object
@@ -620,19 +633,6 @@ components:
         message:
           type: string
           example: Not Found
-  responses:
-    unauthorized:
-      description: 認証に失敗した場合に発生します。
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-    success:
-      description: リクエストの成功時に返却します。
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/success'
   securitySchemes:
     accessToken:
       type: apiKey

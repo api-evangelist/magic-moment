@@ -249,19 +249,6 @@ components:
           - ZOOM
           - CALL
           - VISIT
-    entryPoint:
-      type: object
-      properties:
-        AccessCode:
-          type: string
-        entryPointType:
-          type: string
-        label:
-          type: string
-        pin:
-          type: string
-        uri:
-          type: string
     event:
       type: object
       properties:
@@ -328,6 +315,19 @@ components:
           description: Summary
           type: string
           example: Summary
+    entryPoint:
+      type: object
+      properties:
+        AccessCode:
+          type: string
+        entryPointType:
+          type: string
+        label:
+          type: string
+        pin:
+          type: string
+        uri:
+          type: string
   securitySchemes:
     accessToken:
       type: apiKey
